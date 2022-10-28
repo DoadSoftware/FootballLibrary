@@ -70,6 +70,18 @@ public class Match {
   @XmlElement(name = "awayTeamScore")
   private int awayTeamScore;
   
+  @XmlElement(name = "homeTeamYellowCard")
+  private int homeTeamYellowCard;
+
+  @XmlElement(name = "awayTeamYellowCard")
+  private int awayTeamYellowCard;
+  
+  @XmlElement(name = "homeTeamRedCard")
+  private int homeTeamRedCard;
+
+  @XmlElement(name = "awayTeamRedCard")
+  private int awayTeamRedCard;
+  
   @XmlTransient
   private Ground ground;
   
@@ -349,5 +361,37 @@ public List<Event> getEvents() {
 public void setEvents(List<Event> events) {
 	this.events = events;
 }
-  
+
+public int getHomeTeamYellowCard() {
+	return homeTeamYellowCard;
+}
+
+public void setHomeTeamYellowCard(int homeTeamYellowCard) {
+	this.homeTeamYellowCard = homeTeamYellowCard;
+}
+
+public int getAwayTeamYellowCard() {
+	return awayTeamYellowCard;
+}
+
+public void setAwayTeamYellowCard(int awayTeamYellowCard) {
+	this.awayTeamYellowCard = awayTeamYellowCard;
+}
+
+public int getHomeTeamRedCard() {
+	return homeTeamRedCard;
+}
+
+public void setHomeTeamRedCard(int homeTeamRedCard) {
+	this.homeTeamRedCard = homeTeamRedCard;
+}
+
+public int getAwayTeamRedCard() {
+	return awayTeamRedCard;
+}
+
+public void setAwayTeamRedCard(int awayTeamRedCard) {
+	this.awayTeamRedCard = awayTeamRedCard;
+}
+
 }

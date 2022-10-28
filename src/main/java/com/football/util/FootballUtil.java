@@ -49,6 +49,9 @@ public class FootballUtil {
 	public final static String TEAM = "TEAM";
 	public final static String PLAYER = "PLAYER";
 	public final static String RESULT = "RESULT";
+	
+	public final static String YELLOW = "YELLOW";
+	public final static String RED = "RED";
 
 	public final static String HOME = "HOME";
 	public final static String AWAY = "AWAY";
