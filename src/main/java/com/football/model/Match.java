@@ -13,6 +13,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Match {
 
+  @XmlElement(name = "matchHalves")
+  private String matchHalves;
+	
   @XmlElement(name = "substitutesPerTeam")
   private int substitutesPerTeam;
 	
@@ -28,20 +31,11 @@ public class Match {
   @XmlElement(name = "matchFileName")
   private String matchFileName;
 
-  @XmlElement(name = "tossResult")
-  private String tossResult;
-
-  @XmlElement(name = "tossWinningDecision")
-  private String tossWinningDecision;
-
   @XmlElement(name = "tournament")
   private String tournament;
 
   @XmlElement(name = "matchIdent")
   private String matchIdent;
-
-  @XmlElement(name = "tossWinningTeam")
-  private int tossWinningTeam;
 
   @XmlElement(name = "homeTeamId")
   private int homeTeamId;
@@ -69,18 +63,6 @@ public class Match {
 
   @XmlElement(name = "awayTeamScore")
   private int awayTeamScore;
-  
-  @XmlElement(name = "homeTeamYellowCard")
-  private int homeTeamYellowCard;
-
-  @XmlElement(name = "awayTeamYellowCard")
-  private int awayTeamYellowCard;
-  
-  @XmlElement(name = "homeTeamRedCard")
-  private int homeTeamRedCard;
-
-  @XmlElement(name = "awayTeamRedCard")
-  private int awayTeamRedCard;
   
   @XmlTransient
   private Ground ground;
@@ -121,6 +103,14 @@ public class Match {
   
   @XmlTransient
   private List<Event> events;
+
+public String getMatchHalves() {
+	return matchHalves;
+}
+
+public void setMatchHalves(String matchHalves) {
+	this.matchHalves = matchHalves;
+}
 
 public int getHomeTeamScore() {
 	return homeTeamScore;
@@ -186,22 +176,6 @@ public void setMatchFileName(String matchFileName) {
 	this.matchFileName = matchFileName;
 }
 
-public String getTossResult() {
-	return tossResult;
-}
-
-public void setTossResult(String tossResult) {
-	this.tossResult = tossResult;
-}
-
-public String getTossWinningDecision() {
-	return tossWinningDecision;
-}
-
-public void setTossWinningDecision(String tossWinningDecision) {
-	this.tossWinningDecision = tossWinningDecision;
-}
-
 public String getTournament() {
 	return tournament;
 }
@@ -216,14 +190,6 @@ public String getMatchIdent() {
 
 public void setMatchIdent(String matchIdent) {
 	this.matchIdent = matchIdent;
-}
-
-public int getTossWinningTeam() {
-	return tossWinningTeam;
-}
-
-public void setTossWinningTeam(int tossWinningTeam) {
-	this.tossWinningTeam = tossWinningTeam;
 }
 
 public int getHomeTeamId() {
@@ -360,38 +326,6 @@ public List<Event> getEvents() {
 
 public void setEvents(List<Event> events) {
 	this.events = events;
-}
-
-public int getHomeTeamYellowCard() {
-	return homeTeamYellowCard;
-}
-
-public void setHomeTeamYellowCard(int homeTeamYellowCard) {
-	this.homeTeamYellowCard = homeTeamYellowCard;
-}
-
-public int getAwayTeamYellowCard() {
-	return awayTeamYellowCard;
-}
-
-public void setAwayTeamYellowCard(int awayTeamYellowCard) {
-	this.awayTeamYellowCard = awayTeamYellowCard;
-}
-
-public int getHomeTeamRedCard() {
-	return homeTeamRedCard;
-}
-
-public void setHomeTeamRedCard(int homeTeamRedCard) {
-	this.homeTeamRedCard = homeTeamRedCard;
-}
-
-public int getAwayTeamRedCard() {
-	return awayTeamRedCard;
-}
-
-public void setAwayTeamRedCard(int awayTeamRedCard) {
-	this.awayTeamRedCard = awayTeamRedCard;
 }
 
 }

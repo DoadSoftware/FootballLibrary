@@ -34,6 +34,24 @@ public class Player implements Comparable<Player>
   private Integer teamId;
 
   @Transient
+  private Integer yellowCards;
+
+  @Transient
+  private Integer redCards;
+
+  @Transient
+  private Integer off_sides;
+
+  @Transient
+  private Integer fouls;
+
+  @Transient
+  private Integer shots_on_goal;
+
+  @Transient
+  private Integer assists;
+ 
+  @Transient
   private Integer playerPosition;
 
   @Transient
@@ -53,6 +71,54 @@ public class Player implements Comparable<Player>
 	this.player_type = player_type;
   }
   
+public Integer getOff_sides() {
+	return off_sides;
+}
+
+public void setOff_sides(Integer off_sides) {
+	this.off_sides = off_sides;
+}
+
+public Integer getFouls() {
+	return fouls;
+}
+
+public void setFouls(Integer fouls) {
+	this.fouls = fouls;
+}
+
+public Integer getShots_on_goal() {
+	return shots_on_goal;
+}
+
+public void setShots_on_goal(Integer shots_on_goal) {
+	this.shots_on_goal = shots_on_goal;
+}
+
+public Integer getAssists() {
+	return assists;
+}
+
+public void setAssists(Integer assists) {
+	this.assists = assists;
+}
+
+public Integer getYellowCards() {
+	return yellowCards;
+}
+
+public void setYellowCards(Integer yellowCards) {
+	this.yellowCards = yellowCards;
+}
+
+public Integer getRedCards() {
+	return redCards;
+}
+
+public void setRedCards(Integer redCards) {
+	this.redCards = redCards;
+}
+
 public String getCaptainGoalKeeper() {
 	return captainGoalKeeper;
 }

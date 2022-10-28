@@ -50,8 +50,12 @@ public class FootballUtil {
 	public final static String PLAYER = "PLAYER";
 	public final static String RESULT = "RESULT";
 	
+	public final static String DOUBLE_YELLOW = "DOUBLE_YELLOW";
 	public final static String YELLOW = "YELLOW";
 	public final static String RED = "RED";
+	public final static String ASSISTS = "ASSISTS";
+	public final static String SHOTS_ON_GOAL = "SHOTS_ON_GOAL";
+	public final static String FOULS = "FOULS";
 
 	public final static String HOME = "HOME";
 	public final static String AWAY = "AWAY";
