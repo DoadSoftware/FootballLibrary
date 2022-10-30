@@ -14,6 +14,9 @@ public class Event implements Comparable<Event> {
 
   @XmlElement(name = "eventPlayerId")
   private int eventPlayerId;
+  
+  @XmlElement(name = "eventMatchHalves")
+  private String eventMatchHalves;
 
   @XmlElement(name = "eventLog")
   private String eventLog;
@@ -28,10 +31,12 @@ public Event() {
 	super();
 }
 
-public Event(int eventNumber, int eventPlayerId, String eventLog, String eventType, float eventScore) {
+public Event(int eventNumber, int eventPlayerId, String eventMatchHalves, String eventLog, String eventType,
+		float eventScore) {
 	super();
 	this.eventNumber = eventNumber;
 	this.eventPlayerId = eventPlayerId;
+	this.eventMatchHalves = eventMatchHalves;
 	this.eventLog = eventLog;
 	this.eventType = eventType;
 	this.eventScore = eventScore;

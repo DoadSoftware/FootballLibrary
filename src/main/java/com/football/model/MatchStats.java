@@ -15,6 +15,9 @@ public class MatchStats {
   @XmlElement(name = "playerId")
   private int playerId;
   
+  @XmlElement(name = "matchHalves")
+  private String matchHalves;
+  
   @XmlElement(name = "statsType")
   private String stats_type;
 
@@ -28,10 +31,12 @@ public MatchStats() {
 	super();
 }
 
-public MatchStats(int statsId, int playerId, String stats_type, int statsCount, long totalMatchSeconds) {
+public MatchStats(int statsId, int playerId, String matchHalves, String stats_type, int statsCount,
+		long totalMatchSeconds) {
 	super();
 	this.statsId = statsId;
 	this.playerId = playerId;
+	this.matchHalves = matchHalves;
 	this.stats_type = stats_type;
 	this.statsCount = statsCount;
 	this.totalMatchSeconds = totalMatchSeconds;
@@ -76,5 +81,13 @@ public int getStatsCount() {
 public void setStatsCount(int statsCount) {
 	this.statsCount = statsCount;
 }
-  
+
+public String getMatchHalves() {
+	return matchHalves;
+}
+
+public void setMatchHalves(String matchHalves) {
+	this.matchHalves = matchHalves;
+}
+ 
 }

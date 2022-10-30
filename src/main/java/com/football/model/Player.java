@@ -34,22 +34,22 @@ public class Player implements Comparable<Player>
   private Integer teamId;
 
   @Transient
-  private Integer yellowCards;
+  private int yellowCards;
 
   @Transient
-  private Integer redCards;
+  private int redCards;
 
   @Transient
-  private Integer off_sides;
+  private int off_sides;
 
   @Transient
-  private Integer fouls;
+  private int fouls;
 
   @Transient
-  private Integer shots_on_goal;
+  private int shots_on_goal;
 
   @Transient
-  private Integer assists;
+  private int assists;
  
   @Transient
   private Integer playerPosition;
