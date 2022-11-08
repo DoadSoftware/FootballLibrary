@@ -40,6 +40,10 @@ public class FootballUtil {
 
 	public final static String OWN_GOAL = "OWN_GOAL";
 	public final static String GOAL = "GOAL";
+	public final static String PENALTY = "PENALTY";
+	
+	public final static String REPLACE = "REPLACE";
+	 
 	public final static String OFF_SIDE = "OFF_SIDE";
 	
 	public final static String FULL = "FULL";
@@ -50,11 +54,17 @@ public class FootballUtil {
 	public final static String PLAYER = "PLAYER";
 	public final static String RESULT = "RESULT";
 	
+	public final static String ONE = "1";
+	public final static String TWO = "2";
+	
 	public final static String DOUBLE_YELLOW = "DOUBLE_YELLOW";
 	public final static String YELLOW = "YELLOW";
 	public final static String RED = "RED";
 	public final static String ASSISTS = "ASSISTS";
-	public final static String SHOTS_ON_GOAL = "SHOTS_ON_GOAL";
+	public final static String SHOTS_ON_TARGET = "SHOTS_ON_TARGET";
+	public final static String SHOTS = "SHOTS";
+	public final static String CORNERS  = "CORNERS";
+	public final static String CORNERS_CONVERTED  = "CORNERS_CONVERTED";
 	public final static String FOULS = "FOULS";
 
 	public final static String HOME = "HOME";

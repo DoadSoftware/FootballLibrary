@@ -9,10 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.football.dao.FootballDao;
 import com.football.model.Fixture;
+import com.football.model.Formation;
 import com.football.model.Ground;
 import com.football.model.Player;
 import com.football.model.Statistics;
 import com.football.model.Team;
+import com.football.model.TeamColor;
 import com.football.util.FootballUtil;
 
 @Transactional
@@ -81,6 +83,16 @@ public List<Player> getAllPlayer() {
 @Override
 public List<Fixture> getFixtures() {
 	return sessionFactory.getCurrentSession().createQuery("from Fixture").list();
+}
+
+@Override
+public List<Formation> getFormations() {
+	return sessionFactory.getCurrentSession().createQuery("from Formation").list();
+}
+
+@Override
+public List<TeamColor> getTeamColors() {
+	return sessionFactory.getCurrentSession().createQuery("from TeamColor").list();
 }
 
 }

@@ -37,11 +37,23 @@ public class Match {
   @XmlElement(name = "matchIdent")
   private String matchIdent;
 
+  @XmlElement(name = "homeTeamFormationId")
+  private int homeTeamFormationId;
+
+  @XmlElement(name = "awayTeamFormationId")
+  private int awayTeamFormationId;
+  
   @XmlElement(name = "homeTeamId")
   private int homeTeamId;
 
   @XmlElement(name = "awayTeamId")
   private int awayTeamId;
+  
+  @XmlElement(name = "homeTeamJerseyColorId")
+  private int homeTeamJerseyColorId;
+
+  @XmlElement(name = "awayTeamJerseyColorId")
+  private int awayTeamJerseyColorId;
 
   @XmlElement(name = "groundId")
   private int groundId;
@@ -63,6 +75,30 @@ public class Match {
 
   @XmlElement(name = "awayTeamScore")
   private int awayTeamScore;
+  
+  @XmlElement(name = "homeYellowCards")
+  private int homeYellowCards;
+
+  @XmlElement(name = "awayYellowCards")
+  private int awayYellowCards;
+  
+  @XmlElement(name = "homeRedCards")
+  private int homeRedCards;
+
+  @XmlElement(name = "awayRedCards")
+  private int awayRedCards;
+  
+  @XmlElement(name = "homeOffsides")
+  private int homeOffsides;
+
+  @XmlElement(name = "awayOffsides")
+  private int awayOffsides;
+  
+  @XmlElement(name = "homeAssists")
+  private int homeAssists;
+
+  @XmlElement(name = "awayAssists")
+  private int awayAssists;
   
   @XmlTransient
   private Ground ground;
@@ -86,7 +122,7 @@ public class Match {
   private List<Player> awaySquad;
 
   @XmlElementWrapper(name = "awaySubstitutes")
-  @XmlElement(name = "awaySubstit/utes")
+  @XmlElement(name = "awaySubstitutes")
   private List<Player> awaySubstitutes;
   
   @XmlElementWrapper(name = "homeOtherSquad")
@@ -256,6 +292,22 @@ public void setGround(Ground ground) {
 	this.ground = ground;
 }
 
+public int getHomeTeamFormationId() {
+	return homeTeamFormationId;
+}
+
+public void setHomeTeamFormationId(int homeTeamFormationId) {
+	this.homeTeamFormationId = homeTeamFormationId;
+}
+
+public int getAwayTeamFormationId() {
+	return awayTeamFormationId;
+}
+
+public void setAwayTeamFormationId(int awayTeamFormationId) {
+	this.awayTeamFormationId = awayTeamFormationId;
+}
+
 public Team getHomeTeam() {
 	return homeTeam;
 }
@@ -326,6 +378,86 @@ public List<Event> getEvents() {
 
 public void setEvents(List<Event> events) {
 	this.events = events;
+}
+
+public int getHomeYellowCards() {
+	return homeYellowCards;
+}
+
+public void setHomeYellowCards(int homeYellowCards) {
+	this.homeYellowCards = homeYellowCards;
+}
+
+public int getAwayYellowCards() {
+	return awayYellowCards;
+}
+
+public void setAwayYellowCards(int awayYellowCards) {
+	this.awayYellowCards = awayYellowCards;
+}
+
+public int getHomeRedCards() {
+	return homeRedCards;
+}
+
+public void setHomeRedCards(int homeRedCards) {
+	this.homeRedCards = homeRedCards;
+}
+
+public int getAwayRedCards() {
+	return awayRedCards;
+}
+
+public void setAwayRedCards(int awayRedCards) {
+	this.awayRedCards = awayRedCards;
+}
+
+public int getHomeOffsides() {
+	return homeOffsides;
+}
+
+public void setHomeOffsides(int homeOffsides) {
+	this.homeOffsides = homeOffsides;
+}
+
+public int getAwayOffsides() {
+	return awayOffsides;
+}
+
+public void setAwayOffsides(int awayOffsides) {
+	this.awayOffsides = awayOffsides;
+}
+
+public int getHomeAssists() {
+	return homeAssists;
+}
+
+public void setHomeAssists(int homeAssists) {
+	this.homeAssists = homeAssists;
+}
+
+public int getAwayAssists() {
+	return awayAssists;
+}
+
+public void setAwayAssists(int awayAssists) {
+	this.awayAssists = awayAssists;
+}
+
+public int getHomeTeamJerseyColorId() {
+	return homeTeamJerseyColorId;
+}
+
+public void setHomeTeamJerseyColorId(int homeTeamJerseyColorId) {
+	this.homeTeamJerseyColorId = homeTeamJerseyColorId;
+}
+
+public int getAwayTeamJerseyColorId() {
+	return awayTeamJerseyColorId;
+}
+
+public void setAwayTeamJerseyColorId(int awayTeamJerseyColorId) {
+	this.awayTeamJerseyColorId = awayTeamJerseyColorId;
 }
 
 }

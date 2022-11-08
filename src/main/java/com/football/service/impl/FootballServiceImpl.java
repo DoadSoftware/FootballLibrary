@@ -8,10 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.football.dao.FootballDao;
 import com.football.model.Fixture;
+import com.football.model.Formation;
 import com.football.model.Ground;
 import com.football.model.Player;
 import com.football.model.Statistics;
 import com.football.model.Team;
+import com.football.model.TeamColor;
 import com.football.service.FootballService;
 
 @Service("footballService")
@@ -64,6 +66,16 @@ public List<Player> getAllPlayer() {
 @Override
 public List<Fixture> getFixtures() {
 	return cricketDao.getFixtures();
+}
+
+@Override
+public List<Formation> getFormations() {
+	return cricketDao.getFormations();
+}
+
+@Override
+public List<TeamColor> getTeamColors() {
+	return cricketDao.getTeamColors();
 }
 
 }

@@ -14,6 +14,9 @@ public class Player implements Comparable<Player>
   @Id
   @Column(name = "PLAYERID")
   private int playerId;
+  
+  @Column(name = "JERSEYNUMBER")
+  private int jersey_number;
 	
   @Column(name = "FULLNAME")
   private String full_name;
@@ -32,24 +35,6 @@ public class Player implements Comparable<Player>
   
   @Column(name = "TEAMID")
   private Integer teamId;
-
-  @Transient
-  private int yellowCards;
-
-  @Transient
-  private int redCards;
-
-  @Transient
-  private int off_sides;
-
-  @Transient
-  private int fouls;
-
-  @Transient
-  private int shots_on_goal;
-
-  @Transient
-  private int assists;
  
   @Transient
   private Integer playerPosition;
@@ -70,54 +55,6 @@ public class Player implements Comparable<Player>
 	this.playerPosition = playerPosition;
 	this.player_type = player_type;
   }
-  
-public Integer getOff_sides() {
-	return off_sides;
-}
-
-public void setOff_sides(Integer off_sides) {
-	this.off_sides = off_sides;
-}
-
-public Integer getFouls() {
-	return fouls;
-}
-
-public void setFouls(Integer fouls) {
-	this.fouls = fouls;
-}
-
-public Integer getShots_on_goal() {
-	return shots_on_goal;
-}
-
-public void setShots_on_goal(Integer shots_on_goal) {
-	this.shots_on_goal = shots_on_goal;
-}
-
-public Integer getAssists() {
-	return assists;
-}
-
-public void setAssists(Integer assists) {
-	this.assists = assists;
-}
-
-public Integer getYellowCards() {
-	return yellowCards;
-}
-
-public void setYellowCards(Integer yellowCards) {
-	this.yellowCards = yellowCards;
-}
-
-public Integer getRedCards() {
-	return redCards;
-}
-
-public void setRedCards(Integer redCards) {
-	this.redCards = redCards;
-}
 
 public String getCaptainGoalKeeper() {
 	return captainGoalKeeper;
@@ -149,6 +86,14 @@ public int getPlayerId() {
 
 public void setPlayerId(int playerId) {
 	this.playerId = playerId;
+}
+
+public int getJersey_number() {
+	return jersey_number;
+}
+
+public void setJersey_number(int jersey_number) {
+	this.jersey_number = jersey_number;
 }
 
 public String getFull_name() {
