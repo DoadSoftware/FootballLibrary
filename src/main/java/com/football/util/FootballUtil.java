@@ -57,7 +57,6 @@ public class FootballUtil {
 	public final static String ONE = "1";
 	public final static String TWO = "2";
 	
-	public final static String DOUBLE_YELLOW = "DOUBLE_YELLOW";
 	public final static String YELLOW = "YELLOW";
 	public final static String RED = "RED";
 	public final static String ASSISTS = "ASSISTS";

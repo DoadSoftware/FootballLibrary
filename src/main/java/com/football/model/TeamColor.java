@@ -15,9 +15,6 @@ public class TeamColor {
   
   @Column(name = "ColorType")
   private String colorType;
-  
-  @Column(name = "RGB")
-  private String rgb;
 
 public TeamColor() {
 	super();
@@ -37,14 +34,6 @@ public String getColorType() {
 
 public void setColorType(String colorType) {
 	this.colorType = colorType;
-}
-
-public String getRgb() {
-	return rgb;
-}
-
-public void setRgb(String rgb) {
-	this.rgb = rgb;
 }
 
 }
