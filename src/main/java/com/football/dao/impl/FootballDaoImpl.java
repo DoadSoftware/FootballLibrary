@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.football.model.NameSuper;
 import com.football.dao.FootballDao;
 import com.football.model.Fixture;
 import com.football.model.Formation;
@@ -43,6 +44,11 @@ public Team getTeam(String whatToProcess, String valueToProcess) {
 	default:
 		return null;  
 	}
+}
+
+@Override
+public List<NameSuper> getNameSupers() {
+	return sessionFactory.getCurrentSession().createQuery("from NameSuper").list();
 }
 
 @Override

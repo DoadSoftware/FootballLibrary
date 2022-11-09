@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.football.model.NameSuper;
 import com.football.dao.FootballDao;
 import com.football.model.Fixture;
 import com.football.model.Formation;
@@ -36,6 +37,11 @@ public Team getTeam(String whatToProcess, String valueToProcess) {
 @Override
 public List<Team> getTeams() {
 	return cricketDao.getTeams();
+}
+
+@Override
+public List<NameSuper> getNameSupers() {
+	return cricketDao.getNameSupers();
 }
 
 @Override

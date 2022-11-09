@@ -2,6 +2,7 @@ package com.football.dao;
 
 import java.util.List;
 
+import com.football.model.NameSuper;
 import com.football.model.Fixture;
 import com.football.model.Formation;
 import com.football.model.Ground;
@@ -17,6 +18,7 @@ public interface FootballDao {
   List<Player> getPlayers(String whatToProcess, String valueToProcess);
   List<Team> getTeams();
   List<Ground> getGrounds();
+  List<NameSuper> getNameSupers();
   List<Statistics> getAllStats();
   List<Player> getAllPlayer();
   List<Fixture> getFixtures();

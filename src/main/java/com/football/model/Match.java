@@ -100,6 +100,36 @@ public class Match {
   @XmlElement(name = "awayAssists")
   private int awayAssists;
   
+  @XmlElement(name = "homeShots")
+  private int homeShots;
+  
+  @XmlElement(name = "awayShots")
+  private int awayShots;
+  
+  @XmlElement(name = "homeShot_on_target")
+  private int homeShot_on_target;
+  
+  @XmlElement(name = "awayShot_on_target")
+  private int awayShot_on_target;
+  
+  @XmlElement(name = "homeFoul")
+  private int homeFoul;
+  
+  @XmlElement(name = "awayFoul")
+  private int awayFoul;
+  
+  @XmlElement(name = "homeCorner")
+  private int homeCorner;
+  
+  @XmlElement(name = "awayCorner")
+  private int awayCorner;
+  
+  @XmlElement(name = "homeCorner_Converted")
+  private int homeCorner_Converted;
+  
+  @XmlElement(name = "awayCorner_Converted")
+  private int awayCorner_Converted;
+  
   @XmlTransient
   private Ground ground;
   
@@ -442,6 +472,86 @@ public int getAwayAssists() {
 
 public void setAwayAssists(int awayAssists) {
 	this.awayAssists = awayAssists;
+}
+
+public int getHomeShots() {
+	return homeShots;
+}
+
+public void setHomeShots(int homeShots) {
+	this.homeShots = homeShots;
+}
+
+public int getAwayShots() {
+	return awayShots;
+}
+
+public void setAwayShots(int awayShots) {
+	this.awayShots = awayShots;
+}
+
+public int getHomeShot_on_target() {
+	return homeShot_on_target;
+}
+
+public void setHomeShot_on_target(int homeShot_on_target) {
+	this.homeShot_on_target = homeShot_on_target;
+}
+
+public int getAwayShot_on_target() {
+	return awayShot_on_target;
+}
+
+public void setAwayShot_on_target(int awayShot_on_target) {
+	this.awayShot_on_target = awayShot_on_target;
+}
+
+public int getHomeFoul() {
+	return homeFoul;
+}
+
+public void setHomeFoul(int homeFoul) {
+	this.homeFoul = homeFoul;
+}
+
+public int getAwayFoul() {
+	return awayFoul;
+}
+
+public void setAwayFoul(int awayFoul) {
+	this.awayFoul = awayFoul;
+}
+
+public int getHomeCorner() {
+	return homeCorner;
+}
+
+public void setHomeCorner(int homeCorner) {
+	this.homeCorner = homeCorner;
+}
+
+public int getAwayCorner() {
+	return awayCorner;
+}
+
+public void setAwayCorner(int awayCorner) {
+	this.awayCorner = awayCorner;
+}
+
+public int getHomeCorner_Converted() {
+	return homeCorner_Converted;
+}
+
+public void setHomeCorner_Converted(int homeCorner_Converted) {
+	this.homeCorner_Converted = homeCorner_Converted;
+}
+
+public int getAwayCorner_Converted() {
+	return awayCorner_Converted;
+}
+
+public void setAwayCorner_Converted(int awayCorner_Converted) {
+	this.awayCorner_Converted = awayCorner_Converted;
 }
 
 public int getHomeTeamJerseyColorId() {
