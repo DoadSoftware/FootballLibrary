@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.football.model.NameSuper;
+import com.football.model.Bugs;
 import com.football.dao.FootballDao;
 import com.football.model.Fixture;
 import com.football.model.Formation;
@@ -64,6 +65,11 @@ public List<Player> getPlayers(String whatToProcess, String valueToProcess) {
 	default:
 		return null;  
 	}
+}
+
+@Override
+public List<Bugs> getBugs() {
+	return sessionFactory.getCurrentSession().createQuery("from Bugs").list();
 }
 
 @Override
