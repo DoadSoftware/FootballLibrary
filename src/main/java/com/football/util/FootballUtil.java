@@ -31,6 +31,7 @@ public class FootballUtil {
 	public final static String LOAD_UNDO = "LOAD_UNDO";
 	public final static String LOAD_SETUP = "LOAD_SETUP";
 	public final static String LOG_OVERWRITE_TEAM_SCORE = "LOG_OVERWRITE_TEAM_SCORE";
+	public final static String LOG_OVERWRITE_MATCH_TIME = "LOG_OVERWRITE_MATCH_TIME";
 	public final static String LOG_TIME = "LOG_TIME";
 	public final static String START_PAUSE_TIME = "START_PAUSE_TIME";
 	
