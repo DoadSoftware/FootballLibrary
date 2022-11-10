@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement(name="matchStats")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -26,6 +27,9 @@ public class MatchStats {
 
   @XmlElement(name = "totalMatchSeconds")
   private long totalMatchSeconds;
+
+  @XmlTransient
+  private Player player;
   
 public MatchStats() {
 	super();
@@ -40,6 +44,14 @@ public MatchStats(int statsId, int playerId, String matchHalves, String stats_ty
 	this.stats_type = stats_type;
 	this.statsCount = statsCount;
 	this.totalMatchSeconds = totalMatchSeconds;
+}
+
+public Player getPlayer() {
+	return player;
+}
+
+public void setPlayer(Player player) {
+	this.player = player;
 }
 
 public int getPlayerId() {

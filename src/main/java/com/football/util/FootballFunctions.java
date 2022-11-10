@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.football.model.Match;
+import com.football.model.MatchStats;
 import com.football.model.Player;
 import com.football.service.FootballService;
 
@@ -74,6 +75,12 @@ public class FootballFunctions {
 		if(match.getGroundId() > 0) {
 			match.setGround(footballService.getGround(match.getGroundId()));
 			match.setVenueName(match.getGround().getFullname());
+		}
+
+		if(match.getMatchStats() != null) {
+			for(MatchStats ms : match.getMatchStats()) {
+				ms.setPlayer(footballService.getPlayer(FootballUtil.PLAYER, String.valueOf(ms.getPlayerId())));
+			}
 		}
 		
 		return match;
