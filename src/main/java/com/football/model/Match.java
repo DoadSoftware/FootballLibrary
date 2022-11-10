@@ -49,11 +49,11 @@ public class Match {
   @XmlElement(name = "awayTeamId")
   private int awayTeamId;
   
-  @XmlElement(name = "homeTeamJerseyColorId")
-  private int homeTeamJerseyColorId;
+  @XmlElement(name = "homeTeamJerseyColor")
+  private String homeTeamJerseyColor;
 
-  @XmlElement(name = "awayTeamJerseyColorId")
-  private int awayTeamJerseyColorId;
+  @XmlElement(name = "awayTeamJerseyColor")
+  private String awayTeamJerseyColor;
 
   @XmlElement(name = "groundId")
   private int groundId;
@@ -554,20 +554,20 @@ public void setAwayCorner_Converted(int awayCorner_Converted) {
 	this.awayCorner_Converted = awayCorner_Converted;
 }
 
-public int getHomeTeamJerseyColorId() {
-	return homeTeamJerseyColorId;
+public String getHomeTeamJerseyColor() {
+	return homeTeamJerseyColor;
 }
 
-public void setHomeTeamJerseyColorId(int homeTeamJerseyColorId) {
-	this.homeTeamJerseyColorId = homeTeamJerseyColorId;
+public void setHomeTeamJerseyColor(String homeTeamJerseyColor) {
+	this.homeTeamJerseyColor = homeTeamJerseyColor;
 }
 
-public int getAwayTeamJerseyColorId() {
-	return awayTeamJerseyColorId;
+public String getAwayTeamJerseyColor() {
+	return awayTeamJerseyColor;
 }
 
-public void setAwayTeamJerseyColorId(int awayTeamJerseyColorId) {
-	this.awayTeamJerseyColorId = awayTeamJerseyColorId;
+public void setAwayTeamJerseyColor(String awayTeamJerseyColor) {
+	this.awayTeamJerseyColor = awayTeamJerseyColor;
 }
 
 }
