@@ -14,6 +14,7 @@ import com.football.model.Fixture;
 import com.football.model.Formation;
 import com.football.model.Ground;
 import com.football.model.Player;
+import com.football.model.Staff;
 import com.football.model.Statistics;
 import com.football.model.Team;
 import com.football.model.TeamColor;
@@ -105,6 +106,11 @@ public List<Formation> getFormations() {
 @Override
 public List<TeamColor> getTeamColors() {
 	return sessionFactory.getCurrentSession().createQuery("from TeamColor").list();
+}
+
+@Override
+public List<Staff> getStaff() {
+	return sessionFactory.getCurrentSession().createQuery("from Staff").list();
 }
 
 }

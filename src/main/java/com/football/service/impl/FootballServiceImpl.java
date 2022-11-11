@@ -13,6 +13,7 @@ import com.football.model.Fixture;
 import com.football.model.Formation;
 import com.football.model.Ground;
 import com.football.model.Player;
+import com.football.model.Staff;
 import com.football.model.Statistics;
 import com.football.model.Team;
 import com.football.model.TeamColor;
@@ -88,6 +89,11 @@ public List<Formation> getFormations() {
 @Override
 public List<TeamColor> getTeamColors() {
 	return footballDao.getTeamColors();
+}
+
+@Override
+public List<Staff> getStaffs() {
+	return footballDao.getStaff();
 }
 
 }
