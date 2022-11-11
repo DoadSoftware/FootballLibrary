@@ -44,8 +44,19 @@ public class FootballUtil {
 	public final static String PENALTY = "PENALTY";
 	
 	public final static String REPLACE = "REPLACE";
+	public final static String SAVES = "SAVES";
 	 
 	public final static String OFF_SIDE = "OFF_SIDE";
+	public final static String YELLOW = "YELLOW";
+	public final static String RED = "RED";
+	public final static String ASSISTS = "ASSISTS";
+	public final static String FOULS = "FOULS";
+	
+	public final static String SHOTS = "SHOTS";
+	public final static String SHOTS_ON_TARGET = "SHOTS_ON_TARGET";
+	
+	public final static String CORNERS  = "CORNERS";
+	public final static String CORNERS_CONVERTED  = "CORNERS_CONVERTED";
 	
 	public final static String FULL = "FULL";
 	public final static String SHORT = "SHORT";
@@ -58,19 +69,8 @@ public class FootballUtil {
 	public final static String ONE = "1";
 	public final static String TWO = "2";
 	
-	public final static String YELLOW = "YELLOW";
-	public final static String RED = "RED";
-	public final static String ASSISTS = "ASSISTS";
-	public final static String SHOTS_ON_TARGET = "SHOTS_ON_TARGET";
-	public final static String SHOTS = "SHOTS";
-	public final static String CORNERS  = "CORNERS";
-	public final static String CORNERS_CONVERTED  = "CORNERS_CONVERTED";
-	public final static String FOULS = "FOULS";
-
 	public final static String HOME = "HOME";
 	public final static String AWAY = "AWAY";
-
-	public final static String TOSS = "TOSS";
 	
 	public final static int MAXIMUM_PLAYERS = 11;
 	

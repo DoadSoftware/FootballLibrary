@@ -130,6 +130,12 @@ public class Match {
   @XmlElement(name = "awayCorner_Converted")
   private int awayCorner_Converted;
   
+  @XmlElement(name = "home_Saves")
+  private int home_Saves;
+  
+  @XmlElement(name = "away_Saves")
+  private int away_Saves;
+  
   @XmlTransient
   private Ground ground;
   
@@ -568,6 +574,22 @@ public String getAwayTeamJerseyColor() {
 
 public void setAwayTeamJerseyColor(String awayTeamJerseyColor) {
 	this.awayTeamJerseyColor = awayTeamJerseyColor;
+}
+
+public int getHome_Saves() {
+	return home_Saves;
+}
+
+public void setHome_Saves(int home_Saves) {
+	this.home_Saves = home_Saves;
+}
+
+public int getAway_Saves() {
+	return away_Saves;
+}
+
+public void setAway_Saves(int away_Saves) {
+	this.away_Saves = away_Saves;
 }
 
 }
