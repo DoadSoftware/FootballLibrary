@@ -13,9 +13,6 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Match {
 
-  @XmlElement(name = "matchHalves")
-  private String matchHalves;
-	
   @XmlElement(name = "substitutesPerTeam")
   private int substitutesPerTeam;
 	
@@ -60,15 +57,6 @@ public class Match {
 
   @XmlElement(name = "venueName")
   private String venueName;
-
-  @XmlElement(name = "matchStartTime")
-  private String matchStartTime;
-
-  @XmlElement(name = "matchTimeStatus")
-  private String matchTimeStatus;
-
-  @XmlElement(name = "matchTotalSeconds")
-  private long matchTotalSeconds;
 
   @XmlElement(name = "homeTeamScore")
   private int homeTeamScore;
@@ -173,15 +161,18 @@ public class Match {
   @XmlElement(name = "matchStat")
   private List<MatchStats> matchStats;
   
+  @XmlElement(name = "clock")
+  private Clock clock;
+
   @XmlTransient
   private List<Event> events;
-
-public String getMatchHalves() {
-	return matchHalves;
+  
+public Clock getClock() {
+	return clock;
 }
 
-public void setMatchHalves(String matchHalves) {
-	this.matchHalves = matchHalves;
+public void setClock(Clock clock) {
+	this.clock = clock;
 }
 
 public int getHomeTeamScore() {
@@ -294,30 +285,6 @@ public String getVenueName() {
 
 public void setVenueName(String venueName) {
 	this.venueName = venueName;
-}
-
-public String getMatchStartTime() {
-	return matchStartTime;
-}
-
-public void setMatchStartTime(String matchStartTime) {
-	this.matchStartTime = matchStartTime;
-}
-
-public String getMatchTimeStatus() {
-	return matchTimeStatus;
-}
-
-public void setMatchTimeStatus(String matchTimeStatus) {
-	this.matchTimeStatus = matchTimeStatus;
-}
-
-public long getMatchTotalSeconds() {
-	return matchTotalSeconds;
-}
-
-public void setMatchTotalSeconds(long matchTotalSeconds) {
-	this.matchTotalSeconds = matchTotalSeconds;
 }
 
 public Ground getGround() {
