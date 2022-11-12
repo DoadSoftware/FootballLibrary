@@ -8,12 +8,29 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.football.model.Fixture;
 import com.football.model.Match;
 import com.football.model.MatchStats;
 import com.football.model.Player;
+import com.football.model.Team;
 import com.football.service.FootballService;
 
 public class FootballFunctions {
+	
+	public static List<Fixture> processAllFixtures(FootballService footballService) {
+		List<Fixture> fixtures = footballService.getFixtures();
+		for(Team tm : footballService.getTeams()) {
+			for(Fixture fix : fixtures) {
+				if(fix.getHometeamid() == tm.getTeamId()) {
+					fix.setHome_Team(tm);
+				}
+				if(fix.getAwayteamid() == tm.getTeamId()) {
+					fix.setAway_Team(tm);
+				}
+			}
+		}
+		return fixtures;
+	}
 	
 	public static Player populatePlayer(FootballService footballService, Player player, Match match)
 	{
