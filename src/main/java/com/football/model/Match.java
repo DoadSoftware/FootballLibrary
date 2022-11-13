@@ -13,9 +13,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Match {
 
-  @XmlElement(name = "substitutesPerTeam")
-  private int substitutesPerTeam;
-	
+  @XmlElement(name = "homeSubstitutesPerTeam")
+  private int homeSubstitutesPerTeam;
+
+  @XmlElement(name = "awaySubstitutesPerTeam")
+  private int awaySubstitutesPerTeam;
+  
   @XmlElement(name = "matchFileTimeStamp")
   private String matchFileTimeStamp;
 
@@ -199,12 +202,20 @@ public void setMatchStats(List<MatchStats> matchStats) {
 	this.matchStats = matchStats;
 }
 
-public int getSubstitutesPerTeam() {
-	return substitutesPerTeam;
+public int getHomeSubstitutesPerTeam() {
+	return homeSubstitutesPerTeam;
 }
 
-public void setSubstitutesPerTeam(int substitutesPerTeam) {
-	this.substitutesPerTeam = substitutesPerTeam;
+public void setHomeSubstitutesPerTeam(int homeSubstitutesPerTeam) {
+	this.homeSubstitutesPerTeam = homeSubstitutesPerTeam;
+}
+
+public int getAwaySubstitutesPerTeam() {
+	return awaySubstitutesPerTeam;
+}
+
+public void setAwaySubstitutesPerTeam(int awaySubstitutesPerTeam) {
+	this.awaySubstitutesPerTeam = awaySubstitutesPerTeam;
 }
 
 public String getMatchFileTimeStamp() {
