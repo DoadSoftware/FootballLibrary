@@ -36,6 +36,9 @@ public class Match {
 
   @XmlElement(name = "matchIdent")
   private String matchIdent;
+  
+  @XmlElement(name = "matchId")
+  private int matchId;
 
   @XmlElement(name = "homeTeamFormationId")
   private int homeTeamFormationId;
@@ -264,6 +267,14 @@ public String getMatchIdent() {
 
 public void setMatchIdent(String matchIdent) {
 	this.matchIdent = matchIdent;
+}
+
+public int getMatchId() {
+	return matchId;
+}
+
+public void setMatchId(int matchId) {
+	this.matchId = matchId;
 }
 
 public int getHomeTeamId() {
