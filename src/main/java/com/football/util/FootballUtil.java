@@ -11,6 +11,9 @@ public class FootballUtil {
 	public final static String CONFIGURATIONS_DIRECTORY = "Configurations/";
 	public final static String OUTPUT_XML = "OUTPUT.XML";
 	public final static String CLOCK_XML = "CLOCK.XML";
+	
+	public final static String LEAGUE_TABLE_DIRECTORY = "LeagueTable/";
+	public static final String LEAGUETABLE_XML = "LeagueTable.XML";
 
 	public final static String PNG_EXTENSION = ".png";
 	public final static String DOUBLE_BACKSLASH = "\\";

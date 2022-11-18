@@ -9,13 +9,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LeagueTeam {
 	
+	@XmlElement(name="PositionTeam")
+	private String positionTeam;
+	
 	@XmlElement(name="QualifiedStatus")
-	private String QualifiedStatus;
+	private String qualifiedStatus;
 	
-	@XmlElement(name="Pool")
-	private String pool;
-	
-	@XmlElement(name="TeamName")
+	@XmlElement(name="TeamsName")
 	private String TeamName;
 	
 	@XmlElement(name="Played")
@@ -27,30 +27,35 @@ public class LeagueTeam {
 	@XmlElement(name="Lost")
 	private int Lost;
 	
-	@XmlElement(name="NoResult")
-	private int NoResult;
+	@XmlElement(name="Drawn")
+	private int drawn;
+	
+	@XmlElement(name="For")
+	private int goal_For;
+	
+	@XmlElement(name="Against")
+	private int goal_Against;
+	
+	@XmlElement(name="GD")
+	private int GD;
 	
 	@XmlElement(name="Points")
 	private int Points;
-	
-	@XmlElement(name="NetRunRate")
-	private double NetRunRate;
 
-	
+	public String getPositionTeam() {
+		return positionTeam;
+	}
+
+	public void setPositionTeam(String positionTeam) {
+		this.positionTeam = positionTeam;
+	}
+
 	public String getQualifiedStatus() {
-		return QualifiedStatus;
+		return qualifiedStatus;
 	}
 
 	public void setQualifiedStatus(String qualifiedStatus) {
-		QualifiedStatus = qualifiedStatus;
-	}
-	
-	public String getPool() {
-		return pool;
-	}
-
-	public void setPool(String pool) {
-		this.pool = pool;
+		this.qualifiedStatus = qualifiedStatus;
 	}
 
 	public String getTeamName() {
@@ -85,12 +90,36 @@ public class LeagueTeam {
 		Lost = lost;
 	}
 
-	public int getNoResult() {
-		return NoResult;
+	public int getDrawn() {
+		return drawn;
 	}
 
-	public void setNoResult(int noResult) {
-		NoResult = noResult;
+	public void setDrawn(int drawn) {
+		this.drawn = drawn;
+	}
+
+	public int getGoal_For() {
+		return goal_For;
+	}
+
+	public void setGoal_For(int goal_For) {
+		this.goal_For = goal_For;
+	}
+
+	public int getGoal_Against() {
+		return goal_Against;
+	}
+
+	public void setGoal_Against(int goal_Against) {
+		this.goal_Against = goal_Against;
+	}
+
+	public int getGD() {
+		return GD;
+	}
+
+	public void setGD(int gD) {
+		GD = gD;
 	}
 
 	public int getPoints() {
@@ -100,12 +129,6 @@ public class LeagueTeam {
 	public void setPoints(int points) {
 		Points = points;
 	}
-
-	public double getNetRunRate() {
-		return NetRunRate;
-	}
-
-	public void setNetRunRate(double netRunRate) {
-		NetRunRate = netRunRate;
-	}
+	
+	
 }
