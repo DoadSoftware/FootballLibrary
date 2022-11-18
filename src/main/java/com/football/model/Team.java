@@ -30,6 +30,9 @@ public class Team implements Comparable<Team> {
   
   @Column(name = "TeamCoach")
   private String teamCoach;
+  
+  @Column(name = "TeamAPI_Id")
+  private String teamApiId;
 
 public int getTeamId() {
 	return teamId;
@@ -87,10 +90,19 @@ public void setTeamCoach(String teamCoach) {
 	this.teamCoach = teamCoach;
 }
 
+public String getTeamApiId() {
+	return teamApiId;
+}
+
+public void setTeamApiId(String teamApiId) {
+	this.teamApiId = teamApiId;
+}
+
 @Override
 public String toString() {
 	return "Team [teamId=" + teamId + ", teamName1=" + teamName1 + ", teamName2=" + teamName2 + ", teamName3="
-			+ teamName3 + ", teamName4=" + teamName4 + ", teamColor=" + teamColor + ", teamCoach=" + teamCoach + "]";
+			+ teamName3 + ", teamName4=" + teamName4 + ", teamColor=" + teamColor + ", teamCoach=" + teamCoach
+			+ ", teamApiId=" + teamApiId + "]";
 }
 
 @Override
