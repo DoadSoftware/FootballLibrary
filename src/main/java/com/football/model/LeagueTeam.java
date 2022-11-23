@@ -9,9 +9,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LeagueTeam {
 	
-	@XmlElement(name="PositionTeam")
-	private String positionTeam;
-	
 	@XmlElement(name="QualifiedStatus")
 	private String qualifiedStatus;
 	
@@ -41,14 +38,6 @@ public class LeagueTeam {
 	
 	@XmlElement(name="Points")
 	private int Points;
-
-	public String getPositionTeam() {
-		return positionTeam;
-	}
-
-	public void setPositionTeam(String positionTeam) {
-		this.positionTeam = positionTeam;
-	}
 
 	public String getQualifiedStatus() {
 		return qualifiedStatus;

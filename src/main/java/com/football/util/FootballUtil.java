@@ -12,6 +12,10 @@ public class FootballUtil {
 	public final static String OUTPUT_XML = "OUTPUT.XML";
 	public final static String CLOCK_XML = "CLOCK.XML";
 	
+	public final static String I_LEAGUE = "I_LEAGUE";
+	public final static String I_LEAGUE_SCORE_BUG_SCENE_PATH = 
+			"D:/DOAD_In_House_Everest/Everest_Sports/Everest_I-League_2022/Scenes/ScoreBug.sum";
+	
 	public final static String LEAGUE_TABLE_DIRECTORY = "LeagueTable/";
 	public static final String LEAGUETABLE_XML = "LeagueTable.XML";
 
@@ -46,19 +50,17 @@ public class FootballUtil {
 	public final static String OWN_GOAL = "OWN_GOAL";
 	public final static String GOAL = "GOAL";
 	public final static String PENALTY = "PENALTY";
-	
 	public final static String REPLACE = "REPLACE";
 	public final static String SAVES = "SAVES";
-	 
 	public final static String OFF_SIDE = "OFF_SIDE";
 	public final static String YELLOW = "YELLOW";
 	public final static String RED = "RED";
 	public final static String ASSISTS = "ASSISTS";
 	public final static String FOULS = "FOULS";
-	
+	public final static String POSSESSION = "POSSESSION";
+	public final static String TACKLES = "TACKLES";
 	public final static String SHOTS = "SHOTS";
 	public final static String SHOTS_ON_TARGET = "SHOTS_ON_TARGET";
-	
 	public final static String CORNERS  = "CORNERS";
 	public final static String CORNERS_CONVERTED  = "CORNERS_CONVERTED";
 	
