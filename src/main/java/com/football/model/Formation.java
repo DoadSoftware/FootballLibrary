@@ -19,7 +19,7 @@ public class Formation {
   @Column(name = "FormStyle")
   private String formStyle;
   
-  /*@Column(name = "FormOrds1X")
+  @Column(name = "FormOrds1X")
   private int formOrds1X;
   
   @Column(name = "FormOrds1Y")
@@ -83,7 +83,7 @@ public class Formation {
   private int formOrds11X;
   
   @Column(name = "FormOrds11Y")
-  private int formOrds11Y;*/
+  private int formOrds11Y;
 
 public Formation() {
 	super();
@@ -113,7 +113,7 @@ public void setFormStyle(String formStyle) {
 	this.formStyle = formStyle;
 }
 
-/*public int getFormOrds1X() {
+public int getFormOrds1X() {
 	return formOrds1X;
 }
 
@@ -287,6 +287,6 @@ public int getFormOrds11Y() {
 
 public void setFormOrds11Y(int formOrds11Y) {
 	this.formOrds11Y = formOrds11Y;
-}*/
+}
 
 }

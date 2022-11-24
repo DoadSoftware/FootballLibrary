@@ -19,6 +19,9 @@ public class Fixture {
   
   @Column(name = "Date")
   private String date;
+  
+  @Column(name = "Time")
+  private String time;
 
   @Column(name = "HOMETEAM")
   private int hometeamid;
@@ -28,6 +31,9 @@ public class Fixture {
   
   @Column(name = "Winner")
   private String winnerteam;
+  
+  @Column(name = "Venue")
+  private String venue;
   
   @Transient
   private Team home_Team;
@@ -106,6 +112,22 @@ public String getWinnerteam() {
 
 public void setWinnerteam(String winnerteam) {
 	this.winnerteam = winnerteam;
+}
+
+public String getTime() {
+	return time;
+}
+
+public void setTime(String time) {
+	this.time = time;
+}
+
+public String getVenue() {
+	return venue;
+}
+
+public void setVenue(String venue) {
+	this.venue = venue;
 }
 
 }
