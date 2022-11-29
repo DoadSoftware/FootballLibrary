@@ -138,6 +138,9 @@ public class Match {
 
   @XmlTransient
   private Team awayTeam;
+  
+  @XmlTransient
+  private List<APITeam> ApiData;
 
   @XmlElementWrapper(name = "homeSquad")
   @XmlElement(name = "homeSquad")
@@ -579,6 +582,14 @@ public int getAway_Saves() {
 
 public void setAway_Saves(int away_Saves) {
 	this.away_Saves = away_Saves;
+}
+
+public List<APITeam> getApiData() {
+	return ApiData;
+}
+
+public void setApiData(List<APITeam> apiData) {
+	ApiData = apiData;
 }
 
 }

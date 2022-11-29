@@ -11,10 +11,16 @@ public class FootballUtil {
 	public final static String CONFIGURATIONS_DIRECTORY = "Configurations/";
 	public final static String OUTPUT_XML = "OUTPUT.XML";
 	public final static String CLOCK_XML = "CLOCK.XML";
+	public final static String API_XML = "API.XML";
 	
 	public final static String I_LEAGUE = "I_LEAGUE";
 	public final static String I_LEAGUE_SCORE_BUG_SCENE_PATH = 
 			"D:/DOAD_In_House_Everest/Everest_Sports/Everest_I-League_2022/Scenes/ScoreBug.sum";
+	
+	public final static String API_PATH1 = 
+			"https://service.instatfootball.com/feed.php?id=1153675&key=G3Yr3PPd&tpl=207&match_id=";
+	
+	public final static String API_PATH2 = "&lang_id=1&lang=en&format=json";
 	
 	public final static String LEAGUE_TABLE_DIRECTORY = "LeagueTable/";
 	public static final String LEAGUETABLE_XML = "LeagueTable.XML";
