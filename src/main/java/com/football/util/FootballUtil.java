@@ -70,6 +70,7 @@ public class FootballUtil {
 	public final static String CORNERS  = "CORNERS";
 	public final static String CORNERS_CONVERTED  = "CORNERS_CONVERTED";
 	
+	public final static String HALF = "HALF";
 	public final static String FULL = "FULL";
 	public final static String SHORT = "SHORT";
 	public final static String MINI = "MINI";
@@ -90,6 +91,8 @@ public class FootballUtil {
 
 	public final static String FIRST = "FIRST";
 	public final static String SECOND = "SECOND";
+	public final static String EXTRA1 = "EXTRA1";
+	public final static String EXTRA2 = "EXTRA2";
 
 	public final static String SESSION = "SESSION";
 

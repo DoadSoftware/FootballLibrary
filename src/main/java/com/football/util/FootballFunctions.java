@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import com.football.model.Fixture;
 import com.football.model.Match;
@@ -30,6 +31,97 @@ public class FootballFunctions {
 			}
 		}
 		return fixtures;
+	}
+	
+	public static String twoDigitString(long number) {
+	    if (number == 0) {
+	        return "00";
+	    }
+	    if (number / 10 == 0) {
+	        return "0" + number;
+	    }
+	    return String.valueOf(number);
+	}
+	
+	public static String replace(float number) {
+	    return String.valueOf(number).replace(".0", "");
+	}
+	
+	public static String getPlayerSquadType(int player_id,String Goal_Type ,Match match)
+	{	
+		if(Goal_Type.equalsIgnoreCase(FootballUtil.OWN_GOAL)) {
+			for(Player plyr : match.getHomeSquad()) {
+				if(plyr.getPlayerId() == player_id) {
+					return FootballUtil.AWAY;
+				}
+			}
+			for(Player plyr : match.getHomeSubstitutes()) {
+				if(plyr.getPlayerId() == player_id) {
+					return FootballUtil.AWAY;
+				}
+			}
+			for(Player plyr : match.getAwaySquad()) {
+				if(plyr.getPlayerId() == player_id) {
+					return FootballUtil.HOME;
+				}
+			}
+			for(Player plyr : match.getAwaySubstitutes()) {
+				if(plyr.getPlayerId() == player_id) {
+					return FootballUtil.HOME;
+				}
+			}
+		}else if(Goal_Type.equalsIgnoreCase(FootballUtil.GOAL) || Goal_Type.equalsIgnoreCase(FootballUtil.PENALTY)) {
+			for(Player plyr : match.getHomeSquad()) {
+				if(plyr.getPlayerId() == player_id) {
+					return FootballUtil.HOME;
+				}
+			}
+			for(Player plyr : match.getHomeSubstitutes()) {
+				if(plyr.getPlayerId() == player_id) {
+					return FootballUtil.HOME;
+				}
+			}
+			for(Player plyr : match.getAwaySquad()) {
+				if(plyr.getPlayerId() == player_id) {
+					return FootballUtil.AWAY;
+				}
+			}
+			for(Player plyr : match.getAwaySubstitutes()) {
+				if(plyr.getPlayerId() == player_id) {
+					return FootballUtil.AWAY;
+				}
+			}
+		}
+		
+		return "";
+	}
+	
+	public static String calExtraTimeGoal(String half,long number) {
+		
+		String time_value ="";
+		long time=0;
+		
+		if(half.equalsIgnoreCase("first") && number > 2700) {
+			time = (TimeUnit.SECONDS.toMinutes(number)+1);
+			time_value = "45' (+" + time + "')";
+		}else if(half.equalsIgnoreCase("second") && number > 5400) {
+			time = (TimeUnit.SECONDS.toMinutes(number)+1);
+			time_value = "90' (+" + time + "')";
+		}else {
+			time_value = (TimeUnit.SECONDS.toMinutes(number)+1) + "'" ;
+		}
+		return time_value;
+	}
+	
+	public static String goal_shortname(String goal_type) {
+		if(goal_type.equalsIgnoreCase(FootballUtil.PENALTY)) {
+			return " (P) ";
+		}else if(goal_type.equalsIgnoreCase(FootballUtil.OWN_GOAL)) {
+			return " (OG) ";
+		}else if(goal_type.equalsIgnoreCase(FootballUtil.GOAL)) {
+			return " ";
+		}
+		return "";
 	}
 	
 	public static Player populatePlayer(FootballService footballService, Player player, Match match)
