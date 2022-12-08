@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import com.football.model.Fixture;
 import com.football.model.Match;
@@ -102,13 +101,13 @@ public class FootballFunctions {
 		long time=0;
 		
 		if(half.equalsIgnoreCase("first") && number > 2700) {
-			time = (TimeUnit.SECONDS.toMinutes(number)+1);
+			time = ((number - 2700)/60) + 1;
 			time_value = "45' (+" + time + "')";
 		}else if(half.equalsIgnoreCase("second") && number > 5400) {
-			time = (TimeUnit.SECONDS.toMinutes(number)+1);
+			time = ((number - 5400)/60) + 1;
 			time_value = "90' (+" + time + "')";
 		}else {
-			time_value = (TimeUnit.SECONDS.toMinutes(number)+1) + "'" ;
+			time_value = String.valueOf((number/60)+1) + "'" ;
 		}
 		return time_value;
 	}
