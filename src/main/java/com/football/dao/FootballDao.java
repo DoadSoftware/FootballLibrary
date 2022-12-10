@@ -3,6 +3,7 @@ package com.football.dao;
 import java.util.List;
 
 import com.football.model.NameSuper;
+import com.football.model.Officials;
 import com.football.model.Bugs;
 import com.football.model.Fixture;
 import com.football.model.Formation;
@@ -28,4 +29,5 @@ public interface FootballDao {
   List<Formation> getFormations();
   List<TeamColor> getTeamColors();
   List<Staff> getStaff();
+  List<Officials> getOfficials();
 }

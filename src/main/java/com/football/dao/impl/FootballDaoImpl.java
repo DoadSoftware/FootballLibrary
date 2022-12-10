@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.football.model.NameSuper;
 import com.football.model.Bugs;
 import com.football.dao.FootballDao;
+import com.football.model.Officials;
 import com.football.model.Fixture;
 import com.football.model.Formation;
 import com.football.model.Ground;
@@ -111,6 +112,11 @@ public List<TeamColor> getTeamColors() {
 @Override
 public List<Staff> getStaff() {
 	return sessionFactory.getCurrentSession().createQuery("from Staff").list();
+}
+
+@Override
+public List<Officials> getOfficials() {
+	return sessionFactory.getCurrentSession().createQuery("from Officials").list();
 }
 
 }

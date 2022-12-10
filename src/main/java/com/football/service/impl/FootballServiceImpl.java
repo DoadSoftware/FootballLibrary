@@ -17,6 +17,7 @@ import com.football.model.Staff;
 import com.football.model.Statistics;
 import com.football.model.Team;
 import com.football.model.TeamColor;
+import com.football.model.Officials;
 import com.football.service.FootballService;
 
 @Service("footballService")
@@ -94,6 +95,11 @@ public List<TeamColor> getTeamColors() {
 @Override
 public List<Staff> getStaffs() {
 	return footballDao.getStaff();
+}
+
+@Override
+public List<Officials> getOfficials() {
+	return footballDao.getOfficials();
 }
 
 }
