@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.football</groupId>
   <artifactId>FootballLibrary</artifactId>
-  <version>1.12</version>
+  <version>1.13</version>
   <name>FootballLibrary</name>
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
