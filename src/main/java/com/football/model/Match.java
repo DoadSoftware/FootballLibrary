@@ -372,4 +372,20 @@ public void setApiData(List<APITeam> apiData) {
 	ApiData = apiData;
 }
 
+@Override
+public String toString() {
+	return "Match [homeSubstitutesPerTeam=" + homeSubstitutesPerTeam + ", awaySubstitutesPerTeam="
+			+ awaySubstitutesPerTeam + ", matchFileTimeStamp=" + matchFileTimeStamp + ", matchResult=" + matchResult
+			+ ", matchStatus=" + matchStatus + ", matchFileName=" + matchFileName + ", tournament=" + tournament
+			+ ", matchIdent=" + matchIdent + ", matchId=" + matchId + ", homeTeamFormationId=" + homeTeamFormationId
+			+ ", awayTeamFormationId=" + awayTeamFormationId + ", homeTeamId=" + homeTeamId + ", awayTeamId="
+			+ awayTeamId + ", homeTeamJerseyColor=" + homeTeamJerseyColor + ", awayTeamJerseyColor="
+			+ awayTeamJerseyColor + ", groundId=" + groundId + ", venueName=" + venueName + ", homeTeamScore="
+			+ homeTeamScore + ", awayTeamScore=" + awayTeamScore + ", ground=" + ground + ", homeTeam=" + homeTeam
+			+ ", awayTeam=" + awayTeam + ", ApiData=" + ApiData + ", homeSquad=" + homeSquad + ", homeSubstitutes="
+			+ homeSubstitutes + ", awaySquad=" + awaySquad + ", awaySubstitutes=" + awaySubstitutes
+			+ ", homeOtherSquad=" + homeOtherSquad + ", awayOtherSquad=" + awayOtherSquad + ", matchStats=" + matchStats
+			+ ", clock=" + clock + ", events=" + events + "]";
+}
+
 }
