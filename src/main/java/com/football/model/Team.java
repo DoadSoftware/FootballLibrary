@@ -31,7 +31,7 @@ public class Team implements Comparable<Team> {
   @Column(name = "TeamCoach")
   private String teamCoach;
   
-  @Column(name = "TeamAPI_Id")
+  @Column(name = "TeamApiId")
   private int teamApiId;
 
 public int getTeamId() {
