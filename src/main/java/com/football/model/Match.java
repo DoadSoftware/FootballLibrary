@@ -51,7 +51,19 @@ public class Match {
 
   @XmlElement(name = "awayTeamId")
   private int awayTeamId;
-  
+
+  @XmlElement(name = "homePenaltiesHits")
+  private int homePenaltiesHits;
+
+  @XmlElement(name = "awayPenaltiesHits")
+  private int awayPenaltiesHits;
+
+  @XmlElement(name = "homePenaltiesMisses")
+  private int homePenaltiesMisses;
+
+  @XmlElement(name = "awayPenaltiesMisses")
+  private int awayPenaltiesMisses;
+ 
   @XmlElement(name = "homeTeamJerseyColor")
   private String homeTeamJerseyColor;
 
@@ -116,6 +128,38 @@ public class Match {
   @XmlTransient
   private List<Event> events;
   
+public int getHomePenaltiesHits() {
+	return homePenaltiesHits;
+}
+
+public void setHomePenaltiesHits(int homePenaltiesHits) {
+	this.homePenaltiesHits = homePenaltiesHits;
+}
+
+public int getAwayPenaltiesHits() {
+	return awayPenaltiesHits;
+}
+
+public void setAwayPenaltiesHits(int awayPenaltiesHits) {
+	this.awayPenaltiesHits = awayPenaltiesHits;
+}
+
+public int getHomePenaltiesMisses() {
+	return homePenaltiesMisses;
+}
+
+public void setHomePenaltiesMisses(int homePenaltiesMisses) {
+	this.homePenaltiesMisses = homePenaltiesMisses;
+}
+
+public int getAwayPenaltiesMisses() {
+	return awayPenaltiesMisses;
+}
+
+public void setAwayPenaltiesMisses(int awayPenaltiesMisses) {
+	this.awayPenaltiesMisses = awayPenaltiesMisses;
+}
+
 public Clock getClock() {
 	return clock;
 }

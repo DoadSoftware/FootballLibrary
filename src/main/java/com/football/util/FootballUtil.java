@@ -38,6 +38,7 @@ public class FootballUtil {
 	public final static String PAUSE = "PAUSE";
 	public final static String END = "END";
 	
+	public final static String LOG_STAT = "LOG_STAT";
 	public final static String LOG_EVENT = "LOG_EVENT";
 	public final static String LOAD_MATCH = "LOAD_MATCH";
 	public final static String SAVE_MATCH = "SAVE_MATCH";
@@ -53,9 +54,13 @@ public class FootballUtil {
 	public final static String GOAL_KEEPER = "GOAL_KEEPER";
 	public final static String SUBSTITUTE = "SUBSTITUTE";
 
+	public final static String HIT = "HIT";
+	public final static String MISS = "MISS";
+	
 	public final static String OWN_GOAL = "OWN_GOAL";
 	public final static String GOAL = "GOAL";
 	public final static String PENALTY = "PENALTY";
+	public final static String PENALTIES = "PENALTIES";
 	public final static String REPLACE = "REPLACE";
 	public final static String SAVES = "SAVES";
 	public final static String OFF_SIDE = "OFF_SIDE";
@@ -81,6 +86,9 @@ public class FootballUtil {
 	
 	public final static String ONE = "1";
 	public final static String TWO = "2";
+
+	public final static String INCREMENT = "INCREMENT";
+	public final static String DECREMENT = "DECREMENT";
 	
 	public final static String HOME = "HOME";
 	public final static String AWAY = "AWAY";
