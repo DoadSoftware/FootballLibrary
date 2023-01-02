@@ -4,6 +4,7 @@ public class FootballUtil {
 
 	public final static String DOAD = "DOAD";
 	
+//	public final static String FOOTBALL_DIRECTORY = "//DESKTOP-D756CVB//C//Sports//Football//";
 	public final static String FOOTBALL_DIRECTORY = "C:/Sports/Football/";
 	public final static String EVENT_DIRECTORY = "Event/";
 	public final static String MATCHES_DIRECTORY = "Matches/";
