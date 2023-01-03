@@ -35,6 +35,9 @@ public class Player implements Comparable<Player>
   
   @Column(name = "TEAMID")
   private Integer teamId;
+  
+  @Column(name = "PHOTO")
+  private String photo;
  
   @Transient
   private Integer playerPosition;
@@ -144,16 +147,26 @@ public void setPlayer_type(String player_type) {
 	this.player_type = player_type;
 }
 
+public String getPhoto() {
+	return photo;
+}
+
+public void setPhoto(String photo) {
+	this.photo = photo;
+}
+
+@Override
+public String toString() {
+	return "Player [playerId=" + playerId + ", jersey_number=" + jersey_number + ", full_name=" + full_name
+			+ ", firstname=" + firstname + ", surname=" + surname + ", ticker_name=" + ticker_name + ", role=" + role
+			+ ", teamId=" + teamId + ", photo=" + photo + ", playerPosition=" + playerPosition + ", captainGoalKeeper="
+			+ captainGoalKeeper + ", player_type=" + player_type + "]";
+}
+
 @Override
 public int compareTo(Player pm) {
 	return (int) (this.getPlayerPosition()-pm.getPlayerPosition());
 }
 
-@Override
-public String toString() {
-	return "Player [playerId=" + playerId + ", full_name=" + full_name + ", firstname=" + firstname + ", surname="
-			+ surname + ", ticker_name=" + ticker_name + ", role=" + role + ", teamId=" + teamId + ", playerPosition="
-			+ playerPosition + ", captainGoalKeeper=" + captainGoalKeeper + ", player_type=" + player_type + "]";
-}
 
 }
