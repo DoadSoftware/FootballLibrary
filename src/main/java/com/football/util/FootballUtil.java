@@ -4,9 +4,9 @@ public class FootballUtil {
 
 	public final static String DOAD = "DOAD";
 	
-//	public final static String FOOTBALL_DIRECTORY = "C:/Sports/Football/";
-	public final static String FOOTBALL_DIRECTORY = "//DOAD-SERVER2//C//Sports//Football//";
-	public final static String FOOTBALL_CONFIG_DIRECTORY = "C:/Sports/Football/";
+	public final static String FOOTBALL_DIRECTORY = "C:/Sports/Football/";
+//	public final static String FOOTBALL_DIRECTORY = "//DOAD-SERVER2//C//Sports//Football//";
+//	public final static String FOOTBALL_CONFIG_DIRECTORY = "C:/Sports/Football/";
 	public final static String EVENT_DIRECTORY = "Event/";
 	public final static String MATCHES_DIRECTORY = "Matches/";
 	public final static String SCENES_DIRECTORY = "Scenes/";
@@ -18,6 +18,10 @@ public class FootballUtil {
 	public final static String I_LEAGUE = "I_LEAGUE";
 	public final static String I_LEAGUE_SCORE_BUG_SCENE_PATH = 
 			"D:/DOAD_In_House_Everest/Everest_Sports/Everest_I-League_2022/Scenes/ScoreBug.sum";
+	
+	public final static String SANTOSH_TROPHY = "SANTOSH_TROPHY";
+	public final static String SANTOSH_TROPHY_SCORE_BUG_SCENE_PATH = 
+			"D:/DOAD_In_House_Everest/Everest_Sports/Everest_SantoshTrophy_2023/Scenes/ScoreBug.sum";
 	
 	public final static String API_PATH1 = 
 			"https://service.instatfootball.com/feed.php?id=1153675&key=G3Yr3PPd&tpl=207&match_id=";

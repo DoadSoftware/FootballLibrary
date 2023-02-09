@@ -106,6 +106,12 @@ public class FootballFunctions {
 		}else if(half.equalsIgnoreCase("second") && number > 5400) {
 			time = ((number - 5400)/60) + 1;
 			time_value = "90'(+" + time + "')";
+		}if(half.equalsIgnoreCase("extra1") && number > 6300) {
+			time = ((number - 6300)/60) + 1;
+			time_value = "105'(+" + time + "')";
+		}else if(half.equalsIgnoreCase("extra2") && number > 7200) {
+			time = ((number - 7200)/60) + 1;
+			time_value = "120'(+" + time + "')";
 		}else {
 			time_value = String.valueOf((number/60)+1) + "'" ;
 		}
