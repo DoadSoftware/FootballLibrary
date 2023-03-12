@@ -23,6 +23,9 @@ public class FootballUtil {
 	public final static String SANTOSH_TROPHY_SCORE_BUG_SCENE_PATH = 
 			"D:/DOAD_In_House_Everest/Everest_Sports/Everest_SantoshTrophy_2023/Scenes/ScoreBug.sum";
 	
+	public final static String VIZ_SANTOSH_TROPHY = "VIZ_SANTOSH_TROPHY";
+	public final static String VIZ_SANTOSH_TROPHY_SCORE_BUG_SCENE_PATH = "/Default/ScoreBug";
+	
 	public final static String API_PATH1 = 
 			"https://service.instatfootball.com/feed.php?id=1153675&key=G3Yr3PPd&tpl=207&match_id=";
 	
@@ -34,6 +37,9 @@ public class FootballUtil {
 	public final static String PNG_EXTENSION = ".png";
 	public final static String DOUBLE_BACKSLASH = "\\";
 	public final static String MATCH = "MATCH";
+	
+	public final static String FRONT_LAYER = "FRONT_LAYER";
+	public final static String MIDDLE_LAYER = "MIDDLE_LAYER";
 
 	public final static String YES = "YES";
 	public final static String NO = "NO";
