@@ -14,6 +14,11 @@ public class FootballUtil {
 	public final static String OUTPUT_XML = "OUTPUT.XML";
 	public final static String CLOCK_XML = "CLOCK.XML";
 	public final static String API_XML = "API.XML";
+	public final static String XML_EXTENSION = ".xml";
+	
+	public final static String STATISTIC_DIRECTORY = "Statistic/";
+	public final static String MATCH_DATA_DIRECTORY = "Match_Data/";
+	public final static String SPORTVUSTATISTIC = "SportVUStatistic_";
 	
 	public final static String I_LEAGUE = "I_LEAGUE";
 	public final static String I_LEAGUE_SCORE_BUG_SCENE_PATH = 
