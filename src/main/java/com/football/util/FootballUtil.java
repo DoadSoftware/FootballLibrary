@@ -18,7 +18,8 @@ public class FootballUtil {
 	
 	public final static String STATISTIC_DIRECTORY = "Statistic/";
 	public final static String MATCH_DATA_DIRECTORY = "Match_Data/";
-	public final static String SPORTVUSTATISTIC = "SportVUStatistic_";
+	//public final static String SPORTVUSTATISTIC = "SportVUStatistic_";
+	public final static String SPORTVUSTATISTIC = "SportVUStatistic";
 	
 	public final static String I_LEAGUE = "I_LEAGUE";
 	public final static String I_LEAGUE_SCORE_BUG_SCENE_PATH = 

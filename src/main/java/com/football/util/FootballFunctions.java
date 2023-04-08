@@ -110,25 +110,23 @@ public class FootballFunctions {
 	
 	public static String calExtraTimeGoal(String half,long number) {
 		
-		String time_value ="";
 		long time=0;
 		
 		if(half.equalsIgnoreCase("first") && number > 2700) {
 			time = ((number - 2700)/60) + 1;
-			time_value = "45'(+" + time + "')";
+			return "45'(+" + time + "')" ;
 		}else if(half.equalsIgnoreCase("second") && number > 5400) {
 			time = ((number - 5400)/60) + 1;
-			time_value = "90'(+" + time + "')";
+			return "90'(+" + time + "')" ;
 		}if(half.equalsIgnoreCase("extra1") && number > 6300) {
 			time = ((number - 6300)/60) + 1;
-			time_value = "105'(+" + time + "')";
+			return "105'(+" + time + "')" ;
 		}else if(half.equalsIgnoreCase("extra2") && number > 7200) {
 			time = ((number - 7200)/60) + 1;
-			time_value = "120'(+" + time + "')";
+			return "120'(+" + time + "')" ;
 		}else {
-			time_value = String.valueOf((number/60)+1) + "'" ;
+			return String.valueOf((number/60)+1) + "'" ;
 		}
-		return time_value;
 	}
 	
 	public static String goal_shortname(String goal_type) {
@@ -148,7 +146,7 @@ public class FootballFunctions {
 		
 		Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(
 				new File(FootballUtil.FOOTBALL_DIRECTORY + FootballUtil.STATISTIC_DIRECTORY + FootballUtil.MATCH_DATA_DIRECTORY + 
-						FootballUtil.SPORTVUSTATISTIC  + match.getMatchFileName().replace(".xml", "").split(" ")[1] + FootballUtil.XML_EXTENSION));
+						FootballUtil.SPORTVUSTATISTIC + FootballUtil.XML_EXTENSION));
 	        doc.getDocumentElement().normalize();
 	        
 	        NodeList childNodes = doc.getDocumentElement().getChildNodes();
@@ -213,7 +211,7 @@ public class FootballFunctions {
 		                                    				
 //		                                    				System.out.println("PlayerJerseyNumber = " + childNodes.item(i).getChildNodes().item(j).getChildNodes()
 //		                                        				.item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
-		                                    				
+//		                                    				
 		                                    				teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1).getTopStats().size()-1)
 		                                    					.getPlayersStats().add(new PlayerStats(Integer.valueOf(childNodes.item(i).getChildNodes().item(j).getChildNodes()
 				                                        				.item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue())));
