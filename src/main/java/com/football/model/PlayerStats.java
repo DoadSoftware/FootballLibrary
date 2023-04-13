@@ -3,14 +3,15 @@ package com.football.model;
 public class PlayerStats {
 	
 	int JerseyNumber;
+	String first_name;
+	String last_name;
+	String team_name;
 	String Value;
 	
-	
-	public PlayerStats(int jerseyNumber) {
+	public PlayerStats(String team_name) {
 		super();
-		JerseyNumber = jerseyNumber;
+		this.team_name = team_name;
 	}
-	
 	public int getJerseyNumber() {
 		return JerseyNumber;
 	}
@@ -22,6 +23,30 @@ public class PlayerStats {
 	}
 	public void setValue(String value) {
 		Value = value;
+	}
+
+	public String getFirst_name() {
+		return first_name;
+	}
+
+	public void setFirst_name(String first_name) {
+		this.first_name = first_name;
+	}
+
+	public String getLast_name() {
+		return last_name;
+	}
+
+	public void setLast_name(String last_name) {
+		this.last_name = last_name;
+	}
+
+	public String getTeam_name() {
+		return team_name;
+	}
+
+	public void setTeam_name(String team_name) {
+		this.team_name = team_name;
 	}
 	
 }
