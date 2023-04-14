@@ -20,6 +20,7 @@ public class FootballUtil {
 	public final static String MATCH_DATA_DIRECTORY = "Match_Data/";
 	//public final static String SPORTVUSTATISTIC = "SportVUStatistic_";
 	public final static String SPORTVUSTATISTIC = "SportVUStatistic";
+	public final static String FTP_SERVER_LINK = "soccer-ftp.stats.com";
 	
 	public final static String I_LEAGUE = "I_LEAGUE";
 	public final static String I_LEAGUE_SCORE_BUG_SCENE_PATH = 

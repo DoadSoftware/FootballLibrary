@@ -83,6 +83,9 @@ public class Match {
   private int awayTeamScore;
 
   @XmlTransient
+  private String api_photo;
+  
+  @XmlTransient
   private Ground ground;
   
   @XmlTransient
@@ -416,6 +419,14 @@ public void setApiData(List<APITeam> apiData) {
 	ApiData = apiData;
 }
 
+public String getApi_photo() {
+	return api_photo;
+}
+
+public void setApi_photo(String api_photo) {
+	this.api_photo = api_photo;
+}
+
 @Override
 public String toString() {
 	return "Match [homeSubstitutesPerTeam=" + homeSubstitutesPerTeam + ", awaySubstitutesPerTeam="
@@ -423,13 +434,17 @@ public String toString() {
 			+ ", matchStatus=" + matchStatus + ", matchFileName=" + matchFileName + ", tournament=" + tournament
 			+ ", matchIdent=" + matchIdent + ", matchId=" + matchId + ", homeTeamFormationId=" + homeTeamFormationId
 			+ ", awayTeamFormationId=" + awayTeamFormationId + ", homeTeamId=" + homeTeamId + ", awayTeamId="
-			+ awayTeamId + ", homeTeamJerseyColor=" + homeTeamJerseyColor + ", awayTeamJerseyColor="
-			+ awayTeamJerseyColor + ", groundId=" + groundId + ", venueName=" + venueName + ", homeTeamScore="
-			+ homeTeamScore + ", awayTeamScore=" + awayTeamScore + ", ground=" + ground + ", homeTeam=" + homeTeam
-			+ ", awayTeam=" + awayTeam + ", ApiData=" + ApiData + ", homeSquad=" + homeSquad + ", homeSubstitutes="
-			+ homeSubstitutes + ", awaySquad=" + awaySquad + ", awaySubstitutes=" + awaySubstitutes
-			+ ", homeOtherSquad=" + homeOtherSquad + ", awayOtherSquad=" + awayOtherSquad + ", matchStats=" + matchStats
-			+ ", clock=" + clock + ", events=" + events + "]";
+			+ awayTeamId + ", homePenaltiesHits=" + homePenaltiesHits + ", awayPenaltiesHits=" + awayPenaltiesHits
+			+ ", homePenaltiesMisses=" + homePenaltiesMisses + ", awayPenaltiesMisses=" + awayPenaltiesMisses
+			+ ", homeTeamJerseyColor=" + homeTeamJerseyColor + ", awayTeamJerseyColor=" + awayTeamJerseyColor
+			+ ", groundId=" + groundId + ", venueName=" + venueName + ", homeTeamScore=" + homeTeamScore
+			+ ", awayTeamScore=" + awayTeamScore + ", api_photo=" + api_photo + ", ground=" + ground + ", homeTeam="
+			+ homeTeam + ", awayTeam=" + awayTeam + ", ApiData=" + ApiData + ", homeSquad=" + homeSquad
+			+ ", homeSubstitutes=" + homeSubstitutes + ", awaySquad=" + awaySquad + ", awaySubstitutes="
+			+ awaySubstitutes + ", homeOtherSquad=" + homeOtherSquad + ", awayOtherSquad=" + awayOtherSquad
+			+ ", matchStats=" + matchStats + ", clock=" + clock + ", events=" + events + "]";
 }
+
+
 
 }

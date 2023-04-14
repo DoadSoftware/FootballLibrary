@@ -1,7 +1,10 @@
 package com.football.util;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -14,6 +17,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPFile;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -30,6 +36,60 @@ import com.football.model.TopStats;
 import com.football.service.FootballService;
 
 public class FootballFunctions {
+	
+public static String FTPImageDownload(int port,int match_number,String user,String pass,String player_map_type) {
+		
+		FTPClient ftpClient = new FTPClient();
+		try {
+			 
+            ftpClient.connect(FootballUtil.FTP_SERVER_LINK, port);
+            ftpClient.login(user, pass);
+            ftpClient.enterLocalPassiveMode();
+            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+ 
+            // APPROACH #1: using retrieveFile(String, OutputStream)
+            //String remoteFile1 = FileExtractionUtil.SPORTVUSTATISTIC + FileExtractionUtil.ZIP;
+            //File downloadFile1 = new File(FileExtractionUtil.FOOTBALL_SPORTS_DIRECTORY + FileExtractionUtil.STATISTIC_DIRECTORY + remoteFile1);
+            String remoteFile1 = player_map_type + ".jpg";
+            File downloadFile1 = new File(FootballUtil.FOOTBALL_DIRECTORY + FootballUtil.STATISTIC_DIRECTORY + 
+            		FootballUtil.MATCH_DATA_DIRECTORY + remoteFile1);
+            
+            ftpClient.changeWorkingDirectory("/remote/path");
+            FTPFile[] remoteFiles = ftpClient.listFiles(player_map_type + ".jpg");
+            if (remoteFiles.length > 0)
+            {
+            	OutputStream outputStream1 = new BufferedOutputStream(new FileOutputStream(downloadFile1));
+            	boolean success = ftpClient.retrieveFile(remoteFile1, outputStream1);
+            	
+            	outputStream1.close();
+            	 
+                if (success) {
+                    System.out.println("File has been downloaded successfully.");
+                    return "SUCCESS";
+                }
+            }
+            else
+            {
+//            	outputStream1.close();
+                System.out.println("File does not exists");
+                return "UNSUCCESS";
+            }
+ 
+        } catch (IOException ex) {
+            System.out.println("Error: " + ex.getMessage());
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (ftpClient.isConnected()) {
+                    ftpClient.logout();
+                    ftpClient.disconnect();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+		return "";
+	}
 	
 	public static class PlayerStatsComparator implements Comparator<PlayerStats> {
 	    @Override
