@@ -18,6 +18,7 @@ import com.football.model.Staff;
 import com.football.model.Statistics;
 import com.football.model.Team;
 import com.football.model.TeamColor;
+import com.football.model.VariousText;
 import com.football.model.Officials;
 import com.football.service.FootballService;
 
@@ -61,6 +62,11 @@ public List<Ground> getGrounds() {
 @Override
 public List<Playoff> getPlayoffs() {
 	return footballDao.getPlayoffs();
+}
+
+@Override
+public List<VariousText> getVariousTexts() {
+	return footballDao.getVariousTexts();
 }
 
 @Override

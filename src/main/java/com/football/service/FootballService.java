@@ -14,6 +14,7 @@ import com.football.model.Staff;
 import com.football.model.Statistics;
 import com.football.model.Team;
 import com.football.model.TeamColor;
+import com.football.model.VariousText;
 
 public interface FootballService {
   Player getPlayer(String whatToProcess, String valueToProcess);
@@ -24,6 +25,7 @@ public interface FootballService {
   List<NameSuper> getNameSupers();
   List<Ground> getGrounds();
   List<Playoff> getPlayoffs();
+  List<VariousText> getVariousTexts();
   List<Statistics> getAllStats();
   List<Player> getAllPlayer();
   List<Bugs> getBugs();

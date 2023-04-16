@@ -14,6 +14,7 @@ import com.football.model.Staff;
 import com.football.model.Statistics;
 import com.football.model.Team;
 import com.football.model.TeamColor;
+import com.football.model.VariousText;
 
 public interface FootballDao {
   Player getPlayer(String whatToProcess, String valueToProcess);
@@ -23,6 +24,7 @@ public interface FootballDao {
   List<Team> getTeams();
   List<Ground> getGrounds();
   List<Playoff> getPlayoffs();
+  List<VariousText> getVariousTexts();
   List<NameSuper> getNameSupers();
   List<Statistics> getAllStats();
   List<Player> getAllPlayer();

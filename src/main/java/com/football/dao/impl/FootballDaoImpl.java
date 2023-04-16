@@ -20,6 +20,7 @@ import com.football.model.Staff;
 import com.football.model.Statistics;
 import com.football.model.Team;
 import com.football.model.TeamColor;
+import com.football.model.VariousText;
 import com.football.util.FootballUtil;
 
 @Transactional
@@ -83,6 +84,11 @@ public List<Ground> getGrounds() {
 @Override
 public List<Playoff> getPlayoffs() {
 	return sessionFactory.getCurrentSession().createQuery("from Playoff").list();  
+}
+
+@Override
+public List<VariousText> getVariousTexts() {
+	return sessionFactory.getCurrentSession().createQuery("from VariousText").list();  
 }
 
 @Override
