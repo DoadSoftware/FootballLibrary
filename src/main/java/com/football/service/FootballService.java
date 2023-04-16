@@ -9,6 +9,7 @@ import com.football.model.Fixture;
 import com.football.model.Formation;
 import com.football.model.Ground;
 import com.football.model.Player;
+import com.football.model.Playoff;
 import com.football.model.Staff;
 import com.football.model.Statistics;
 import com.football.model.Team;
@@ -22,6 +23,7 @@ public interface FootballService {
   List<Team> getTeams();
   List<NameSuper> getNameSupers();
   List<Ground> getGrounds();
+  List<Playoff> getPlayoffs();
   List<Statistics> getAllStats();
   List<Player> getAllPlayer();
   List<Bugs> getBugs();

@@ -15,6 +15,7 @@ import com.football.model.Fixture;
 import com.football.model.Formation;
 import com.football.model.Ground;
 import com.football.model.Player;
+import com.football.model.Playoff;
 import com.football.model.Staff;
 import com.football.model.Statistics;
 import com.football.model.Team;
@@ -77,6 +78,11 @@ public List<Bugs> getBugs() {
 @Override
 public List<Ground> getGrounds() {
 	return sessionFactory.getCurrentSession().createQuery("from Ground").list();  
+}
+
+@Override
+public List<Playoff> getPlayoffs() {
+	return sessionFactory.getCurrentSession().createQuery("from Playoff").list();  
 }
 
 @Override

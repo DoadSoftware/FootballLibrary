@@ -9,6 +9,7 @@ import com.football.model.Fixture;
 import com.football.model.Formation;
 import com.football.model.Ground;
 import com.football.model.Player;
+import com.football.model.Playoff;
 import com.football.model.Staff;
 import com.football.model.Statistics;
 import com.football.model.Team;
@@ -21,6 +22,7 @@ public interface FootballDao {
   List<Player> getPlayers(String whatToProcess, String valueToProcess);
   List<Team> getTeams();
   List<Ground> getGrounds();
+  List<Playoff> getPlayoffs();
   List<NameSuper> getNameSupers();
   List<Statistics> getAllStats();
   List<Player> getAllPlayer();
