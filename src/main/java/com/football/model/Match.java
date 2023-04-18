@@ -69,6 +69,12 @@ public class Match {
 
   @XmlElement(name = "awayTeamJerseyColor")
   private String awayTeamJerseyColor;
+  
+  @XmlElement(name = "homeTeamGKJerseyColor")
+  private String homeTeamGKJerseyColor;
+
+  @XmlElement(name = "awayTeamGKJerseyColor")
+  private String awayTeamGKJerseyColor;
 
   @XmlElement(name = "groundId")
   private int groundId;
@@ -427,6 +433,22 @@ public void setApi_photo(String api_photo) {
 	this.api_photo = api_photo;
 }
 
+public String getHomeTeamGKJerseyColor() {
+	return homeTeamGKJerseyColor;
+}
+
+public void setHomeTeamGKJerseyColor(String homeTeamGKJerseyColor) {
+	this.homeTeamGKJerseyColor = homeTeamGKJerseyColor;
+}
+
+public String getAwayTeamGKJerseyColor() {
+	return awayTeamGKJerseyColor;
+}
+
+public void setAwayTeamGKJerseyColor(String awayTeamGKJerseyColor) {
+	this.awayTeamGKJerseyColor = awayTeamGKJerseyColor;
+}
+
 @Override
 public String toString() {
 	return "Match [homeSubstitutesPerTeam=" + homeSubstitutesPerTeam + ", awaySubstitutesPerTeam="
@@ -437,6 +459,7 @@ public String toString() {
 			+ awayTeamId + ", homePenaltiesHits=" + homePenaltiesHits + ", awayPenaltiesHits=" + awayPenaltiesHits
 			+ ", homePenaltiesMisses=" + homePenaltiesMisses + ", awayPenaltiesMisses=" + awayPenaltiesMisses
 			+ ", homeTeamJerseyColor=" + homeTeamJerseyColor + ", awayTeamJerseyColor=" + awayTeamJerseyColor
+			+ ", homeTeamGKJerseyColor=" + homeTeamGKJerseyColor + ", awayTeamGKJerseyColor=" + awayTeamGKJerseyColor
 			+ ", groundId=" + groundId + ", venueName=" + venueName + ", homeTeamScore=" + homeTeamScore
 			+ ", awayTeamScore=" + awayTeamScore + ", api_photo=" + api_photo + ", ground=" + ground + ", homeTeam="
 			+ homeTeam + ", awayTeam=" + awayTeam + ", ApiData=" + ApiData + ", homeSquad=" + homeSquad
@@ -444,7 +467,5 @@ public String toString() {
 			+ awaySubstitutes + ", homeOtherSquad=" + homeOtherSquad + ", awayOtherSquad=" + awayOtherSquad
 			+ ", matchStats=" + matchStats + ", clock=" + clock + ", events=" + events + "]";
 }
-
-
 
 }
