@@ -39,6 +39,9 @@ public class FootballUtil {
 	public final static String SUPER_CUP = "SUPER_CUP";
 	public final static String SUPER_CUP_SCORE_BUG_SCENE_PATH = "/Default/ScoreBug";
 	
+	public final static String CONTINENTAL = "CONTINENTAL";
+	public final static String CONTINENTAL_SCORE_BUG_SCENE_PATH = "/Default/ScoreBug";
+	
 	public final static String API_PATH1 = 
 			"https://service.instatfootball.com/feed.php?id=1153675&key=G3Yr3PPd&tpl=207&match_id=";
 	
