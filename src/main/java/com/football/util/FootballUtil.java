@@ -26,6 +26,10 @@ public class FootballUtil {
 	public final static String I_LEAGUE_SCORE_BUG_SCENE_PATH = 
 			"D:/DOAD_In_House_Everest/Everest_Sports/Everest_I-League_2022/Scenes/ScoreBug.sum";
 	
+	public final static String KHELO_INDIA = "KHELO_INDIA";
+	public final static String KHELO_INDIA_SCORE_BUG_SCENE_PATH = 
+			"D:/DOAD_In_House_Everest/Everest_Sports/Everest_Khelo_India_2023/Scenes/Footaball_Scorebug.sum";
+	
 	public final static String SANTOSH_TROPHY = "SANTOSH_TROPHY";
 	public final static String SANTOSH_TROPHY_SCORE_BUG_SCENE_PATH = 
 			"D:/DOAD_In_House_Everest/Everest_Sports/Everest_SantoshTrophy_2023/Scenes/ScoreBug.sum";
