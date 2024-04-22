@@ -25,13 +25,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import com.fasterxml.jackson.core.exc.StreamReadException;
-import com.fasterxml.jackson.databind.DatabindException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.football.EuroLeague.LiveMatch;
-import com.football.EuroLeague.Players;
-import com.football.EuroLeague.Stat;
-import com.football.containers.FootballData;
+import com.football.model.Configurations;
 import com.football.model.Fixture;
 import com.football.model.Match;
 import com.football.model.MatchStats;
@@ -44,7 +38,7 @@ import com.football.service.FootballService;
 
 public class FootballFunctions {
 	
-public static String FTPImageDownload(int port,int match_number,String user,String pass,String player_map_type) {
+public static String FTPImageDownload(int port,int match_number,String user,String pass,String player_map_type,Configurations config) {
 		
 		FTPClient ftpClient = new FTPClient();
 		try {
@@ -60,6 +54,8 @@ public static String FTPImageDownload(int port,int match_number,String user,Stri
             String remoteFile1 = player_map_type + ".jpg";
             File downloadFile1 = new File(FootballUtil.FOOTBALL_DIRECTORY + FootballUtil.STATISTIC_DIRECTORY + 
             		FootballUtil.MATCH_DATA_DIRECTORY + remoteFile1);
+//            File downloadFile1 = new File("\\\\"+config.getIpAddress() + "\\c\\Sports\\Football\\" + FootballUtil.STATISTIC_DIRECTORY + 
+//            		FootballUtil.MATCH_DATA_DIRECTORY + remoteFile1);
             
             ftpClient.changeWorkingDirectory("/remote/path");
             FTPFile[] remoteFiles = ftpClient.listFiles(player_map_type + ".jpg");
@@ -444,33 +440,5 @@ public static String FTPImageDownload(int port,int match_number,String user,Stri
 			}
 		}
 		return players;
-	}
-public static void FoulWon(FootballData data) throws StreamReadException, DatabindException, IOException{
-		
-		LiveMatch LiveData = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\LiveData.json"), LiveMatch.class);
-		
-		data.getTotalFoul().get(0).setId(LiveData.getMatchInfo().getContestant().get(0).getId());
-		data.getTotalFoul().get(0).setCode(LiveData.getMatchInfo().getContestant().get(0).getCode());
-		data.getTotalFoul().get(0).setName(LiveData.getMatchInfo().getContestant().get(0).getName());
-		
-		data.getTotalFoul().get(1).setId(LiveData.getMatchInfo().getContestant().get(1).getId());
-		data.getTotalFoul().get(1).setCode(LiveData.getMatchInfo().getContestant().get(1).getCode());
-		data.getTotalFoul().get(1).setName(LiveData.getMatchInfo().getContestant().get(1).getName());
-		
-			for(Players py : LiveData.getLiveData().getLineUp().get(0).getPlayer()) {
-				for(Stat st: py.getStat()) {
-					if(st.getType().equalsIgnoreCase("fouls")) {
-						data.getTotalFoul().get(0).getPlayers().add(new com.football.containers.Player(Integer.valueOf(st.getValue()), py.getMatchName()));
-					}
-				}
-			}
-			for(Players py : LiveData.getLiveData().getLineUp().get(1).getPlayer()) {
-				for(Stat st: py.getStat()) {
-					if(st.getType().equalsIgnoreCase("fouls")) {
-						data.getTotalFoul().get(1).getPlayers().add(new com.football.containers.Player(Integer.valueOf(st.getValue()), py.getMatchName()));
-
-					}
-				}
-			}
-	}
+	}	
 }
