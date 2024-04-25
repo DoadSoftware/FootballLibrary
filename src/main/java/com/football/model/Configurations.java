@@ -24,17 +24,25 @@ public class Configurations {
 	@XmlElement(name="portNumber")
 	private int portNumber;
 	
+	@XmlElement(name="secondaryipAddress")
+	private String secondaryipAddress;
+	
+	@XmlElement(name="secondaryportNumber")
+	private int secondaryportNumber;
+	
 	@XmlElement(name="vizscene")
 	private String vizscene;
 
 	public Configurations(String filename, String broadcaster, 
-			String sponsor, String ipAddress, int portNumber, String vizscene) {
+			String sponsor, String ipAddress, int portNumber, String secondaryipAddress, int secondaryportNumber, String vizscene) {
 		super();
 		this.filename = filename;
 		this.broadcaster = broadcaster;
 		this.sponsor = sponsor;
 		this.ipAddress = ipAddress;
 		this.portNumber = portNumber;
+		this.secondaryipAddress = secondaryipAddress;
+		this.secondaryportNumber = secondaryportNumber;
 		this.vizscene = vizscene;
 	}
 	
@@ -72,6 +80,22 @@ public class Configurations {
 	public void setPortNumber(int portNumber) {
 		this.portNumber = portNumber;
 	}
+	public String getSecondaryipAddress() {
+		return secondaryipAddress;
+	}
+
+	public void setSecondaryipAddress(String secondaryipAddress) {
+		this.secondaryipAddress = secondaryipAddress;
+	}
+
+	public int getSecondaryportNumber() {
+		return secondaryportNumber;
+	}
+
+	public void setSecondaryportNumber(int secondaryportNumber) {
+		this.secondaryportNumber = secondaryportNumber;
+	}
+
 	public String getFilename() {
 		return filename;
 	}

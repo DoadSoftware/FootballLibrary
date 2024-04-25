@@ -5,8 +5,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
+import java.net.Socket;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -94,6 +97,36 @@ public static String FTPImageDownload(int port,int match_number,String user,Stri
 		return "";
 	}
 	
+	public static void DoadWriteCommandToSelectedViz(int SelectedViz, String SendTextIn, List<PrintWriter> print_writers) 
+	{
+		if(SelectedViz > 0 && SelectedViz <= print_writers.size()) {
+			print_writers.get(SelectedViz-1).println(SendTextIn);
+		}
+	}	
+	public static void DoadWriteCommandToAllViz(String SendTextIn, List<PrintWriter> print_writers) 
+	{
+		for(int i = 0; i < print_writers.size(); i++) {
+			print_writers.get(i).println(SendTextIn);
+		}
+	}
+	
+	@SuppressWarnings("resource")
+	public static List<PrintWriter> processPrintWriter(Configurations config) throws UnknownHostException, IOException
+	{
+		List<PrintWriter> print_writer = new ArrayList<PrintWriter>();
+		
+		if(config.getIpAddress() != null && !config.getIpAddress().isEmpty()) {
+			print_writer.add(new PrintWriter(new Socket(config.getIpAddress(), 
+					config.getPortNumber()).getOutputStream(), true));
+		}
+		
+		if(config.getSecondaryipAddress() != null && !config.getSecondaryipAddress().isEmpty()) {
+			print_writer.add(new PrintWriter(new Socket(config.getSecondaryipAddress(), 
+					config.getSecondaryportNumber()).getOutputStream(), true));
+		}
+	
+		return print_writer;
+	}
 	public static class PlayerStatsComparator implements Comparator<PlayerStats> {
 	    @Override
 	    public int compare(PlayerStats bs1, PlayerStats bs2) {
