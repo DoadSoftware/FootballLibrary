@@ -105,6 +105,54 @@ public class LiveData {
 		this.matchDetailsExtra = matchDetailsExtra;
 	}
 
+	public List<PreMatchPredictions> getPreMatchPredictions() {
+		return preMatchPredictions;
+	}
+
+	public void setPreMatchPredictions(List<PreMatchPredictions> preMatchPredictions) {
+		this.preMatchPredictions = preMatchPredictions;
+	}
+
+	public List<PreMatchPredictions> getOverallLivePredictions() {
+		return overallLivePredictions;
+	}
+
+	public void setOverallLivePredictions(List<PreMatchPredictions> overallLivePredictions) {
+		this.overallLivePredictions = overallLivePredictions;
+	}
+
+	public List<PreMatchPredictions> getLivePredictions() {
+		return livePredictions;
+	}
+
+	public void setLivePredictions(List<PreMatchPredictions> livePredictions) {
+		this.livePredictions = livePredictions;
+	}
+
+	public List<MissedPen> getMissedPen() {
+		return missedPen;
+	}
+
+	public void setMissedPen(List<MissedPen> missedPen) {
+		this.missedPen = missedPen;
+	}
+
+	public List<MissedPen> getVAR() {
+		return VAR;
+	}
+
+	public void setVAR(List<MissedPen> vAR) {
+		VAR = vAR;
+	}
+
+	public List<Predictions> getPredictions() {
+		return predictions;
+	}
+
+	public void setPredictions(List<Predictions> predictions) {
+		this.predictions = predictions;
+	}
+
 	@Override
 	public String toString() {
 		return "LiveData [matchDetails=" + matchDetails + ", event=" + event + ", goal=" + goal + ", card=" + card

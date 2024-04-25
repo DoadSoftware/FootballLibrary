@@ -48,6 +48,14 @@ public class SeasonalStats {
 		this.contestant = contestant;
 	}
 
+	public List<SeasonalPlayerStats> getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(List<SeasonalPlayerStats> player) {
+		this.player = player;
+	}
+
 	@Override
 	public String toString() {
 		return "SeasonalStats [Competition=" + Competition + ", tournamentCalendar=" + tournamentCalendar

@@ -8,6 +8,7 @@ public class FootballUtil {
 //	public final static String FOOTBALL_DIRECTORY = "//DOAD-SERVER2//C//Sports//Football//";
 //	public final static String FOOTBALL_CONFIG_DIRECTORY = "C:/Sports/Football/";
 	public final static String EVENT_DIRECTORY = "Event/";
+	public final static String FOOTBALL_STATISTICS_DIRECTORY = "C:/Sports/Football/Statistic/Match_Data/";
 	public final static String MATCHES_DIRECTORY = "Matches/";
 	public final static String SCENES_DIRECTORY = "Scenes/";
 	public final static String CONFIGURATIONS_DIRECTORY = "Configurations/";
@@ -15,13 +16,19 @@ public class FootballUtil {
 	public final static String CLOCK_XML = "CLOCK.XML";
 	public final static String API_XML = "API.XML";
 	public final static String XML_EXTENSION = ".xml";
-	
+	public final static String FOOTBALL_API_PATH = "https://api.performfeeds.com/soccerdata/";
+	public final static String FOOTBALL_API_JSON = "_fmt=json";
+	public final static String FOOTBALL_API_MODE = "_rt=b";
+	public final static String FOOTBALL_API_DIRECTORY = "C:/Sports/Football/Statistic/Match_Data/";
+	public final static String FOOTBALL_TOKEN = "/1vmmaetzoxkgg1qf6pkpfmku0k";
+	public final static String FOOTBALL_FIXTURE_ID = "/71pif9hi2vwzp6q0xzilyxst0";
+	public final static String FOOTBALL_TOURNAMENT_CALENDER_ID = "/1vmmaetzoxkgg1qf6pkpfmku0k";
 	public final static String STATISTIC_DIRECTORY = "Statistic/";
 	public final static String MATCH_DATA_DIRECTORY = "Match_Data/";
 	//public final static String SPORTVUSTATISTIC = "SportVUStatistic_";
 	public final static String SPORTVUSTATISTIC = "SportVUStatistic";
 	public final static String FTP_SERVER_LINK = "soccer-ftp.stats.com";
-	
+	public final static String LIVE_DATA = "C:\\Sports\\Football\\Statistic\\Match_Data\\LiveData.json";
 	public final static String I_LEAGUE = "I_LEAGUE";
 	public final static String I_LEAGUE_SCORE_BUG_SCENE_PATH = 
 			"D:/DOAD_In_House_Everest/Everest_Sports/Everest_I-League_2022/Scenes/ScoreBug.sum";

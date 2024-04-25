@@ -25,6 +25,8 @@ public class PassMatrix {
 	
 	@JsonProperty("possessionValue")
 	private List<possessionValue> possessionValue;
+	@JsonProperty("insight")
+	private List<Insight> insight;
 	
 	public PassMatrix() {
 		super();
@@ -57,6 +59,30 @@ public class PassMatrix {
 	@Override
 	public String toString() {
 		return "PassMatrix [matchInfo=" + matchInfo + ", liveData=" + liveData + "]";
+	}
+
+	public MatchInfo getPlayerRatings() {
+		return playerRatings;
+	}
+
+	public void setPlayerRatings(MatchInfo playerRatings) {
+		this.playerRatings = playerRatings;
+	}
+
+	public List<LineUp> getLineUp() {
+		return lineUp;
+	}
+
+	public void setLineUp(List<LineUp> lineUp) {
+		this.lineUp = lineUp;
+	}
+
+	public List<Insight> getInsight() {
+		return insight;
+	}
+
+	public void setInsight(List<Insight> insight) {
+		this.insight = insight;
 	}
 	
 }
