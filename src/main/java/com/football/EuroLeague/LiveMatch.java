@@ -11,6 +11,9 @@ public class LiveMatch {
 	
 	@JsonProperty("liveData")
 	private LiveData liveData;
+	
+	@JsonProperty("trackingFiles")
+	private TrackingFiles trackingFiles;
 
 	public LiveMatch() {
 		super();

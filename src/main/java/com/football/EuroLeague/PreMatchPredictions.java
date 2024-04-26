@@ -10,16 +10,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 
 public class PreMatchPredictions {
-	
+
 	@JsonProperty("type")
 	private String type;
-	  
+	
 	@JsonProperty("timeMin")
 	private int timeMin;
 	
 	@JsonProperty("timeSec")
 	private int timeSec;
-
+	
 	@JsonProperty("periodId")
 	private int periodId;
 	
@@ -38,6 +38,14 @@ public class PreMatchPredictions {
 		this.type = type;
 	}
 
+	public int getPeriodId() {
+		return periodId;
+	}
+
+	public void setPeriodId(int periodId) {
+		this.periodId = periodId;
+	}
+
 	public int getTimeMin() {
 		return timeMin;
 	}
@@ -54,14 +62,6 @@ public class PreMatchPredictions {
 		this.timeSec = timeSec;
 	}
 
-	public int getPeriodId() {
-		return periodId;
-	}
-
-	public void setPeriodId(int periodId) {
-		this.periodId = periodId;
-	}
-
 	public List<Prediction> getPrediction() {
 		return prediction;
 	}
@@ -72,8 +72,8 @@ public class PreMatchPredictions {
 
 	@Override
 	public String toString() {
-		return "LivePredictions [type=" + type + ", timeMin=" + timeMin + ", timeSec=" + timeSec + ", periodId="
-				+ periodId + ", prediction=" + prediction + "]";
+		return "PreMatchPredictions [type=" + type + ", periodId=" + periodId + ", timeMin=" + timeMin + ", timeSec="
+				+ timeSec + ", prediction=" + prediction + "]";
 	}
 
 }
