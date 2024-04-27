@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.football.model.NameSuper;
 import com.football.model.Bugs;
+import com.football.model.ExtraData;
 import com.football.dao.FootballDao;
 import com.football.model.Fixture;
 import com.football.model.Formation;
@@ -112,6 +113,11 @@ public List<Staff> getStaffs() {
 @Override
 public List<Officials> getOfficials() {
 	return footballDao.getOfficials();
+}
+
+@Override
+public List<ExtraData> getExtraData() {
+	return footballDao.getExtraData();
 }
 
 }

@@ -44,7 +44,7 @@ public class Team implements Comparable<Team> {
   private String coachPhotoName;
   
   @Column(name = "TeamApiId")
-  private int teamApiId;
+  private String teamApiId;
 
 public int getTeamId() {
 	return teamId;
@@ -110,11 +110,11 @@ public void setTeamCoach(String teamCoach) {
 	this.teamCoach = teamCoach;
 }
 
-public int getTeamApiId() {
+public String getTeamApiId() {
 	return teamApiId;
 }
 
-public void setTeamApiId(int teamApiId) {
+public void setTeamApiId(String teamApiId) {
 	this.teamApiId = teamApiId;
 }
 

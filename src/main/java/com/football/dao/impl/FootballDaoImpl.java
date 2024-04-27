@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.football.model.NameSuper;
 import com.football.model.Bugs;
+import com.football.model.ExtraData;
 import com.football.dao.FootballDao;
 import com.football.model.Officials;
 import com.football.model.Fixture;
@@ -129,6 +130,11 @@ public List<Staff> getStaff() {
 @Override
 public List<Officials> getOfficials() {
 	return sessionFactory.getCurrentSession().createQuery("from Officials").list();
+}
+
+@Override
+public List<ExtraData> getExtraData() {
+	return sessionFactory.getCurrentSession().createQuery("from ExtraData").list();
 }
 
 }

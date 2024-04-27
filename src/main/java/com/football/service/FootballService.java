@@ -5,6 +5,7 @@ import java.util.List;
 import com.football.model.NameSuper;
 import com.football.model.Officials;
 import com.football.model.Bugs;
+import com.football.model.ExtraData;
 import com.football.model.Fixture;
 import com.football.model.Formation;
 import com.football.model.Ground;
@@ -34,4 +35,5 @@ public interface FootballService {
   List<TeamColor> getTeamColors();
   List<Staff> getStaffs();
   List<Officials> getOfficials();
+  List<ExtraData> getExtraData();
 }
