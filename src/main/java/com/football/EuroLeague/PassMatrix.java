@@ -17,7 +17,7 @@ public class PassMatrix {
 	private LiveData liveData;
 	
 	@JsonProperty("playerRatings")
-	private MatchInfo playerRatings;
+	private PlayerRating playerRatings;
 
 
 	@JsonProperty("lineUp")
@@ -61,11 +61,11 @@ public class PassMatrix {
 		return "PassMatrix [matchInfo=" + matchInfo + ", liveData=" + liveData + "]";
 	}
 
-	public MatchInfo getPlayerRatings() {
+	public PlayerRating getPlayerRatings() {
 		return playerRatings;
 	}
 
-	public void setPlayerRatings(MatchInfo playerRatings) {
+	public void setPlayerRatings(PlayerRating playerRatings) {
 		this.playerRatings = playerRatings;
 	}
 

@@ -54,9 +54,26 @@ public class Stat {
 		this.value = value;
 	}
 
+	public Stat getIndexScore() {
+		return indexScore;
+	}
+
+	public void setIndexScore(Stat indexScore) {
+		this.indexScore = indexScore;
+	}
+
+	public List<Stat> getRawIndexScore() {
+		return rawIndexScore;
+	}
+
+	public void setRawIndexScore(List<Stat> rawIndexScore) {
+		this.rawIndexScore = rawIndexScore;
+	}
+
 	@Override
 	public String toString() {
-		return "Stat [name=" + name + ", type=" + type + ", value=" + value + "]";
+		return "Stat [name=" + name + ", type=" + type + ", value=" + value + ", indexScore=" + indexScore
+				+ ", rawIndexScore=" + rawIndexScore + "]";
 	}
 
 }

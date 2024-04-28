@@ -15,6 +15,9 @@ public class Player implements Comparable<Player>
   @Column(name = "PLAYERID")
   private int playerId;
   
+  @Column(name = "PlayerAPIId")
+  private String PlayerAPIId;
+  
   @Column(name = "JERSEYNUMBER")
   private int jersey_number;
 	
@@ -155,12 +158,20 @@ public void setPhoto(String photo) {
 	this.photo = photo;
 }
 
+public String getPlayerAPIId() {
+	return PlayerAPIId;
+}
+
+public void setPlayerAPIId(String playerAPIId) {
+	PlayerAPIId = playerAPIId;
+}
+
 @Override
 public String toString() {
-	return "Player [playerId=" + playerId + ", jersey_number=" + jersey_number + ", full_name=" + full_name
-			+ ", firstname=" + firstname + ", surname=" + surname + ", ticker_name=" + ticker_name + ", role=" + role
-			+ ", teamId=" + teamId + ", photo=" + photo + ", playerPosition=" + playerPosition + ", captainGoalKeeper="
-			+ captainGoalKeeper + ", player_type=" + player_type + "]";
+	return "Player [playerId=" + playerId + ", PlayerAPIId=" + PlayerAPIId + ", jersey_number=" + jersey_number
+			+ ", full_name=" + full_name + ", firstname=" + firstname + ", surname=" + surname + ", ticker_name="
+			+ ticker_name + ", role=" + role + ", teamId=" + teamId + ", photo=" + photo + ", playerPosition="
+			+ playerPosition + ", captainGoalKeeper=" + captainGoalKeeper + ", player_type=" + player_type + "]";
 }
 
 @Override
