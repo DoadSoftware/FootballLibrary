@@ -33,17 +33,14 @@ public class Configurations {
 	@XmlElement(name="vizscene")
 	private String vizscene;
 
-	public Configurations(String filename, String broadcaster, 
-			String sponsor, String ipAddress, int portNumber, String secondaryipAddress, int secondaryportNumber, String vizscene) {
+	public Configurations(String broadcaster, String ipAddress, int portNumber, String secondaryipAddress, 
+			int secondaryportNumber) {
 		super();
-		this.filename = filename;
 		this.broadcaster = broadcaster;
-		this.sponsor = sponsor;
 		this.ipAddress = ipAddress;
 		this.portNumber = portNumber;
 		this.secondaryipAddress = secondaryipAddress;
 		this.secondaryportNumber = secondaryportNumber;
-		this.vizscene = vizscene;
 	}
 	
 	public Configurations() {
