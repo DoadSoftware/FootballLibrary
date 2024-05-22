@@ -44,9 +44,12 @@ public class FootballUtil {
 	public final static String VIZ_TRI_NATION_SCORE_BUG_SCENE_PATH = "/Default/ScoreBug";
 	public final static String VIZ_EURO_LEAGUE_LBAND_SCENE_PATH = "/Default/Lband";
 	
+	public final static String KHELO_INDIA = "KHELO_INDIA";
+	
 	public final static String SUPER_CUP = "SUPER_CUP";
 	public final static String EURO_LEAGUE = "EURO_LEAGUE";
 	public final static String SUPER_CUP_SCORE_BUG_SCENE_PATH = "/Default/ScoreBug";
+	public final static String SUPER_CUP_FF_SCENE_PATH = "/Default/FullFrames";
 	
 	public final static String API_PATH1 = 
 			"https://service.instatfootball.com/feed.php?id=1153675&key=G3Yr3PPd&tpl=207&match_id=";
@@ -62,6 +65,7 @@ public class FootballUtil {
 	
 	public final static String FRONT_LAYER = "FRONT_LAYER";
 	public final static String MIDDLE_LAYER = "MIDDLE_LAYER";
+	public final static String BACK_LAYER = "BACK_LAYER";
 
 	public final static String YES = "YES";
 	public final static String NO = "NO";

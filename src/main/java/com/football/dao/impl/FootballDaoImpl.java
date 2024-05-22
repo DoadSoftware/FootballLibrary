@@ -15,12 +15,16 @@ import com.football.model.Officials;
 import com.football.model.Fixture;
 import com.football.model.Formation;
 import com.football.model.Ground;
+import com.football.model.HeadToHead;
+import com.football.model.LeaderBoard;
 import com.football.model.Player;
+import com.football.model.PlayerStat;
 import com.football.model.Playoff;
 import com.football.model.Staff;
 import com.football.model.Statistics;
 import com.football.model.Team;
 import com.football.model.TeamColor;
+import com.football.model.TeamStat;
 import com.football.model.VariousText;
 import com.football.util.FootballUtil;
 
@@ -135,6 +139,26 @@ public List<Officials> getOfficials() {
 @Override
 public List<ExtraData> getExtraData() {
 	return sessionFactory.getCurrentSession().createQuery("from ExtraData").list();
+}
+
+@Override
+public List<LeaderBoard> getLeaderBoard() {
+	return sessionFactory.getCurrentSession().createQuery("from LeaderBoard").list();
+}
+
+@Override
+public List<TeamStat> getTeamStats() {
+	return sessionFactory.getCurrentSession().createQuery("from TeamStat").list();
+}
+
+@Override
+public List<HeadToHead> getHeadToHeadStats() {
+	return sessionFactory.getCurrentSession().createQuery("from HeadToHead").list();
+}
+
+@Override
+public List<PlayerStat> getPlayerStats() {
+	return sessionFactory.getCurrentSession().createQuery("from PlayerStat").list();
 }
 
 }

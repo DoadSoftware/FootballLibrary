@@ -30,6 +30,7 @@ import org.xml.sax.SAXException;
 
 import com.football.model.Configurations;
 import com.football.model.Fixture;
+import com.football.model.LeaderBoard;
 import com.football.model.Match;
 import com.football.model.MatchStats;
 import com.football.model.Player;
@@ -149,6 +150,18 @@ public static String FTPImageDownload(int port,int match_number,String user,Stri
 		return fixtures;
 	}
 	
+	public static List<LeaderBoard> processAllLeaderBoards(FootballService footballService) {
+		List<LeaderBoard> leaderBoards = footballService.getLeaderBoard();
+		for(LeaderBoard leader : leaderBoards) {
+			leader.setPlayer1(footballService.getPlayer(FootballUtil.PLAYER, String.valueOf(leader.getPlayer1Id())));
+			leader.setPlayer2(footballService.getPlayer(FootballUtil.PLAYER, String.valueOf(leader.getPlayer2Id())));
+			leader.setPlayer3(footballService.getPlayer(FootballUtil.PLAYER, String.valueOf(leader.getPlayer3Id())));
+			leader.setPlayer4(footballService.getPlayer(FootballUtil.PLAYER, String.valueOf(leader.getPlayer4Id())));
+			leader.setPlayer5(footballService.getPlayer(FootballUtil.PLAYER, String.valueOf(leader.getPlayer5Id())));
+		}
+		return leaderBoards;
+	}
+	
 	public static String twoDigitString(long number) {
 	    if (number == 0) {
 	        return "00";
@@ -249,9 +262,8 @@ public static String FTPImageDownload(int port,int match_number,String user,Stri
 		String team = "";
 		ArrayList<TeamStats> teamStats = new ArrayList<TeamStats>();
 		
-		Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(
-				new File(FootballUtil.FOOTBALL_DIRECTORY + FootballUtil.STATISTIC_DIRECTORY + FootballUtil.MATCH_DATA_DIRECTORY + 
-						FootballUtil.SPORTVUSTATISTIC + FootballUtil.XML_EXTENSION));
+		Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File(FootballUtil.FOOTBALL_DIRECTORY + FootballUtil.STATISTIC_DIRECTORY + 
+				FootballUtil.MATCH_DATA_DIRECTORY + FootballUtil.SPORTVUSTATISTIC + FootballUtil.XML_EXTENSION));
 	        doc.getDocumentElement().normalize();
 	        
 	        NodeList childNodes = doc.getDocumentElement().getChildNodes();
