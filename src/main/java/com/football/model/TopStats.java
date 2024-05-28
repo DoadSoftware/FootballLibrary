@@ -29,5 +29,9 @@ public class TopStats {
 		this.playersStats = playersStats;
 	}
 
+	@Override
+	public String toString() {
+		return "TopStats [Header=" + Header + ", playersStats=" + playersStats + "]";
+	}
 }
 

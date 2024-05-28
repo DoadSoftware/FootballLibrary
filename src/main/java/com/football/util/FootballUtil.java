@@ -20,8 +20,8 @@ public class FootballUtil {
 	public final static String FOOTBALL_API_JSON = "_fmt=json";
 	public final static String FOOTBALL_API_MODE = "_rt=b";
 	public final static String FOOTBALL_API_DIRECTORY = "C:/Sports/Football/Statistic/Match_Data/";
-	public final static String FOOTBALL_TOKEN = "/1vmmaetzoxkgg1qf6pkpfmku0k";
-	public final static String FOOTBALL_FIXTURE_ID = "/71pif9hi2vwzp6q0xzilyxst0";
+	public final static String FOOTBALL_TOKEN = "/26kfa29kdpyu170bzsv5cbuw0";
+	public final static String FOOTBALL_FIXTURE_ID = "asw3xqcwzxb9ogkaxnruw9tlg";
 	public final static String FOOTBALL_TOURNAMENT_CALENDER_ID = "/1vmmaetzoxkgg1qf6pkpfmku0k";
 	public final static String STATISTIC_DIRECTORY = "Statistic/";
 	public final static String MATCH_DATA_DIRECTORY = "Match_Data/";

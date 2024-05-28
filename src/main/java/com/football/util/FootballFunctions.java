@@ -68,14 +68,9 @@ public static String FTPImageDownload(int port,int match_number,String user,Stri
             ftpClient.enterLocalPassiveMode();
             ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
  
-            // APPROACH #1: using retrieveFile(String, OutputStream)
-            //String remoteFile1 = FileExtractionUtil.SPORTVUSTATISTIC + FileExtractionUtil.ZIP;
-            //File downloadFile1 = new File(FileExtractionUtil.FOOTBALL_SPORTS_DIRECTORY + FileExtractionUtil.STATISTIC_DIRECTORY + remoteFile1);
             String remoteFile1 = player_map_type + ".jpg";
             File downloadFile1 = new File(FootballUtil.FOOTBALL_DIRECTORY + FootballUtil.STATISTIC_DIRECTORY + 
             		FootballUtil.MATCH_DATA_DIRECTORY + remoteFile1);
-//            File downloadFile1 = new File("\\\\"+config.getIpAddress() + "\\c\\Sports\\Football\\" + FootballUtil.STATISTIC_DIRECTORY + 
-//            		FootballUtil.MATCH_DATA_DIRECTORY + remoteFile1);
             
             ftpClient.changeWorkingDirectory("/remote/path");
             FTPFile[] remoteFiles = ftpClient.listFiles(player_map_type + ".jpg");
@@ -137,9 +132,9 @@ public static String hashString(String input) {
 public static String getAccessToken() throws IOException {
     
 	String token_access = "";
-	String tokenEndpointUrl = "https://oauth.performgroup.com/oauth/token/2mhjhuzhic141q8mckh17kzik?_fmt=json&_rt=b";
-    String OutletKey = "2mhjhuzhic141q8mckh17kzik";//"{{OutletApiKey}}";
-    String SecretKey = "16ee6ms9ebw8z1uao8e8q91bgz";//"{{SecretKey}}";
+	String tokenEndpointUrl = "https://oauth.performgroup.com/oauth/token/26kfa29kdpyu170bzsv5cbuw0?_fmt=json&_rt=b";
+    String OutletKey = "26kfa29kdpyu170bzsv5cbuw0";//"{{OutletApiKey}}";
+    String SecretKey = "1nmlzjsbu0dxz1w4c5yg4m143q";//"{{SecretKey}}";
     
     String currentMillis = Long.toString(System.currentTimeMillis());
     String sigString = OutletKey + currentMillis + SecretKey;
@@ -163,7 +158,7 @@ public static String getAccessToken() throws IOException {
 		String json_data = userResp.getBody().toString();
 		
 		JSONObject jsonObject = new JSONObject(json_data);
-System.out.println(jsonObject.toString());
+		System.out.println(jsonObject.toString());
         // Get the "access_token" value
         String accessToken = jsonObject.getString("access_token");
 
@@ -179,14 +174,14 @@ System.out.println(jsonObject.toString());
 	{
 		HttpResponse<String> userResp;
 		
-		String url = FootballUtil.FOOTBALL_API_PATH + "matchstats" + FootballUtil.FOOTBALL_TOKEN + "/?detailed=yes&" + 
-				 FootballUtil.FOOTBALL_API_MODE + "&" + FootballUtil.FOOTBALL_API_JSON  + "&fx=" + FootballUtil.FOOTBALL_FIXTURE_ID;
+		String url = FootballUtil.FOOTBALL_API_PATH + "matchstats" + FootballUtil.FOOTBALL_TOKEN + "/?" + FootballUtil.FOOTBALL_API_MODE + "&" + 
+				FootballUtil.FOOTBALL_API_JSON + "&detailed=yes&fx=" + FootballUtil.FOOTBALL_FIXTURE_ID;
+		
 		try {
-			userResp = Unirest.get(url)
-					.header("Content-Type", "application/json;charset=utf-8")
-					.header("Authorization", "Bearer " + token)
-					.asString();
+			userResp = Unirest.get(url).header("Content-Type", "application/json;charset=utf-8").header("Authorization", "Bearer " + token).asString();
+			
 			LiveMatch = new ObjectMapper().readValue(userResp.getBody().toString(), LiveMatch.class);
+			
 		} catch (UnirestException e) {
 			System.out.println("Error...");
 		}
@@ -628,8 +623,6 @@ System.out.println(jsonObject.toString());
 //		                                    				System.out.println("Value = " + childNodes.item(i).getChildNodes().item(j).getChildNodes()
 //		                                        					.item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
 		                                        		}
-		                                    			
-		                                    			
 		                                    		}
 		                                    	}
 		                            		}

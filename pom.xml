@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.football</groupId>
   <artifactId>FootballLibrary</artifactId>
-  <version>1.50</version>
+  <version>1.51</version>
   <name>FootballLibrary</name>
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
@@ -118,6 +118,32 @@
     <artifactId>apacheds-all</artifactId>
     <version>1.5.5</version>
     <scope>test</scope>
+</dependency>
+<dependency>
+    <groupId>org.json</groupId>
+    <artifactId>json</artifactId>
+    <version>20230227</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/com.mashape.unirest/unirest-java -->
+<dependency>
+    <groupId>com.mashape.unirest</groupId>
+    <artifactId>unirest-java</artifactId>
+    <version>1.4.9</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/org.webjars/cryptojs -->
+<dependency>
+    <groupId>org.webjars</groupId>
+    <artifactId>cryptojs</artifactId>
+    <version>3.1.2</version>
+</dependency>
+
+<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml -->
+<dependency>
+    <groupId>com.fasterxml.jackson.dataformat</groupId>
+    <artifactId>jackson-dataformat-xml</artifactId>
+    <version>2.14.0</version>
 </dependency>
 
 <dependency>

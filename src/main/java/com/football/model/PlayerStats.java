@@ -48,6 +48,11 @@ public class PlayerStats {
 	public void setTeam_name(String team_name) {
 		this.team_name = team_name;
 	}
+	@Override
+	public String toString() {
+		return "PlayerStats [JerseyNumber=" + JerseyNumber + ", first_name=" + first_name + ", last_name=" + last_name
+				+ ", team_name=" + team_name + ", Value=" + Value + "]";
+	}
 	
 }
 
