@@ -10,6 +10,8 @@ import java.net.HttpURLConnection;
 import java.net.Socket;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -23,11 +25,18 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
+import org.json.JSONObject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.football.EuroLeague.LiveMatch;
+import com.football.EuroLeague.SeasonalStats;
+import com.football.EuroLeague.rankings;
+import com.football.EuroLeague.PassMatrix;
+import com.football.EuroLeague.MatchPreview;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.football.model.Configurations;
 import com.football.model.Fixture;
 import com.football.model.Match;
@@ -38,9 +47,16 @@ import com.football.model.Team;
 import com.football.model.TeamStats;
 import com.football.model.TopStats;
 import com.football.service.FootballService;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 
 public class FootballFunctions {
-	
+	public static LiveMatch LiveMatch;	
+	public static SeasonalStats SeasonalStats;
+	public static rankings rankings;
+	public static PassMatrix PassMatrix;
+	public static MatchPreview matchPreview;
 public static String FTPImageDownload(int port,int match_number,String user,String pass,String player_map_type,Configurations config) {
 		
 		FTPClient ftpClient = new FTPClient();
@@ -96,6 +112,255 @@ public static String FTPImageDownload(int port,int match_number,String user,Stri
         }
 		return "";
 	}
+public static String hashString(String input) {
+    try {
+        // Create a MessageDigest instance for SHA-512
+        MessageDigest digest = MessageDigest.getInstance("SHA-512");
+
+        // Convert the input string to a byte array
+        byte[] hash = digest.digest(input.getBytes());
+
+        // Convert the byte array to a hexadecimal string
+        StringBuilder hexString = new StringBuilder();
+        for (byte b : hash) {
+            // Convert each byte to a 2-digit hexadecimal representation
+            hexString.append(String.format("%02x", b));
+        }
+
+        return hexString.toString(); // Return the SHA-512 hash as a hexadecimal string
+    } catch (NoSuchAlgorithmException e) {
+        throw new RuntimeException("Error creating SHA-512 hash", e);
+    }
+}
+
+public static String getAccessToken() throws IOException {
+    
+	String token_access = "";
+	String tokenEndpointUrl = "https://oauth.performgroup.com/oauth/token/2mhjhuzhic141q8mckh17kzik?_fmt=json&_rt=b";
+    String OutletKey = "2mhjhuzhic141q8mckh17kzik";//"{{OutletApiKey}}";
+    String SecretKey = "16ee6ms9ebw8z1uao8e8q91bgz";//"{{SecretKey}}";
+    
+    String currentMillis = Long.toString(System.currentTimeMillis());
+    String sigString = OutletKey + currentMillis + SecretKey;
+    
+    String hashedOutput = null;
+	try {
+		hashedOutput = hashString(sigString);
+	} catch (Exception e1) {
+		e1.printStackTrace();
+	} 
+    HttpResponse<String> userResp;
+	try {
+		userResp = Unirest.post(tokenEndpointUrl)
+				.header("Content-Type", "application/x-www-form-urlencoded")
+				.header("Authorization", "Basic " + hashedOutput)
+				.header("Timestamp", currentMillis)
+				.field("grant_type", "client_credentials")
+				.field("scope", "b2b-feeds-auth")
+				.asString();
+		
+		String json_data = userResp.getBody().toString();
+		
+		JSONObject jsonObject = new JSONObject(json_data);
+System.out.println(jsonObject.toString());
+        // Get the "access_token" value
+        String accessToken = jsonObject.getString("access_token");
+
+        token_access = accessToken;
+	} catch (UnirestException e) {
+		System.out.println("Error...");
+	}
+	
+    return token_access;
+	}
+
+	public static LiveMatch getFootballLiveDatafromAPI(String token) throws SAXException, IOException, ParserConfigurationException, FactoryConfigurationError
+	{
+		HttpResponse<String> userResp;
+		
+		String url = FootballUtil.FOOTBALL_API_PATH + "matchstats" + FootballUtil.FOOTBALL_TOKEN + "/?detailed=yes&" + 
+				 FootballUtil.FOOTBALL_API_MODE + "&" + FootballUtil.FOOTBALL_API_JSON  + "&fx=" + FootballUtil.FOOTBALL_FIXTURE_ID;
+		try {
+			userResp = Unirest.get(url)
+					.header("Content-Type", "application/json;charset=utf-8")
+					.header("Authorization", "Bearer " + token)
+					.asString();
+			LiveMatch = new ObjectMapper().readValue(userResp.getBody().toString(), LiveMatch.class);
+		} catch (UnirestException e) {
+			System.out.println("Error...");
+		}
+		
+		return LiveMatch;
+	}
+	public static LiveMatch getExpectedGoals(String token)throws IOException  {
+		String url=FootballUtil.FOOTBALL_API_PATH + "matchexpectedgoals" + FootballUtil.FOOTBALL_TOKEN + "?fx=" + FootballUtil.FOOTBALL_FIXTURE_ID + "&" + 
+				   FootballUtil.FOOTBALL_API_JSON +"&" + FootballUtil.FOOTBALL_API_MODE;
+		HttpResponse<String> userResp;
+		try {
+			userResp = Unirest.get(url)
+					.header("Content-Type", "application/json;charset=utf-8")
+					.header("Authorization", "Bearer " + token)
+					.asString();
+			
+			LiveMatch = new ObjectMapper().readValue(userResp.getBody().toString(), LiveMatch.class);
+		} catch (UnirestException e) {
+			System.out.println("Error...");
+		}
+		
+	       return LiveMatch;
+		}
+	public static LiveMatch getFootballMatchEventfromAPI(String token) throws SAXException, IOException, ParserConfigurationException, FactoryConfigurationError
+	{
+		String url=FootballUtil.FOOTBALL_API_PATH + "matchevent" + FootballUtil.FOOTBALL_TOKEN +"/"+ FootballUtil.FOOTBALL_FIXTURE_ID + "?" + 
+				FootballUtil.FOOTBALL_API_JSON + "&" + FootballUtil.FOOTBALL_API_MODE;
+		HttpResponse<String> userResp;
+		try {
+			userResp = Unirest.get(url)
+					.header("Content-Type", "application/json;charset=utf-8")
+					.header("Authorization", "Bearer " + token)
+					.asString();
+			
+			LiveMatch = new ObjectMapper().readValue(userResp.getBody().toString(), LiveMatch.class);
+	        } catch (UnirestException e) {
+			System.out.println("Error...");
+		}
+		
+		return LiveMatch;
+	}
+	public static List<SeasonalStats> getSeasonalStatsfromAPI(String token) throws IOException {
+	    LiveMatch liveData = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\LiveData.json"), LiveMatch.class);
+	    List<SeasonalStats>  SeasonalStats = new ArrayList<SeasonalStats>();
+	    
+	    for (int i = 0; i < 2; i++) {
+	        String teamId = liveData.getMatchInfo().getContestant().get(i).getId();
+
+	       String url = FootballUtil.FOOTBALL_API_PATH + "seasonstats" + FootballUtil.FOOTBALL_TOKEN 
+	            + "?&tmcl=" + FootballUtil.FOOTBALL_TOURNAMENT_CALENDER_ID + "&ctst=" + teamId 
+	            + "&" + FootballUtil.FOOTBALL_API_MODE + "&" + FootballUtil.FOOTBALL_API_JSON;
+
+	        try {
+	            HttpResponse<String> userResp = Unirest.get(url)
+	                .header("Content-Type", "application/json;charset=utf-8")
+	                .header("Authorization", "Bearer " + token)
+	                .asString();
+
+	            SeasonalStats.add(new ObjectMapper().readValue(userResp.getBody().toString(), SeasonalStats.class));
+	        } catch (UnirestException e) {
+	            System.out.println("Error...");
+	        }
+	    }
+
+	    return SeasonalStats;
+	}
+	public static  rankings getTeamRankingfromAPI(String token) throws IOException {
+		String url = FootballUtil.FOOTBALL_API_PATH + "rankings" + FootballUtil.FOOTBALL_TOKEN + "?tmcl=" + FootballUtil.FOOTBALL_TOURNAMENT_CALENDER_ID + "&" + 
+				   FootballUtil.FOOTBALL_API_MODE +"&" + FootballUtil.FOOTBALL_API_JSON;
+		HttpResponse<String> userResp;
+		try {
+			userResp = Unirest.get(url)
+					.header("Content-Type", "application/json;charset=utf-8")
+					.header("Authorization", "Bearer " + token)
+					.asString();
+			System.out.println(userResp.getBody().toString());
+			rankings = new ObjectMapper().readValue(userResp.getBody().toString(), rankings.class);
+	        } catch (UnirestException e) {
+			System.out.println("Error...");
+		}
+		
+       return rankings;
+	}
+	public static PassMatrix getMatchInsightsfromAPI( String token) throws IOException {
+		String url= FootballUtil.FOOTBALL_API_PATH + "matchinsights" + FootballUtil.FOOTBALL_TOKEN + "/" + FootballUtil.FOOTBALL_FIXTURE_ID + "?" + 
+				 "&" + FootballUtil.FOOTBALL_API_MODE + "&" + FootballUtil.FOOTBALL_API_JSON;
+		HttpResponse<String> userResp;
+		try {
+			userResp = Unirest.get(url)
+					.header("Content-Type", "application/json;charset=utf-8")
+					.header("Authorization", "Bearer " + token)
+					.asString();
+			
+			PassMatrix = new ObjectMapper().readValue(userResp.getBody().toString(), PassMatrix.class); 
+		} catch (UnirestException e) {
+			System.out.println("Error...");
+		}
+		
+	       return PassMatrix;
+	}
+	public static PassMatrix getMatchInsights2fromAPI(String token) throws IOException {
+		String url =  FootballUtil.FOOTBALL_API_PATH + "matchplayerratings" + FootballUtil.FOOTBALL_TOKEN + "?fx=" + FootballUtil.FOOTBALL_FIXTURE_ID + "&" + 
+				   FootballUtil.FOOTBALL_API_JSON +"&" + FootballUtil.FOOTBALL_API_MODE;
+		HttpResponse<String> userResp;
+		try {
+			userResp = Unirest.get(url)
+					.header("Content-Type", "application/json;charset=utf-8")
+					.header("Authorization", "Bearer " + token)
+					.asString();
+			
+			PassMatrix = new ObjectMapper().readValue(userResp.getBody().toString(), PassMatrix.class);
+		       
+		} catch (UnirestException e) {
+			System.out.println("Error...");
+		}
+		
+	       return PassMatrix;
+		}
+
+	public static MatchPreview getMatchPreview( String token)throws IOException  {
+		String url = FootballUtil.FOOTBALL_API_PATH + "matchpreview" + FootballUtil.FOOTBALL_TOKEN + "/?" + 
+				FootballUtil.FOOTBALL_API_MODE +"&" + FootballUtil.FOOTBALL_API_JSON + "&fx=" + FootballUtil.FOOTBALL_FIXTURE_ID;
+		HttpResponse<String> userResp;
+		try {
+			userResp = Unirest.get(url)
+					.header("Content-Type", "application/json;charset=utf-8")
+					.header("Authorization", "Bearer " + token)
+					.asString();
+			
+			matchPreview = new ObjectMapper().readValue(userResp.getBody().toString(), MatchPreview.class);
+		} catch (UnirestException e) {
+			System.out.println("Error...");
+		}
+		
+	       return matchPreview;
+	}
+	
+	public static PassMatrix getMatchPlayerRatingsfromAPI(String token)throws IOException  {
+		String url = FootballUtil.FOOTBALL_API_PATH + "matchfactsall" + FootballUtil.FOOTBALL_TOKEN + "?fx=" + FootballUtil.FOOTBALL_FIXTURE_ID + 
+				 "&" + FootballUtil.FOOTBALL_API_MODE + "&" + FootballUtil.FOOTBALL_API_JSON + "&_lcl=en-gb";   
+		HttpResponse<String> userResp;
+		try {
+			userResp = Unirest.get(url)
+					.header("Content-Type", "application/json;charset=utf-8")
+					.header("Authorization", "Bearer " + token)
+					.asString();
+			
+			PassMatrix = new ObjectMapper().readValue(userResp.getBody().toString(), PassMatrix.class);		       
+		} catch (UnirestException e) {
+			System.out.println("Error...");
+		}
+		
+       return PassMatrix;
+	}
+	public static LiveMatch getFootballWinProbabilityfromAPI(String token) throws SAXException, IOException, ParserConfigurationException, FactoryConfigurationError
+	{
+	    LiveMatch liveData = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\LiveData.json"), LiveMatch.class);
+	    
+	    String  url = FootballUtil.FOOTBALL_API_PATH  + "matchlivewinprobability" + FootballUtil.FOOTBALL_TOKEN + "/"+liveData.getMatchInfo().getId()+"?" + 
+		FootballUtil.FOOTBALL_API_MODE + "&" + FootballUtil.FOOTBALL_API_JSON;
+		HttpResponse<String> userResp;
+		try {
+			userResp = Unirest.get(url)
+					.header("Content-Type", "application/json;charset=utf-8")
+					.header("Authorization", "Bearer " + token)
+					.asString();
+			
+			LiveMatch = new ObjectMapper().readValue(userResp.getBody().toString(), LiveMatch.class);
+		} catch (UnirestException e) {
+			System.out.println("Error...");
+		}
+		
+		return LiveMatch;
+	}
+	
 	
 	public static void DoadWriteCommandToSelectedViz(int SelectedViz, String SendTextIn, List<PrintWriter> print_writers) 
 	{
