@@ -9,12 +9,16 @@ import com.football.model.ExtraData;
 import com.football.model.Fixture;
 import com.football.model.Formation;
 import com.football.model.Ground;
+import com.football.model.HeadToHead;
+import com.football.model.LeaderBoard;
 import com.football.model.Player;
+import com.football.model.PlayerStat;
 import com.football.model.Playoff;
 import com.football.model.Staff;
 import com.football.model.Statistics;
 import com.football.model.Team;
 import com.football.model.TeamColor;
+import com.football.model.TeamStat;
 import com.football.model.VariousText;
 
 public interface FootballService {
@@ -36,4 +40,8 @@ public interface FootballService {
   List<Staff> getStaffs();
   List<Officials> getOfficials();
   List<ExtraData> getExtraData();
+  List<LeaderBoard> getLeaderBoard();
+  List<TeamStat> getTeamStats();
+  List<HeadToHead> getHeadToHeadStats();
+  List<PlayerStat> getPlayerStats();
 }

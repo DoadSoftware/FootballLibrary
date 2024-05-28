@@ -33,7 +33,11 @@ public class Configurations {
 	@XmlElement(name="vizscene")
 	private String vizscene;
 
-	public Configurations(String broadcaster, String ipAddress, int portNumber, String secondaryipAddress, 
+	public Configurations() {
+		super();
+	}
+
+	public Configurations(String broadcaster, String ipAddress, int portNumber, String secondaryipAddress,
 			int secondaryportNumber) {
 		super();
 		this.broadcaster = broadcaster;
@@ -41,10 +45,6 @@ public class Configurations {
 		this.portNumber = portNumber;
 		this.secondaryipAddress = secondaryipAddress;
 		this.secondaryportNumber = secondaryportNumber;
-	}
-	
-	public Configurations() {
-		super();
 	}
 
 	public String getVizscene() {

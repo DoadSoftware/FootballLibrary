@@ -13,12 +13,16 @@ import com.football.dao.FootballDao;
 import com.football.model.Fixture;
 import com.football.model.Formation;
 import com.football.model.Ground;
+import com.football.model.HeadToHead;
+import com.football.model.LeaderBoard;
 import com.football.model.Player;
+import com.football.model.PlayerStat;
 import com.football.model.Playoff;
 import com.football.model.Staff;
 import com.football.model.Statistics;
 import com.football.model.Team;
 import com.football.model.TeamColor;
+import com.football.model.TeamStat;
 import com.football.model.VariousText;
 import com.football.model.Officials;
 import com.football.service.FootballService;
@@ -118,6 +122,26 @@ public List<Officials> getOfficials() {
 @Override
 public List<ExtraData> getExtraData() {
 	return footballDao.getExtraData();
+}
+
+@Override
+public List<LeaderBoard> getLeaderBoard() {
+	return footballDao.getLeaderBoard();
+}
+
+@Override
+public List<TeamStat> getTeamStats() {
+	return footballDao.getTeamStats();
+}
+
+@Override
+public List<HeadToHead> getHeadToHeadStats() {
+	return footballDao.getHeadToHeadStats();
+}
+
+@Override
+public List<PlayerStat> getPlayerStats() {
+	return footballDao.getPlayerStats();
 }
 
 }
