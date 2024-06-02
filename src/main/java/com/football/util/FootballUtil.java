@@ -6,8 +6,6 @@ public class FootballUtil {
 	
 	public final static String FOOTBALL_STATISTICS_DIRECTORY = "C:/Sports/Football/Statistic/Match_Data/";
 	public final static String FOOTBALL_DIRECTORY = "C:/Sports/Football/";
-//	public final static String FOOTBALL_DIRECTORY = "//DOAD-SERVER2//C//Sports//Football//";
-//	public final static String FOOTBALL_CONFIG_DIRECTORY = "C:/Sports/Football/";
 	public final static String EVENT_DIRECTORY = "Event/";
 	public final static String MATCHES_DIRECTORY = "Matches/";
 	public final static String SCENES_DIRECTORY = "Scenes/";
@@ -25,7 +23,6 @@ public class FootballUtil {
 	public final static String FOOTBALL_TOURNAMENT_CALENDER_ID = "/1vmmaetzoxkgg1qf6pkpfmku0k";
 	public final static String STATISTIC_DIRECTORY = "Statistic/";
 	public final static String MATCH_DATA_DIRECTORY = "Match_Data/";
-	//public final static String SPORTVUSTATISTIC = "SportVUStatistic_";
 	public final static String SPORTVUSTATISTIC = "SportVUStatistic";
 	public final static String FTP_SERVER_LINK = "soccer-ftp.stats.com";
 	public final static String LIVE_DATA = "C:\\Sports\\Football\\Statistic\\Match_Data\\LiveData.json";

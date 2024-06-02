@@ -44,6 +44,9 @@ public class Players {
 	@JsonProperty("shirtNumber")
 	private int shirtNumber;
 	
+	@JsonProperty("captain")
+	private String captain;
+	
 	@JsonProperty("subPosition")
 	private String subPosition;
 	
@@ -222,6 +225,14 @@ public class Players {
 
 	public void setMatchDataScore(Stat matchDataScore) {
 		this.matchDataScore = matchDataScore;
+	}
+
+	public String getCaptain() {
+		return captain;
+	}
+
+	public void setCaptain(String captain) {
+		this.captain = captain;
 	}
 
 	@Override

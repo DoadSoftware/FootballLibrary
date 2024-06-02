@@ -176,15 +176,19 @@ public static String getAccessToken() throws IOException {
 		
 		String url = FootballUtil.FOOTBALL_API_PATH + "matchstats" + FootballUtil.FOOTBALL_TOKEN + "/?" + FootballUtil.FOOTBALL_API_MODE + "&" + 
 				FootballUtil.FOOTBALL_API_JSON + "&detailed=yes&fx=" + FootballUtil.FOOTBALL_FIXTURE_ID;
-		
 		try {
-			userResp = Unirest.get(url).header("Content-Type", "application/json;charset=utf-8").header("Authorization", "Bearer " + token).asString();
+			userResp = Unirest.get(url)
+					.header("Content-Type", "application/json;charset=utf-8")
+					.header("Authorization", "Bearer " + token)
+					.asString();
 			
+
 			LiveMatch = new ObjectMapper().readValue(userResp.getBody().toString(), LiveMatch.class);
 			
 		} catch (UnirestException e) {
 			System.out.println("Error...");
 		}
+		System.out.println(LiveMatch.toString());
 		
 		return LiveMatch;
 	}
@@ -223,12 +227,12 @@ public static String getAccessToken() throws IOException {
 		
 		return LiveMatch;
 	}
-	public static List<SeasonalStats> getSeasonalStatsfromAPI(String token) throws IOException {
-	    LiveMatch liveData = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\LiveData.json"), LiveMatch.class);
-	    List<SeasonalStats>  SeasonalStats = new ArrayList<SeasonalStats>();
+	public static List<SeasonalStats> getSeasonalStatsfromAPI(String token) throws IOException, SAXException, ParserConfigurationException, FactoryConfigurationError {
+		LiveMatch = getFootballLiveDatafromAPI(token);
+		List<SeasonalStats>  SeasonalStats = new ArrayList<SeasonalStats>();
 	    
 	    for (int i = 0; i < 2; i++) {
-	        String teamId = liveData.getMatchInfo().getContestant().get(i).getId();
+	        String teamId = LiveMatch.getMatchInfo().getContestant().get(i).getId();
 
 	       String url = FootballUtil.FOOTBALL_API_PATH + "seasonstats" + FootballUtil.FOOTBALL_TOKEN 
 	            + "?&tmcl=" + FootballUtil.FOOTBALL_TOURNAMENT_CALENDER_ID + "&ctst=" + teamId 
@@ -338,9 +342,8 @@ public static String getAccessToken() throws IOException {
 	}
 	public static LiveMatch getFootballWinProbabilityfromAPI(String token) throws SAXException, IOException, ParserConfigurationException, FactoryConfigurationError
 	{
-	    LiveMatch liveData = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\LiveData.json"), LiveMatch.class);
-	    
-	    String  url = FootballUtil.FOOTBALL_API_PATH  + "matchlivewinprobability" + FootballUtil.FOOTBALL_TOKEN + "/"+liveData.getMatchInfo().getId()+"?" + 
+		LiveMatch = getFootballLiveDatafromAPI(token);	    
+	    String  url = FootballUtil.FOOTBALL_API_PATH  + "matchlivewinprobability" + FootballUtil.FOOTBALL_TOKEN + "/"+LiveMatch.getMatchInfo().getId()+"?" + 
 		FootballUtil.FOOTBALL_API_MODE + "&" + FootballUtil.FOOTBALL_API_JSON;
 		HttpResponse<String> userResp;
 		try {
