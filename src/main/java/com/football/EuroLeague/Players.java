@@ -53,9 +53,6 @@ public class Players {
 	@JsonProperty("position")
 	private String position;
 	
-	@JsonProperty("captain")
-	private String captain;
-	  
 	@JsonProperty("positionSide")
 	private String positionSide;
 	  
@@ -230,14 +227,6 @@ public class Players {
 		this.matchDataScore = matchDataScore;
 	}
 	
-	public String getCaptain() {
-		return captain;
-	}
-
-	public void setCaptain(String captain) {
-		this.captain = captain;
-	}
-
 	public String getCaptain() {
 		return captain;
 	}
