@@ -41,6 +41,15 @@ public class Fixture {
   @Column(name = "Venue")
   private int venue;
   
+  @Column(name = "FixtureApiId")
+  private String fixtureApiId;
+  
+  @Column(name = "HomeScorer")
+  private String homeScorer;
+  
+  @Column(name = "AwayScorer")
+  private String awayScorer;
+  
   @Transient
   private Team home_Team;
 
@@ -150,6 +159,30 @@ public String getMargin() {
 
 public void setMargin(String margin) {
 	this.margin = margin;
+}
+
+public String getFixtureApiId() {
+	return fixtureApiId;
+}
+
+public void setFixtureApiId(String fixtureApiId) {
+	this.fixtureApiId = fixtureApiId;
+}
+
+public String getHomeScorer() {
+	return homeScorer;
+}
+
+public void setHomeScorer(String homeScorer) {
+	this.homeScorer = homeScorer;
+}
+
+public String getAwayScorer() {
+	return awayScorer;
+}
+
+public void setAwayScorer(String awayScorer) {
+	this.awayScorer = awayScorer;
 }
 
 }
