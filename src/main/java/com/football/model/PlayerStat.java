@@ -3,6 +3,7 @@ package com.football.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.Column;
 
 @Entity
@@ -15,6 +16,9 @@ public class PlayerStat {
   
   @Column(name = "PlayerId")
   private int playerId;
+  
+  @Column(name = "SubHeader")
+  private String subHeader;
   
   @Column(name = "HeadStats1")
   private String headStats1;
@@ -39,6 +43,12 @@ public class PlayerStat {
   
   @Column(name = "ValueStats4")
   private String valueStats4;
+  
+  @Transient
+  private Team team;
+
+  @Transient
+  private Player player;
 
 public int getPlayerStatsId() {
 	return playerStatsId;
@@ -118,6 +128,30 @@ public String getValueStats4() {
 
 public void setValueStats4(String valueStats4) {
 	this.valueStats4 = valueStats4;
+}
+
+public Team getTeam() {
+	return team;
+}
+
+public void setTeam(Team team) {
+	this.team = team;
+}
+
+public Player getPlayer() {
+	return player;
+}
+
+public void setPlayer(Player player) {
+	this.player = player;
+}
+
+public String getSubHeader() {
+	return subHeader;
+}
+
+public void setSubHeader(String subHeader) {
+	this.subHeader = subHeader;
 }
 
 }

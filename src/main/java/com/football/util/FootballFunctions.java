@@ -43,6 +43,7 @@ import com.football.model.LeaderBoard;
 import com.football.model.Match;
 import com.football.model.MatchStats;
 import com.football.model.Player;
+import com.football.model.PlayerStat;
 import com.football.model.PlayerStats;
 import com.football.model.Team;
 import com.football.model.TeamStats;
@@ -411,6 +412,21 @@ public static String getAccessToken() throws IOException {
 			}
 		}
 		return fixtures;
+	}
+	
+	public static List<PlayerStat> processAllPlayerStats(FootballService footballService) {
+		
+		List<PlayerStat> playerstats = footballService.getPlayerStats();
+	
+		for(Player plyr : footballService.getAllPlayer()) {
+			for(PlayerStat ps : playerstats) {
+				if(ps.getPlayerId() == plyr.getPlayerId()) {
+					ps.setPlayer(plyr);
+					ps.setTeam(footballService.getTeams().get(plyr.getTeamId()-1));
+				}
+			}
+		}
+		return playerstats;
 	}
 	
 	public static List<LeaderBoard> processAllLeaderBoards(FootballService footballService) {
