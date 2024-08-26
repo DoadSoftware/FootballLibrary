@@ -30,6 +30,11 @@ public class TeamStats {
 		this.teamName = teamName;
 	}
 
+	public TeamStats() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	
 }
 

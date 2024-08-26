@@ -11,7 +11,9 @@ public class FootballUtil {
 	public final static String SCENES_DIRECTORY = "Scenes/";
 	public final static String CONFIGURATIONS_DIRECTORY = "Configurations/";
 	public final static String OUTPUT_XML = "OUTPUT.XML";
+	public final static String FRUIT_XML = "FRUIT.XML";
 	public final static String CLOCK_XML = "CLOCK.XML";
+	public final static String CLOCK_JSON = "CLOCK.JSON";
 	public final static String API_XML = "API.XML";
 	public final static String XML_EXTENSION = ".xml";
 	public final static String FOOTBALL_API_PATH = "https://api.performfeeds.com/soccerdata/";
@@ -140,4 +142,5 @@ public class FootballUtil {
 	public final static String SESSION = "SESSION";
 
 	public final static String PLURAL = "PLURAL";
+
 }

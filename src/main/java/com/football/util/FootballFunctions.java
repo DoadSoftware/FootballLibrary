@@ -12,11 +12,14 @@ import java.net.URL;
 import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.FactoryConfigurationError;
@@ -31,12 +34,19 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import com.football.EuroLeague.Card;
 import com.football.EuroLeague.LiveMatch;
 import com.football.EuroLeague.SeasonalStats;
+import com.football.EuroLeague.TeamStat;
+import com.football.EuroLeague.TopPerformerPlayers;
+import com.football.EuroLeague.TopPerformers;
 import com.football.EuroLeague.rankings;
 import com.football.EuroLeague.PassMatrix;
 import com.football.EuroLeague.MatchPreview;
+import com.fasterxml.jackson.core.exc.StreamReadException;
+import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.football.model.ApiTeamstats;
 import com.football.model.Configurations;
 import com.football.model.Fixture;
 import com.football.model.LeaderBoard;
@@ -763,4 +773,133 @@ public static String getAccessToken() throws IOException {
 		}
 		return players;
 	}	
+
+	public static void setJsonDataInMatchApi(Match match) throws StreamReadException, DatabindException, IOException {
+	    LiveMatch liveMatch = new ObjectMapper().readValue(new File(FootballUtil.LIVE_DATA), LiveMatch.class);
+	    if(liveMatch != null && liveMatch.getLiveData() != null && liveMatch.getLiveData().getCard()!=null) {
+			for(Card card: liveMatch.getLiveData().getCard()) {
+				if(card.getContestantId().equalsIgnoreCase(liveMatch.getMatchInfo().getContestant().get(0).getId())) {
+					if(card.getType().equalsIgnoreCase("YC")) {
+						match.getApi_LiveMatch().getHomeTeam().setYellowCards(match.getApi_LiveMatch().getHomeTeam().getYellowCards() + 1);
+					}
+				}else if(card.getContestantId().equalsIgnoreCase(liveMatch.getMatchInfo().getContestant().get(1).getId())) {
+					if(card.getType().equalsIgnoreCase("YC")) {
+						match.getApi_LiveMatch().getAwayTeam().setYellowCards(match.getApi_LiveMatch().getAwayTeam().getYellowCards() + 1);
+					}
+				}
+			}
+		}
+	    
+	    match.getApi_LiveMatch().getHomeTeam().setName(liveMatch.getMatchInfo().getContestant().get(0).getName().trim());
+	    match.getApi_LiveMatch().getHomeTeam().setCode(liveMatch.getMatchInfo().getContestant().get(0).getCode().trim());
+	    
+	    match.getApi_LiveMatch().getAwayTeam().setName(liveMatch.getMatchInfo().getContestant().get(1).getName().trim());
+	    match.getApi_LiveMatch().getAwayTeam().setCode(liveMatch.getMatchInfo().getContestant().get(1).getCode().trim());
+   	 
+	    for (int teamIndex = 0; teamIndex <= 1; teamIndex++) {
+	        ApiTeamstats team = (teamIndex == 0) ? match.getApi_LiveMatch().getHomeTeam() : match.getApi_LiveMatch().getAwayTeam();
+	        int accuratePass = 0;
+	       
+	        if (liveMatch != null && liveMatch.getLiveData() != null &&  liveMatch.getLiveData().getLineUp() != null && liveMatch.getLiveData().getLineUp().get(teamIndex) != null &&
+	        	    liveMatch.getLiveData().getLineUp().get(teamIndex).getStat() != null) {
+	        	for (TeamStat stat : liveMatch.getLiveData().getLineUp().get(teamIndex).getStat()) {
+		            String value = stat.getValue().trim() != null ? stat.getValue().trim() : "0";
+		            switch (stat.getType()) {
+		                case "cornerTaken":
+		                    team.setCornerTaken(Integer.parseInt(value));
+		                    break;
+		                case "fkFoulWon":
+		                    team.setFoulsWon(Integer.parseInt(value));
+		                    break;
+		                case "ontargetScoringAtt":
+		                    team.setShotOnTarget(Integer.parseInt(value));
+		                    break;
+		                case "totalScoringAtt":
+		                    team.setShots(Integer.parseInt(value));
+		                    break;
+		                case "saves":
+		                    team.setSaves(Integer.parseInt(value));
+		                    break;
+		                case "totalCross":
+		                    team.setCrosses(Integer.parseInt(value));
+		                    break;
+		                case "totalPass":
+		                    team.setPasses(Integer.parseInt(value));
+		                    break;
+		                case "accuratePass":
+		                    accuratePass = Integer.parseInt(value);
+		                    break;
+		                case "touches":
+		                    team.setTouches(Integer.parseInt(value));
+		                    break;
+		                case "totalTackle":
+		                    team.setTackles(Integer.parseInt(value));
+		                    break;
+		                case "totalContest":
+		                    team.setDribbles(Integer.parseInt(value));
+		                    break;
+		                case "interception":
+		                    team.setInterceptions(Integer.parseInt(value));
+		                    break;
+		                case "possessionPercentage":
+		                	team.setPossession((int) Math.round(Double.valueOf(value)));
+		                    break;
+		                case "bigChanceCreated":
+		                	team.setChancesCreated(Integer.parseInt(value));
+		                	break;
+		                case "goals":
+		                	team.setGoals(Integer.parseInt(value));
+		                	break;
+		            }
+		        }
+
+	        }
+	        
+	        // Calculate and set passing accuracy
+	        double passingAccuracy = AccuracyPercentage(team.getPasses(), accuratePass);
+	        team.setPassingAccuracy((int) Math.round(passingAccuracy));
+	        
+			MatchPreview mp = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\MatchPreview.json"), MatchPreview.class);
+			if(mp!=null && mp.getPreviousMeetingsAnyComp()!=null) {
+				match.getApi_LiveMatch().setHomeWin(mp.getPreviousMeetingsAnyComp().getHomeContestantWins());
+				match.getApi_LiveMatch().setAwayWin(mp.getPreviousMeetingsAnyComp().getAwayContestantWins());
+				match.getApi_LiveMatch().setDraws(mp.getPreviousMeetingsAnyComp().getDraws());
+			}
+			TopPerformers playerTopPerformers = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\TopPerformers.json"), TopPerformers.class);
+	        if (playerTopPerformers != null && playerTopPerformers.getPlayerTopPerformers() != null) {
+	        	playerTopPerformers.getPlayerTopPerformers().stream()
+	            .filter(ply -> ply != null && "Assists".equalsIgnoreCase(ply.getName()))
+	            .findAny()
+	            .ifPresent(category -> {
+	                List<TopPerformerPlayers> topAssists = category.getPlayer() != null ? 
+	                    category.getPlayer().stream()
+	                        .filter(plyer -> plyer != null && plyer.getRank() <= 5)
+	                        .collect(Collectors.toList()) 
+	                    : Collections.emptyList();
+
+	                match.getTopAssists().addAll(topAssists);
+	            });
+	        	playerTopPerformers.getPlayerTopPerformers().stream()
+	            .filter(ply -> ply != null && "Goals".equalsIgnoreCase(ply.getName()))
+	            .findAny()
+	            .ifPresent(category -> {
+	                List<TopPerformerPlayers> topGoals = category.getPlayer() != null ? 
+	                    category.getPlayer().stream()
+	                        .filter(plyer -> plyer != null && plyer.getRank() <= 5)
+	                        .collect(Collectors.toList()) 
+	                    : Collections.emptyList(); 
+
+	                match.getTopGoals().addAll(topGoals);
+	            });
+	        }
+	    }
+	}
+	public static double AccuracyPercentage(int totalPassesAttempted, int accuratePasses) {
+	    if (totalPassesAttempted <= 0) {
+	        return 0.00;
+	    }
+	    accuratePasses = Math.max(0, accuratePasses);
+	    return Double.parseDouble(new DecimalFormat("0.00").format((double) accuratePasses / totalPassesAttempted * 100));
+	}
+
 }

@@ -1,5 +1,6 @@
 package com.football.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -8,6 +9,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+
+import com.football.EuroLeague.LiveMatch;
+import com.football.EuroLeague.SeasonalStats;
+import com.football.EuroLeague.TopPerformerPlayers;
 
 @XmlRootElement(name="Match")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -136,6 +141,13 @@ public class Match {
 
   @XmlTransient
   private List<Event> events;
+  
+  @XmlTransient
+  private ApiData Api_LiveMatch = new ApiData();
+  @XmlTransient
+  private List<TopPerformerPlayers> topGoals=new ArrayList<TopPerformerPlayers>();
+  @XmlTransient
+  private List<TopPerformerPlayers> TopAssists=new ArrayList<TopPerformerPlayers>();
   
 public int getHomePenaltiesHits() {
 	return homePenaltiesHits;
@@ -447,6 +459,32 @@ public String getAwayTeamGKJerseyColor() {
 
 public void setAwayTeamGKJerseyColor(String awayTeamGKJerseyColor) {
 	this.awayTeamGKJerseyColor = awayTeamGKJerseyColor;
+}
+
+
+public ApiData getApi_LiveMatch() {
+	return Api_LiveMatch;
+}
+
+public void setApi_LiveMatch(ApiData api_LiveMatch) {
+	Api_LiveMatch = api_LiveMatch;
+}
+
+
+public List<TopPerformerPlayers> getTopGoals() {
+	return topGoals;
+}
+
+public void setTopGoals(List<TopPerformerPlayers> topGoals) {
+	this.topGoals = topGoals;
+}
+
+public List<TopPerformerPlayers> getTopAssists() {
+	return TopAssists;
+}
+
+public void setTopAssists(List<TopPerformerPlayers> TopAssists) {
+	this.TopAssists = TopAssists;
 }
 
 @Override
