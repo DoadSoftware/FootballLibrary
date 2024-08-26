@@ -9,49 +9,38 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Clock {
 
-  @XmlElement(name = "matchHalves")
-  private String matchHalves;
+	@XmlElement(name = "matchHalves")
+	private String matchHalves;
+	  
+	@XmlElement(name = "matchTimeStatus")
+	private String matchTimeStatus;
 
-  @XmlElement(name = "matchStartTime")
-  private String matchStartTime;
-  
-  @XmlElement(name = "matchTimeStatus")
-  private String matchTimeStatus;
+	@XmlElement(name = "matchTotalMilliSeconds")
+	private long matchTotalMilliSeconds;
+	
 
-  @XmlElement(name = "matchTotalMilliSeconds")
-  private long matchTotalMilliSeconds;
+	public String getMatchHalves() {
+		return matchHalves;
+	}
 
-public String getMatchStartTime() {
-	return matchStartTime;
-}
+	public void setMatchHalves(String matchHalves) {
+		this.matchHalves = matchHalves;
+	}
 
-public void setMatchStartTime(String matchStartTime) {
-	this.matchStartTime = matchStartTime;
-}
+	public String getMatchTimeStatus() {
+		return matchTimeStatus;
+	}
 
-public String getMatchHalves() {
-	return matchHalves;
-}
+	public void setMatchTimeStatus(String matchTimeStatus) {
+		this.matchTimeStatus = matchTimeStatus;
+	}
 
-public void setMatchHalves(String matchHalves) {
-	this.matchHalves = matchHalves;
-}
+	public long getMatchTotalMilliSeconds() {
+		return matchTotalMilliSeconds;
+	}
 
-public String getMatchTimeStatus() {
-	return matchTimeStatus;
-}
-
-public void setMatchTimeStatus(String matchTimeStatus) {
-	this.matchTimeStatus = matchTimeStatus;
-}
-
-public long getMatchTotalMilliSeconds() {
-	return matchTotalMilliSeconds;
-}
-
-public void setMatchTotalMilliSeconds(long matchTotalMilliSeconds) {
-	this.matchTotalMilliSeconds = matchTotalMilliSeconds;
-}
-
+	public void setMatchTotalMilliSeconds(long matchTotalMilliSeconds) {
+		this.matchTotalMilliSeconds = matchTotalMilliSeconds;
+	}
 
 }
