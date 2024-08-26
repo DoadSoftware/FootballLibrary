@@ -1,6 +1,5 @@
 package com.football.EuroLeague;
 
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,28 +8,28 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class TopPerformers {
 	
 	@JsonProperty("playerTopPerformers")
-	private List<RankingPlayer> playerTopPerformers;	
+	private PlayerTopPerformers playerTopPerformers;	
 	
 	@JsonProperty("teamTopPerformers")
-	private List<RankingPlayer> teamTopPerformers;
+	private TeamTopPerformers teamTopPerformers;
 
 	public TopPerformers() {
 		super();
 	}
 
-	public List<RankingPlayer> getPlayerTopPerformers() {
+	public PlayerTopPerformers getPlayerTopPerformers() {
 		return playerTopPerformers;
 	}
 
-	public void setPlayerTopPerformers(List<RankingPlayer> playerTopPerformers) {
+	public void setPlayerTopPerformers(PlayerTopPerformers playerTopPerformers) {
 		this.playerTopPerformers = playerTopPerformers;
 	}
 
-	public List<RankingPlayer> getTeamTopPerformers() {
+	public TeamTopPerformers getTeamTopPerformers() {
 		return teamTopPerformers;
 	}
 
-	public void setTeamTopPerformers(List<RankingPlayer> teamTopPerformers) {
+	public void setTeamTopPerformers(TeamTopPerformers teamTopPerformers) {
 		this.teamTopPerformers = teamTopPerformers;
 	}
 
@@ -39,7 +38,5 @@ public class TopPerformers {
 		return "TopPerformers [playerTopPerformers=" + playerTopPerformers + ", teamTopPerformers=" + teamTopPerformers
 				+ "]";
 	}
-
-	
 	
 }

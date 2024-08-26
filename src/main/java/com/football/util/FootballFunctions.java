@@ -867,7 +867,7 @@ public static String getAccessToken() throws IOException {
 			}
 			TopPerformers playerTopPerformers = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\TopPerformers.json"), TopPerformers.class);
 	        if (playerTopPerformers != null && playerTopPerformers.getPlayerTopPerformers() != null) {
-	        	playerTopPerformers.getPlayerTopPerformers().stream()
+	        	playerTopPerformers.getPlayerTopPerformers().getRanking().stream()
 	            .filter(ply -> ply != null && "Assists".equalsIgnoreCase(ply.getName()))
 	            .findAny()
 	            .ifPresent(category -> {
@@ -879,7 +879,7 @@ public static String getAccessToken() throws IOException {
 
 	                match.getTopAssists().addAll(topAssists);
 	            });
-	        	playerTopPerformers.getPlayerTopPerformers().stream()
+	        	playerTopPerformers.getPlayerTopPerformers().getRanking().stream()
 	            .filter(ply -> ply != null && "Goals".equalsIgnoreCase(ply.getName()))
 	            .findAny()
 	            .ifPresent(category -> {
