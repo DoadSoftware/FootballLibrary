@@ -69,7 +69,8 @@ public class FootballFunctions {
 	public static rankings rankings;
 	public static PassMatrix PassMatrix;
 	public static MatchPreview matchPreview;
-public static String FTPImageDownload(int port,int match_number,String user,String pass,String player_map_type,Configurations config) {
+	
+	public static String FTPImageDownload(int port,int match_number,String user,String pass,String player_map_type,Configurations config) {
 		
 		FTPClient ftpClient = new FTPClient();
 		try {
@@ -119,66 +120,66 @@ public static String FTPImageDownload(int port,int match_number,String user,Stri
         }
 		return "";
 	}
-public static String hashString(String input) {
-    try {
-        // Create a MessageDigest instance for SHA-512
-        MessageDigest digest = MessageDigest.getInstance("SHA-512");
-
-        // Convert the input string to a byte array
-        byte[] hash = digest.digest(input.getBytes());
-
-        // Convert the byte array to a hexadecimal string
-        StringBuilder hexString = new StringBuilder();
-        for (byte b : hash) {
-            // Convert each byte to a 2-digit hexadecimal representation
-            hexString.append(String.format("%02x", b));
-        }
-
-        return hexString.toString(); // Return the SHA-512 hash as a hexadecimal string
-    } catch (NoSuchAlgorithmException e) {
-        throw new RuntimeException("Error creating SHA-512 hash", e);
-    }
-}
-
-public static String getAccessToken() throws IOException {
-    
-	String token_access = "";
-	String tokenEndpointUrl = "https://oauth.performgroup.com/oauth/token/26kfa29kdpyu170bzsv5cbuw0?_fmt=json&_rt=b";
-    String OutletKey = "26kfa29kdpyu170bzsv5cbuw0";//"{{OutletApiKey}}";
-    String SecretKey = "1nmlzjsbu0dxz1w4c5yg4m143q";//"{{SecretKey}}";
-    
-    String currentMillis = Long.toString(System.currentTimeMillis());
-    String sigString = OutletKey + currentMillis + SecretKey;
-    
-    String hashedOutput = null;
-	try {
-		hashedOutput = hashString(sigString);
-	} catch (Exception e1) {
-		e1.printStackTrace();
-	} 
-    HttpResponse<String> userResp;
-	try {
-		userResp = Unirest.post(tokenEndpointUrl)
-				.header("Content-Type", "application/x-www-form-urlencoded")
-				.header("Authorization", "Basic " + hashedOutput)
-				.header("Timestamp", currentMillis)
-				.field("grant_type", "client_credentials")
-				.field("scope", "b2b-feeds-auth")
-				.asString();
-		
-		String json_data = userResp.getBody().toString();
-		
-		JSONObject jsonObject = new JSONObject(json_data);
-		System.out.println(jsonObject.toString());
-        // Get the "access_token" value
-        String accessToken = jsonObject.getString("access_token");
-
-        token_access = accessToken;
-	} catch (UnirestException e) {
-		System.out.println("Error...");
-	}
+	public static String hashString(String input) {
+	    try {
+	        // Create a MessageDigest instance for SHA-512
+	        MessageDigest digest = MessageDigest.getInstance("SHA-512");
 	
-    return token_access;
+	        // Convert the input string to a byte array
+	        byte[] hash = digest.digest(input.getBytes());
+	
+	        // Convert the byte array to a hexadecimal string
+	        StringBuilder hexString = new StringBuilder();
+	        for (byte b : hash) {
+	            // Convert each byte to a 2-digit hexadecimal representation
+	            hexString.append(String.format("%02x", b));
+	        }
+	
+	        return hexString.toString(); // Return the SHA-512 hash as a hexadecimal string
+	    } catch (NoSuchAlgorithmException e) {
+	        throw new RuntimeException("Error creating SHA-512 hash", e);
+	    }
+	}
+
+	public static String getAccessToken() throws IOException {
+	    
+		String token_access = "";
+		String tokenEndpointUrl = "https://oauth.performgroup.com/oauth/token/26kfa29kdpyu170bzsv5cbuw0?_fmt=json&_rt=b";
+	    String OutletKey = "26kfa29kdpyu170bzsv5cbuw0";//"{{OutletApiKey}}";
+	    String SecretKey = "1nmlzjsbu0dxz1w4c5yg4m143q";//"{{SecretKey}}";
+	    
+	    String currentMillis = Long.toString(System.currentTimeMillis());
+	    String sigString = OutletKey + currentMillis + SecretKey;
+	    
+	    String hashedOutput = null;
+		try {
+			hashedOutput = hashString(sigString);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		} 
+	    HttpResponse<String> userResp;
+		try {
+			userResp = Unirest.post(tokenEndpointUrl)
+					.header("Content-Type", "application/x-www-form-urlencoded")
+					.header("Authorization", "Basic " + hashedOutput)
+					.header("Timestamp", currentMillis)
+					.field("grant_type", "client_credentials")
+					.field("scope", "b2b-feeds-auth")
+					.asString();
+			
+			String json_data = userResp.getBody().toString();
+			
+			JSONObject jsonObject = new JSONObject(json_data);
+			System.out.println(jsonObject.toString());
+	        // Get the "access_token" value
+	        String accessToken = jsonObject.getString("access_token");
+	
+	        token_access = accessToken;
+		} catch (UnirestException e) {
+			System.out.println("Error...");
+		}
+		
+	    return token_access;
 	}
 
 	public static LiveMatch getFootballLiveDatafromAPI(String token) throws SAXException, IOException, ParserConfigurationException, FactoryConfigurationError
@@ -371,7 +372,6 @@ public static String getAccessToken() throws IOException {
 		return LiveMatch;
 	}
 	
-	
 	public static void DoadWriteCommandToSelectedViz(int SelectedViz, String SendTextIn, List<PrintWriter> print_writers) 
 	{
 		if(SelectedViz > 0 && SelectedViz <= print_writers.size()) {
@@ -514,9 +514,11 @@ public static String getAccessToken() throws IOException {
 		return "";
 	}
 	
-	public static String calExtraTimeGoal(String half,long number) {
+	public static String calExtraTimeGoal(String half,long number_in_milli) {
 		
-		long time=0;
+		long time=0,number=0;
+		
+		number = (number_in_milli/1000);
 		
 		if(half.equalsIgnoreCase("first") && number > 2700) {
 			time = ((number - 2700)/60) + 1;
