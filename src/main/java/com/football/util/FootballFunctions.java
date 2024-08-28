@@ -37,11 +37,13 @@ import org.xml.sax.SAXException;
 import com.football.EuroLeague.Card;
 import com.football.EuroLeague.LiveMatch;
 import com.football.EuroLeague.SeasonalStats;
+import com.football.EuroLeague.Stat;
 import com.football.EuroLeague.TeamStat;
 import com.football.EuroLeague.TopPerformerPlayers;
 import com.football.EuroLeague.TopPerformers;
 import com.football.EuroLeague.rankings;
 import com.football.EuroLeague.PassMatrix;
+import com.football.EuroLeague.Players;
 import com.football.EuroLeague.MatchPreview;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
@@ -62,7 +64,8 @@ import com.football.service.FootballService;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-
+import javax.xml.parsers.DocumentBuilder;
+import org.w3c.dom.Element;
 public class FootballFunctions {
 	public static LiveMatch LiveMatch;	
 	public static SeasonalStats SeasonalStats;
@@ -553,119 +556,119 @@ public class FootballFunctions {
 		String team = "";
 		ArrayList<TeamStats> teamStats = new ArrayList<TeamStats>();
 		
-		Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File(FootballUtil.FOOTBALL_DIRECTORY + FootballUtil.STATISTIC_DIRECTORY + 
-				FootballUtil.MATCH_DATA_DIRECTORY + FootballUtil.SPORTVUSTATISTIC + FootballUtil.XML_EXTENSION));
-	        doc.getDocumentElement().normalize();
-	        
-	        NodeList childNodes = doc.getDocumentElement().getChildNodes();
-	        for(int i = 0; i < childNodes.getLength(); i++) {
-	            if(childNodes.item(i).getNodeType() == Node.ELEMENT_NODE && childNodes.item(i).getNodeName().equals("Teams")) {
-	            	for(int j = 0; j < childNodes.item(i).getChildNodes().getLength(); j++) {
-	            		if(childNodes.item(i).getChildNodes().item(j).getNodeType() == Node.ELEMENT_NODE 
-	            				&& childNodes.item(i).getChildNodes().item(j).getNodeName().equalsIgnoreCase("Team")) {
-	                    	for(int k = 0; k < childNodes.item(i).getChildNodes().item(j).getChildNodes().getLength(); k++) {
-	                    		
-	                    		if(childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getNodeType() 
-	                    				== Node.ELEMENT_NODE && childNodes.item(i).getChildNodes().item(j)
-	                    				.getChildNodes().item(k).getNodeName().equalsIgnoreCase("TeamData")) {
-	                    			
-	                    			for(int t = 0; t < childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().getLength(); t++) {
-	                    				
-	                    				if(childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().item(t).getNodeType() 
-			                    				== Node.ELEMENT_NODE && childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().item(t)
-	                    						.getNodeName().equalsIgnoreCase("TeamName")) {
-	                    					
-//	                    					System.out.println("TEAM : " + childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().item(t).getFirstChild()
-//	                    						.getNodeValue());
-	                    					team = childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().item(t).getFirstChild()
-		                    						.getNodeValue();
-	                    					teamStats.add(new TeamStats(childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().item(t).getFirstChild()
-	                    						.getNodeValue(), new ArrayList<TopStats>()));
-	                    					
-	                    				}
-	                    			} 
-	                    		}
-	                    		
-	                    		if(childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getNodeType() 
-	                    				== Node.ELEMENT_NODE && childNodes.item(i).getChildNodes().item(j)
-	                    				.getChildNodes().item(k).getNodeName().equalsIgnoreCase("ResultData")) {
-	                    			
-	                    			if(childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getAttributes().getNamedItem("Name").getNodeValue().equalsIgnoreCase("Best Runner")||
-	                    					childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getAttributes().getNamedItem("Name").getNodeValue().equalsIgnoreCase("Best Sprinter")||
-	                    					childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getAttributes().getNamedItem("Name").getNodeValue().equalsIgnoreCase("Highest Distance")||
-	                    					childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getAttributes().getNamedItem("Name").getNodeValue().equalsIgnoreCase("Team Top Speed")) {
-	                    				
-//	                    				System.out.println("Stat Type = " + childNodes.item(i).getChildNodes().item(j).getChildNodes()
-//		                                		.item(k).getAttributes().getNamedItem("Name").getNodeValue());
-		                    			
-		                    			teamStats.get(teamStats.size()-1).getTopStats().add(new TopStats(childNodes.item(i).getChildNodes().item(j).getChildNodes()
-		                                		.item(k).getAttributes().getNamedItem("Name").getNodeValue(), new ArrayList<PlayerStats>()));
-	                    				
-		                    			for(int l = 0; l < childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().getLength(); l++) {
-		                    				
-		                    				
-		                    				
-		                            		if(childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k)
-		                            				.getChildNodes().item(l).getNodeType() == Node.ELEMENT_NODE 
-		                            				&& childNodes.item(i).getChildNodes().item(j)
-		                            				.getChildNodes().item(k).getChildNodes().item(l).getNodeName().equalsIgnoreCase("Result")) {
-		                            			
-//		                            			System.out.println("TEAM : " + team);
-	                                    		teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1).getTopStats().size()-1)
-	                        					.getPlayersStats().add(new PlayerStats(team));
-		                            			
-		                                    	for(int m = 0; m < childNodes.item(i).getChildNodes().item(j).getChildNodes()
-		                                    			.item(k).getChildNodes().item(l).getChildNodes().getLength(); m++) {
-		                                    		
-		                                    		if(childNodes.item(i).getChildNodes().item(j).getChildNodes()
-		                                    			.item(k).getChildNodes().item(l).getChildNodes().item(m).getNodeType() 
-		                                    			== Node.ELEMENT_NODE) {
-		                                    			
-		                                    			if(childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().item(l).getChildNodes()
-			                                            		.item(m).getNodeName().equalsIgnoreCase("PlayerFirstName")) {
-		                                    				
-//		                                    				System.out.println("PlayerFirstName = " + childNodes.item(i).getChildNodes().item(j).getChildNodes()
-//			                                        				.item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
-		                                    				
-		                                    				teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1).getTopStats().size()-1)
-                                    						.getPlayersStats().get(teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1)
-                                    								.getTopStats().size()-1).getPlayersStats().size()-1).setFirst_name(childNodes.item(i).getChildNodes().item(j)
-                                    										.getChildNodes().item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
-		                                    				
-		                                    			}else if(childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().item(l).getChildNodes()
-		                                            		.item(m).getNodeName().equalsIgnoreCase("PlayerJerseyNumber")) {
-		                                    				
-//		                                    				System.out.println("PlayerJerseyNumber = " + childNodes.item(i).getChildNodes().item(j).getChildNodes()
-//		                                        				.item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
-		                                    				teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1).getTopStats().size()-1)
-                                    						.getPlayersStats().get(teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1)
-                                    								.getTopStats().size()-1).getPlayersStats().size()-1).setJerseyNumber(Integer.valueOf(childNodes.item(i).getChildNodes().item(j)
-                                    										.getChildNodes().item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue()));
-		                                    				
-		                                    				
-		                                    			}else if(childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().item(l).getChildNodes()
-		                                                		.item(m).getNodeName().equalsIgnoreCase("Value")) {
-		                                    				
-		                                    				teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1).getTopStats().size()-1)
-	                                    						.getPlayersStats().get(teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1)
-	                                    								.getTopStats().size()-1).getPlayersStats().size()-1).setValue(childNodes.item(i).getChildNodes().item(j)
-	                                    										.getChildNodes().item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
-		                                    				
-//		                                    				System.out.println("Value = " + childNodes.item(i).getChildNodes().item(j).getChildNodes()
-//		                                        					.item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
-		                                        		}
-		                                    		}
-		                                    	}
-		                            		}
-		                            	}
-	                    			}
-	                    		}
-	                    	}
-	            		}
-	            	}
-	            }
-	        }
-		
+		Document doc = (new File(FootballUtil.FOOTBALL_DIRECTORY + FootballUtil.STATISTIC_DIRECTORY + FootballUtil.MATCH_DATA_DIRECTORY + FootballUtil.SPORTVUSTATISTIC + FootballUtil.XML_EXTENSION).exists()) ? DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File(FootballUtil.FOOTBALL_DIRECTORY + FootballUtil.STATISTIC_DIRECTORY + FootballUtil.MATCH_DATA_DIRECTORY + FootballUtil.SPORTVUSTATISTIC + FootballUtil.XML_EXTENSION)) : null;
+			if(doc!=null) {
+				 doc.getDocumentElement().normalize();
+			        
+			        NodeList childNodes = doc.getDocumentElement().getChildNodes();
+			        for(int i = 0; i < childNodes.getLength(); i++) {
+			            if(childNodes.item(i).getNodeType() == Node.ELEMENT_NODE && childNodes.item(i).getNodeName().equals("Teams")) {
+			            	for(int j = 0; j < childNodes.item(i).getChildNodes().getLength(); j++) {
+			            		if(childNodes.item(i).getChildNodes().item(j).getNodeType() == Node.ELEMENT_NODE 
+			            				&& childNodes.item(i).getChildNodes().item(j).getNodeName().equalsIgnoreCase("Team")) {
+			                    	for(int k = 0; k < childNodes.item(i).getChildNodes().item(j).getChildNodes().getLength(); k++) {
+			                    		
+			                    		if(childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getNodeType() 
+			                    				== Node.ELEMENT_NODE && childNodes.item(i).getChildNodes().item(j)
+			                    				.getChildNodes().item(k).getNodeName().equalsIgnoreCase("TeamData")) {
+			                    			
+			                    			for(int t = 0; t < childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().getLength(); t++) {
+			                    				
+			                    				if(childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().item(t).getNodeType() 
+					                    				== Node.ELEMENT_NODE && childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().item(t)
+			                    						.getNodeName().equalsIgnoreCase("TeamName")) {
+			                    					
+//			                    					System.out.println("TEAM : " + childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().item(t).getFirstChild()
+//			                    						.getNodeValue());
+			                    					team = childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().item(t).getFirstChild()
+				                    						.getNodeValue();
+			                    					teamStats.add(new TeamStats(childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().item(t).getFirstChild()
+			                    						.getNodeValue(), new ArrayList<TopStats>()));
+			                    					
+			                    				}
+			                    			} 
+			                    		}
+			                    		
+			                    		if(childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getNodeType() 
+			                    				== Node.ELEMENT_NODE && childNodes.item(i).getChildNodes().item(j)
+			                    				.getChildNodes().item(k).getNodeName().equalsIgnoreCase("ResultData")) {
+			                    			
+			                    			if(childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getAttributes().getNamedItem("Name").getNodeValue().equalsIgnoreCase("Best Runner")||
+			                    					childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getAttributes().getNamedItem("Name").getNodeValue().equalsIgnoreCase("Best Sprinter")||
+			                    					childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getAttributes().getNamedItem("Name").getNodeValue().equalsIgnoreCase("Highest Distance")||
+			                    					childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getAttributes().getNamedItem("Name").getNodeValue().equalsIgnoreCase("Team Top Speed")) {
+			                    				
+//			                    				System.out.println("Stat Type = " + childNodes.item(i).getChildNodes().item(j).getChildNodes()
+//				                                		.item(k).getAttributes().getNamedItem("Name").getNodeValue());
+				                    			
+				                    			teamStats.get(teamStats.size()-1).getTopStats().add(new TopStats(childNodes.item(i).getChildNodes().item(j).getChildNodes()
+				                                		.item(k).getAttributes().getNamedItem("Name").getNodeValue(), new ArrayList<PlayerStats>()));
+			                    				
+				                    			for(int l = 0; l < childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().getLength(); l++) {
+				                    				
+				                    				
+				                    				
+				                            		if(childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k)
+				                            				.getChildNodes().item(l).getNodeType() == Node.ELEMENT_NODE 
+				                            				&& childNodes.item(i).getChildNodes().item(j)
+				                            				.getChildNodes().item(k).getChildNodes().item(l).getNodeName().equalsIgnoreCase("Result")) {
+				                            			
+//				                            			System.out.println("TEAM : " + team);
+			                                    		teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1).getTopStats().size()-1)
+			                        					.getPlayersStats().add(new PlayerStats(team));
+				                            			
+				                                    	for(int m = 0; m < childNodes.item(i).getChildNodes().item(j).getChildNodes()
+				                                    			.item(k).getChildNodes().item(l).getChildNodes().getLength(); m++) {
+				                                    		
+				                                    		if(childNodes.item(i).getChildNodes().item(j).getChildNodes()
+				                                    			.item(k).getChildNodes().item(l).getChildNodes().item(m).getNodeType() 
+				                                    			== Node.ELEMENT_NODE) {
+				                                    			
+				                                    			if(childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().item(l).getChildNodes()
+					                                            		.item(m).getNodeName().equalsIgnoreCase("PlayerFirstName")) {
+				                                    				
+//				                                    				System.out.println("PlayerFirstName = " + childNodes.item(i).getChildNodes().item(j).getChildNodes()
+//					                                        				.item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
+				                                    				
+				                                    				teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1).getTopStats().size()-1)
+		                                    						.getPlayersStats().get(teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1)
+		                                    								.getTopStats().size()-1).getPlayersStats().size()-1).setFirst_name(childNodes.item(i).getChildNodes().item(j)
+		                                    										.getChildNodes().item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
+				                                    				
+				                                    			}else if(childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().item(l).getChildNodes()
+				                                            		.item(m).getNodeName().equalsIgnoreCase("PlayerJerseyNumber")) {
+				                                    				
+//				                                    				System.out.println("PlayerJerseyNumber = " + childNodes.item(i).getChildNodes().item(j).getChildNodes()
+//				                                        				.item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
+				                                    				teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1).getTopStats().size()-1)
+		                                    						.getPlayersStats().get(teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1)
+		                                    								.getTopStats().size()-1).getPlayersStats().size()-1).setJerseyNumber(Integer.valueOf(childNodes.item(i).getChildNodes().item(j)
+		                                    										.getChildNodes().item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue()));
+				                                    				
+				                                    				
+				                                    			}else if(childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().item(l).getChildNodes()
+				                                                		.item(m).getNodeName().equalsIgnoreCase("Value")) {
+				                                    				
+				                                    				teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1).getTopStats().size()-1)
+			                                    						.getPlayersStats().get(teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1)
+			                                    								.getTopStats().size()-1).getPlayersStats().size()-1).setValue(childNodes.item(i).getChildNodes().item(j)
+			                                    										.getChildNodes().item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
+				                                    				
+//				                                    				System.out.println("Value = " + childNodes.item(i).getChildNodes().item(j).getChildNodes()
+//				                                        					.item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
+				                                        		}
+				                                    		}
+				                                    	}
+				                            		}
+				                            	}
+			                    			}
+			                    		}
+			                    	}
+			            		}
+			            	}
+			            }
+			        }
+			}
 		return teamStats;
 	}
 	
@@ -775,9 +778,72 @@ public class FootballFunctions {
 		}
 		return players;
 	}	
+	public static void readXml(Match match) {
+		int k=0;
+		 try {	            
+	             Document document = (new File(FootballUtil.FOOTBALL_DIRECTORY + FootballUtil.STATISTIC_DIRECTORY + FootballUtil.MATCH_DATA_DIRECTORY + FootballUtil.SPORTVUSTATISTIC + FootballUtil.XML_EXTENSION).exists()) ? DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File(FootballUtil.FOOTBALL_DIRECTORY + FootballUtil.STATISTIC_DIRECTORY + FootballUtil.MATCH_DATA_DIRECTORY + FootballUtil.SPORTVUSTATISTIC + FootballUtil.XML_EXTENSION)) : null;
+				if(document!=null) {
+					document.getDocumentElement().normalize();
+		            NodeList resultDataList = document.getElementsByTagName("ResultData");
+		            for (int i = 0; i < resultDataList.getLength(); i++) {
+		                Element resultDataElement = (Element) resultDataList.item(i);
 
-	public static void setJsonDataInMatchApi(Match match) throws StreamReadException, DatabindException, IOException {
+		                if ("Banner Team Data".equals(resultDataElement.getAttribute("Name"))) {
+		                	k++;
+		                    NodeList resultList = resultDataElement.getElementsByTagName("Result");
+		                    for (int j = 0; j < resultList.getLength(); j++) {
+		                        Element resultElement = (Element) resultList.item(j);
+		                        String label = resultElement.getElementsByTagName("Label").item(0).getFirstChild().getNodeValue().trim();
+		                        if (label.equals("Distance")) {
+		                            String distanceValue = resultElement.getElementsByTagName("Value").item(0).getFirstChild().getNodeValue().trim();
+		                            if(k==1) {
+			                        	match.getApi_LiveMatch().getHomeTeam().setDistanceCovered((int) Math.round(Double.valueOf(distanceValue)));
+			                        	//match.getApi_LiveMatch().getHomeTeam().setDistanceCovered(distanceValue);
+
+			                        }else if(k==2) {
+			                        	//match.getApi_LiveMatch().getAwayTeam().setDistanceCovered(distanceValue);
+				                        match.getApi_LiveMatch().getAwayTeam().setDistanceCovered((int) Math.round(Double.valueOf(distanceValue)));
+			                        }
+		                        } 
+		                    }
+		                }
+		            }
+	            }
+
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	}
+	public static void setXMLDataInMatchApi(Match match) throws Exception {
+		List<TeamStats> topStatsData = getTopStatsDatafromXML(match);
+	    for (TeamStats statsData : topStatsData) {
+	        for (TopStats topStats : statsData.getTopStats()) {
+	            String header = topStats.getHeader().toLowerCase();
+	            List<PlayerStats> playersStats = topStats.getPlayersStats();
+
+	            switch (header) {
+	                case "team top speed":
+	                    match.getTop_Speed().addAll(playersStats);
+	                    break;
+	                case "highest distance":
+	                    match.getTop_Distance().addAll(playersStats);
+	                    break;
+	                case "best sprinter":
+	                    match.getTop_Sprints().addAll(playersStats);
+	                    break;
+	            }
+	        }
+	    }
+        Collections.sort(match.getTop_Speed(),new FootballFunctions.PlayerStatsComparator());
+        Collections.sort(match.getTop_Distance(),new FootballFunctions.PlayerStatsComparator());
+        Collections.sort(match.getTop_Sprints(),new FootballFunctions.PlayerStatsComparator());
+        readXml(match);
+	}
+
+	public static void setJsonDataInMatchApi(Match match) throws Exception {
 	    LiveMatch liveMatch = new ObjectMapper().readValue(new File(FootballUtil.LIVE_DATA), LiveMatch.class);
+		List<PlayerStats> playerStats = new ArrayList<PlayerStats>();
+
 	    if(liveMatch != null && liveMatch.getLiveData() != null && liveMatch.getLiveData().getCard()!=null) {
 			for(Card card: liveMatch.getLiveData().getCard()) {
 				if(card.getContestantId().equalsIgnoreCase(liveMatch.getMatchInfo().getContestant().get(0).getId())) {
@@ -854,10 +920,31 @@ public class FootballFunctions {
 		                	break;
 		            }
 		        }
-
+	        	 for(Players py : liveMatch.getLiveData().getLineUp().get(teamIndex).getPlayer()) {
+					if(py.getStat()!=null) {
+						for (Stat stat : py.getStat()) {
+							 switch (stat.getType()) {
+							 case "totalPass":
+								 PlayerStats ply = new PlayerStats("");
+								 ply.setFirst_name(py.getMatchName());
+								 ply.setLast_name(py.getPlayerId());
+								 if(teamIndex==0) {
+									 ply.setFirst_name(py.getMatchName()+" <sub>"+liveMatch.getMatchInfo().getContestant().get(0).getCode().trim()+"<sub>");
+								 }else {
+									 ply.setFirst_name(py.getMatchName()+" <sub>"+liveMatch.getMatchInfo().getContestant().get(1).getCode().trim()+"<sub>"); 
+								 }
+								 ply.setTeam_name(liveMatch.getLiveData().getLineUp().get(teamIndex).getContestantId());
+			                     ply.setJerseyNumber(py.getShirtNumber());
+			                     ply.setValue(stat.getValue());
+								 playerStats.add(ply);
+								break;
+							 }
+						}
+					}
+	        	 }
 	        }
-	        
-	        // Calculate and set passing accuracy
+	        Collections.sort(playerStats, (p1, p2) -> Integer.parseInt(p2.getValue()) - Integer.parseInt(p1.getValue()));
+	        match.setTop_Passes(playerStats.subList(0, Math.min(3, playerStats.size())));
 	        double passingAccuracy = AccuracyPercentage(team.getPasses(), accuratePass);
 	        team.setPassingAccuracy((int) Math.round(passingAccuracy));
 	        
@@ -867,18 +954,19 @@ public class FootballFunctions {
 				match.getApi_LiveMatch().setAwayWin(mp.getPreviousMeetingsAnyComp().getAwayContestantWins());
 				match.getApi_LiveMatch().setDraws(mp.getPreviousMeetingsAnyComp().getDraws());
 			}
+			
 			TopPerformers playerTopPerformers = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\TopPerformers.json"), TopPerformers.class);
-	        if (playerTopPerformers != null && playerTopPerformers.getPlayerTopPerformers() != null) {
+	        
+			if (playerTopPerformers != null && playerTopPerformers.getPlayerTopPerformers() != null) {
 	        	playerTopPerformers.getPlayerTopPerformers().getRanking().stream()
 	            .filter(ply -> ply != null && "Assists".equalsIgnoreCase(ply.getName()))
 	            .findAny()
 	            .ifPresent(category -> {
 	                List<TopPerformerPlayers> topAssists = category.getPlayer() != null ? 
 	                    category.getPlayer().stream()
-	                        .filter(plyer -> plyer != null && plyer.getRank() <= 5)
-	                        .collect(Collectors.toList()) 
+	                    .limit(5)
+	                    .collect(Collectors.toList()) 
 	                    : Collections.emptyList();
-
 	                match.getTopAssists().addAll(topAssists);
 	            });
 	        	playerTopPerformers.getPlayerTopPerformers().getRanking().stream()
@@ -887,14 +975,14 @@ public class FootballFunctions {
 	            .ifPresent(category -> {
 	                List<TopPerformerPlayers> topGoals = category.getPlayer() != null ? 
 	                    category.getPlayer().stream()
-	                        .filter(plyer -> plyer != null && plyer.getRank() <= 5)
+	                        .limit(5)
 	                        .collect(Collectors.toList()) 
 	                    : Collections.emptyList(); 
-
 	                match.getTopGoals().addAll(topGoals);
 	            });
 	        }
 	    }
+	    setXMLDataInMatchApi(match);
 	}
 	public static double AccuracyPercentage(int totalPassesAttempted, int accuratePasses) {
 	    if (totalPassesAttempted <= 0) {

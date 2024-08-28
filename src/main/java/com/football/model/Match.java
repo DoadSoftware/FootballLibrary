@@ -148,6 +148,14 @@ public class Match {
   private List<TopPerformerPlayers> topGoals=new ArrayList<TopPerformerPlayers>();
   @XmlTransient
   private List<TopPerformerPlayers> TopAssists=new ArrayList<TopPerformerPlayers>();
+  @XmlTransient
+  List<PlayerStats> top_Sprints = new ArrayList<PlayerStats>();
+  @XmlTransient
+  List<PlayerStats> top_Distance = new ArrayList<PlayerStats>(); 
+  @XmlTransient
+  List<PlayerStats> top_Speed = new ArrayList<PlayerStats>();
+  @XmlTransient
+  List<PlayerStats> top_Passes = new ArrayList<PlayerStats>();
   
 public int getHomePenaltiesHits() {
 	return homePenaltiesHits;
@@ -485,6 +493,38 @@ public List<TopPerformerPlayers> getTopAssists() {
 
 public void setTopAssists(List<TopPerformerPlayers> TopAssists) {
 	this.TopAssists = TopAssists;
+}
+
+public List<PlayerStats> getTop_Sprints() {
+	return top_Sprints;
+}
+
+public void setTop_Sprints(List<PlayerStats> top_Sprints) {
+	this.top_Sprints = top_Sprints;
+}
+
+public List<PlayerStats> getTop_Distance() {
+	return top_Distance;
+}
+
+public void setTop_Distance(List<PlayerStats> top_Distance) {
+	this.top_Distance = top_Distance;
+}
+
+public List<PlayerStats> getTop_Speed() {
+	return top_Speed;
+}
+
+public void setTop_Speed(List<PlayerStats> top_Speed) {
+	this.top_Speed = top_Speed;
+}
+
+public List<PlayerStats> getTop_Passes() {
+	return top_Passes;
+}
+
+public void setTop_Passes(List<PlayerStats> top_Passes) {
+	this.top_Passes = top_Passes;
 }
 
 @Override
