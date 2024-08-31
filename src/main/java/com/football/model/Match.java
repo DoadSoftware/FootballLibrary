@@ -156,6 +156,8 @@ public class Match {
   List<PlayerStats> top_Speed = new ArrayList<PlayerStats>();
   @XmlTransient
   List<PlayerStats> top_Passes = new ArrayList<PlayerStats>();
+  @XmlTransient
+  List<PlayerStats> goalConceded = new ArrayList<PlayerStats>();
   
 public int getHomePenaltiesHits() {
 	return homePenaltiesHits;
@@ -525,6 +527,14 @@ public List<PlayerStats> getTop_Passes() {
 
 public void setTop_Passes(List<PlayerStats> top_Passes) {
 	this.top_Passes = top_Passes;
+}
+
+public List<PlayerStats> getGoalConceded() {
+	return goalConceded;
+}
+
+public void setGoalConceded(List<PlayerStats> goalConceded) {
+	this.goalConceded = goalConceded;
 }
 
 @Override

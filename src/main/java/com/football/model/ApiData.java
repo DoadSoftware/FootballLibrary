@@ -1,8 +1,14 @@
 package com.football.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.football.EuroLeague.TopPerformerPlayers;
+
 public class ApiData {
 	ApiTeamstats homeTeam = new ApiTeamstats();
 	ApiTeamstats awayTeam = new ApiTeamstats();
+	List<ApiEventStats> events= new ArrayList<ApiEventStats>(); 
 	int homeWin,awayWin,draws;
 	public ApiTeamstats getHomeTeam() {
 		return homeTeam;
@@ -33,6 +39,13 @@ public class ApiData {
 	}
 	public void setDraws(int draws) {
 		this.draws = draws;
+	}
+	
+	public List<ApiEventStats> getEvents() {
+		return events;
+	}
+	public void setEvents(List<ApiEventStats> events) {
+		this.events = events;
 	}
 	@Override
 	public String toString() {

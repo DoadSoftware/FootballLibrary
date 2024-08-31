@@ -19,6 +19,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -35,9 +36,12 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.football.EuroLeague.Card;
+import com.football.EuroLeague.Goal;
 import com.football.EuroLeague.LiveMatch;
 import com.football.EuroLeague.SeasonalStats;
+import com.football.EuroLeague.SeasonalTeams;
 import com.football.EuroLeague.Stat;
+import com.football.EuroLeague.Substitute;
 import com.football.EuroLeague.TeamStat;
 import com.football.EuroLeague.TopPerformerPlayers;
 import com.football.EuroLeague.TopPerformers;
@@ -48,6 +52,7 @@ import com.football.EuroLeague.MatchPreview;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.football.model.ApiEventStats;
 import com.football.model.ApiTeamstats;
 import com.football.model.Configurations;
 import com.football.model.Fixture;
@@ -841,147 +846,201 @@ public class FootballFunctions {
 	}
 
 	public static void setJsonDataInMatchApi(Match match) throws Exception {
-	    LiveMatch liveMatch = new ObjectMapper().readValue(new File(FootballUtil.LIVE_DATA), LiveMatch.class);
-		List<PlayerStats> playerStats = new ArrayList<PlayerStats>();
+		if(new File(FootballUtil.LIVE_DATA).exists()) {
+		    LiveMatch liveMatch = new ObjectMapper().readValue(new File(FootballUtil.LIVE_DATA), LiveMatch.class);
+			List<PlayerStats> playerStats = new ArrayList<PlayerStats>();
+			if (liveMatch != null && liveMatch.getLiveData() != null && liveMatch.getLiveData().getCard() != null) {
+			        for (Card card : liveMatch.getLiveData().getCard()) {
+				            match.getApi_LiveMatch().getEvents().add(new ApiEventStats(card.getContestantId(),card.getPlayerId(),card.getPlayerName(),card.getTimeMin(),
+				            		card.getType(),card.getPeriodId(),card.getTimeMinSec()));
+			            if (card.getType().equalsIgnoreCase("YC")) {
+			                if (card.getContestantId().equalsIgnoreCase(liveMatch.getMatchInfo().getContestant().get(0).getId())) {
+			                    match.getApi_LiveMatch().getHomeTeam().setYellowCards(
+			                        match.getApi_LiveMatch().getHomeTeam().getYellowCards() + 1
+			                    );
+			                } else if (card.getContestantId().equalsIgnoreCase(liveMatch.getMatchInfo().getContestant().get(1).getId())) {
+			                    match.getApi_LiveMatch().getAwayTeam().setYellowCards(
+			                        match.getApi_LiveMatch().getAwayTeam().getYellowCards() + 1
+			                    );
+			                }
+			            }
+			        }
+			}
 
-	    if(liveMatch != null && liveMatch.getLiveData() != null && liveMatch.getLiveData().getCard()!=null) {
-			for(Card card: liveMatch.getLiveData().getCard()) {
-				if(card.getContestantId().equalsIgnoreCase(liveMatch.getMatchInfo().getContestant().get(0).getId())) {
-					if(card.getType().equalsIgnoreCase("YC")) {
-						match.getApi_LiveMatch().getHomeTeam().setYellowCards(match.getApi_LiveMatch().getHomeTeam().getYellowCards() + 1);
-					}
-				}else if(card.getContestantId().equalsIgnoreCase(liveMatch.getMatchInfo().getContestant().get(1).getId())) {
-					if(card.getType().equalsIgnoreCase("YC")) {
-						match.getApi_LiveMatch().getAwayTeam().setYellowCards(match.getApi_LiveMatch().getAwayTeam().getYellowCards() + 1);
-					}
+		    //goals
+		    if(liveMatch != null && liveMatch.getLiveData() != null && liveMatch.getLiveData().getGoal()!=null) {
+		    	for(Goal goal: liveMatch.getLiveData().getGoal()) {
+		    		 match.getApi_LiveMatch().getEvents().add(new ApiEventStats(goal.getContestantId(),goal.getScorerId(),goal.getScorerName(),goal.getTimeMin(),
+		    				 goal.getType(),goal.getPeriodId(),goal.getTimeMinSec()));
+		    	}
+		    }
+		    //substitutes
+		    if(liveMatch != null && liveMatch.getLiveData() != null && liveMatch.getLiveData().getSubstitute()!=null) {
+		    	for(Substitute subs: liveMatch.getLiveData().getSubstitute()) {		    		
+		    		match.getApi_LiveMatch().getEvents().add(new ApiEventStats(subs.getContestantId(),subs.getPlayerOnId(),subs.getPlayerOffId(),subs.getPlayerOnName(),
+		    				subs.getPlayerOffName(),subs.getTimeMin(),"SUB",subs.getPeriodId(),0,subs.getTimeMinSec()));
+
+		    	}
+		    }
+		    match.getApi_LiveMatch().getHomeTeam().setName(liveMatch.getMatchInfo().getContestant().get(0).getName().trim());
+		    match.getApi_LiveMatch().getHomeTeam().setCode(liveMatch.getMatchInfo().getContestant().get(0).getCode().trim());
+		    
+		    match.getApi_LiveMatch().getAwayTeam().setName(liveMatch.getMatchInfo().getContestant().get(1).getName().trim());
+		    match.getApi_LiveMatch().getAwayTeam().setCode(liveMatch.getMatchInfo().getContestant().get(1).getCode().trim());
+	       
+		    Collections.sort(match.getApi_LiveMatch().getEvents(), (p1, p2) -> Integer.compare(
+		    	    Integer.parseInt(p2.getTimeMinSec().split(":")[0]) * 60 + Integer.parseInt(p2.getTimeMinSec().split(":")[1]),
+		    	    Integer.parseInt(p1.getTimeMinSec().split(":")[0]) * 60 + Integer.parseInt(p1.getTimeMinSec().split(":")[1])
+		    	));
+
+		    for (int teamIndex = 0; teamIndex <= 1; teamIndex++) {
+		        ApiTeamstats team = (teamIndex == 0) ? match.getApi_LiveMatch().getHomeTeam() : match.getApi_LiveMatch().getAwayTeam();
+		        int accuratePass = 0;
+		       
+		        if (liveMatch != null && liveMatch.getLiveData() != null &&  liveMatch.getLiveData().getLineUp() != null && liveMatch.getLiveData().getLineUp().get(teamIndex) != null &&
+		        	    liveMatch.getLiveData().getLineUp().get(teamIndex).getStat() != null) {
+		        	for (TeamStat stat : liveMatch.getLiveData().getLineUp().get(teamIndex).getStat()) {
+			            String value = stat.getValue().trim() != null ? stat.getValue().trim() : "0";
+			            switch (stat.getType()) {
+			                case "cornerTaken":
+			                    team.setCornerTaken(Integer.parseInt(value));
+			                    break;
+			                case "fkFoulWon":
+			                    team.setFoulsWon(Integer.parseInt(value));
+			                    break;
+			                case "ontargetScoringAtt":
+			                    team.setShotOnTarget(Integer.parseInt(value));
+			                    break;
+			                case "totalScoringAtt":
+			                    team.setShots(Integer.parseInt(value));
+			                    break;
+			                case "saves":
+			                    team.setSaves(Integer.parseInt(value));
+			                    break;
+			                case "totalCross":
+			                    team.setCrosses(Integer.parseInt(value));
+			                    break;
+			                case "totalPass":
+			                    team.setPasses(Integer.parseInt(value));
+			                    break;
+			                case "accuratePass":
+			                    accuratePass = Integer.parseInt(value);
+			                    break;
+			                case "touches":
+			                    team.setTouches(Integer.parseInt(value));
+			                    break;
+			                case "totalTackle":
+			                    team.setTackles(Integer.parseInt(value));
+			                    break;
+			                case "totalContest":
+			                    team.setDribbles(Integer.parseInt(value));
+			                    break;
+			                case "interception":
+			                    team.setInterceptions(Integer.parseInt(value));
+			                    break;
+			                case "possessionPercentage":
+			                	team.setPossession((int) Math.round(Double.valueOf(value)));
+			                    break;
+			                case "bigChanceCreated":
+			                	team.setChancesCreated(Integer.parseInt(value));
+			                	break;
+			                case "goals":
+			                	team.setGoals(Integer.parseInt(value));
+			                	break;
+			            }
+			        }
+		        	 for(Players py : liveMatch.getLiveData().getLineUp().get(teamIndex).getPlayer()) {
+						if(py.getStat()!=null) {
+							for (Stat stat : py.getStat()) {
+								 switch (stat.getType()) {
+								 case "totalPass":
+									 PlayerStats ply = new PlayerStats("");
+									 ply.setFirst_name(py.getMatchName());
+									 ply.setLast_name(py.getPlayerId());
+									 if(teamIndex==0) {
+										 ply.setFirst_name(py.getMatchName()+" <sub>"+liveMatch.getMatchInfo().getContestant().get(0).getCode().trim()+"<sub>");
+									 }else {
+										 ply.setFirst_name(py.getMatchName()+" <sub>"+liveMatch.getMatchInfo().getContestant().get(1).getCode().trim()+"<sub>"); 
+									 }
+									 ply.setTeam_name(liveMatch.getLiveData().getLineUp().get(teamIndex).getContestantId());
+				                     ply.setJerseyNumber(py.getShirtNumber());
+				                     ply.setValue(stat.getValue());
+									 playerStats.add(ply);
+									break;
+								 }
+							}
+						}
+		        	 }
+		        }
+		        Collections.sort(playerStats, (p1, p2) -> Integer.parseInt(p2.getValue()) - Integer.parseInt(p1.getValue()));
+		        match.setTop_Passes(playerStats.subList(0, Math.min(3, playerStats.size())));
+		        double passingAccuracy = AccuracyPercentage(team.getPasses(), accuratePass);
+		        team.setPassingAccuracy((int) Math.round(passingAccuracy));
+		    	} 
+		    }
+			if(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\MatchPreview.json").exists()) {
+				MatchPreview mp = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\MatchPreview.json"), MatchPreview.class);
+				if(mp!=null && mp.getPreviousMeetingsAnyComp()!=null) {
+					match.getApi_LiveMatch().setHomeWin(mp.getPreviousMeetingsAnyComp().getHomeContestantWins());
+					match.getApi_LiveMatch().setAwayWin(mp.getPreviousMeetingsAnyComp().getAwayContestantWins());
+					match.getApi_LiveMatch().setDraws(mp.getPreviousMeetingsAnyComp().getDraws());
 				}
 			}
-		}
-	    
-	    match.getApi_LiveMatch().getHomeTeam().setName(liveMatch.getMatchInfo().getContestant().get(0).getName().trim());
-	    match.getApi_LiveMatch().getHomeTeam().setCode(liveMatch.getMatchInfo().getContestant().get(0).getCode().trim());
-	    
-	    match.getApi_LiveMatch().getAwayTeam().setName(liveMatch.getMatchInfo().getContestant().get(1).getName().trim());
-	    match.getApi_LiveMatch().getAwayTeam().setCode(liveMatch.getMatchInfo().getContestant().get(1).getCode().trim());
-   	 
-	    for (int teamIndex = 0; teamIndex <= 1; teamIndex++) {
-	        ApiTeamstats team = (teamIndex == 0) ? match.getApi_LiveMatch().getHomeTeam() : match.getApi_LiveMatch().getAwayTeam();
-	        int accuratePass = 0;
-	       
-	        if (liveMatch != null && liveMatch.getLiveData() != null &&  liveMatch.getLiveData().getLineUp() != null && liveMatch.getLiveData().getLineUp().get(teamIndex) != null &&
-	        	    liveMatch.getLiveData().getLineUp().get(teamIndex).getStat() != null) {
-	        	for (TeamStat stat : liveMatch.getLiveData().getLineUp().get(teamIndex).getStat()) {
-		            String value = stat.getValue().trim() != null ? stat.getValue().trim() : "0";
-		            switch (stat.getType()) {
-		                case "cornerTaken":
-		                    team.setCornerTaken(Integer.parseInt(value));
-		                    break;
-		                case "fkFoulWon":
-		                    team.setFoulsWon(Integer.parseInt(value));
-		                    break;
-		                case "ontargetScoringAtt":
-		                    team.setShotOnTarget(Integer.parseInt(value));
-		                    break;
-		                case "totalScoringAtt":
-		                    team.setShots(Integer.parseInt(value));
-		                    break;
-		                case "saves":
-		                    team.setSaves(Integer.parseInt(value));
-		                    break;
-		                case "totalCross":
-		                    team.setCrosses(Integer.parseInt(value));
-		                    break;
-		                case "totalPass":
-		                    team.setPasses(Integer.parseInt(value));
-		                    break;
-		                case "accuratePass":
-		                    accuratePass = Integer.parseInt(value);
-		                    break;
-		                case "touches":
-		                    team.setTouches(Integer.parseInt(value));
-		                    break;
-		                case "totalTackle":
-		                    team.setTackles(Integer.parseInt(value));
-		                    break;
-		                case "totalContest":
-		                    team.setDribbles(Integer.parseInt(value));
-		                    break;
-		                case "interception":
-		                    team.setInterceptions(Integer.parseInt(value));
-		                    break;
-		                case "possessionPercentage":
-		                	team.setPossession((int) Math.round(Double.valueOf(value)));
-		                    break;
-		                case "bigChanceCreated":
-		                	team.setChancesCreated(Integer.parseInt(value));
-		                	break;
-		                case "goals":
-		                	team.setGoals(Integer.parseInt(value));
-		                	break;
-		            }
+			if(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\TopPerformers.json").exists()) {
+				TopPerformers playerTopPerformers = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\TopPerformers.json"), TopPerformers.class);
+		        
+				if (playerTopPerformers != null && playerTopPerformers.getPlayerTopPerformers() != null) {
+		        	playerTopPerformers.getPlayerTopPerformers().getRanking().stream()
+		            .filter(ply -> ply != null && "Assists".equalsIgnoreCase(ply.getName()))
+		            .findAny()
+		            .ifPresent(category -> {
+		                List<TopPerformerPlayers> topAssists = category.getPlayer() != null ? 
+		                    category.getPlayer().stream()
+		                    .limit(5)
+		                    .collect(Collectors.toList()) 
+		                    : Collections.emptyList();
+		                match.getTopAssists().addAll(topAssists);
+		            });
+		        	playerTopPerformers.getPlayerTopPerformers().getRanking().stream()
+		            .filter(ply -> ply != null && "Goals".equalsIgnoreCase(ply.getName()))
+		            .findAny()
+		            .ifPresent(category -> {
+		                List<TopPerformerPlayers> topGoals = category.getPlayer() != null ? 
+		                    category.getPlayer().stream()
+		                        .limit(5)
+		                        .collect(Collectors.toList()) 
+		                    : Collections.emptyList(); 
+		                match.getTopGoals().addAll(topGoals);
+		            });
 		        }
-	        	 for(Players py : liveMatch.getLiveData().getLineUp().get(teamIndex).getPlayer()) {
-					if(py.getStat()!=null) {
-						for (Stat stat : py.getStat()) {
-							 switch (stat.getType()) {
-							 case "totalPass":
-								 PlayerStats ply = new PlayerStats("");
-								 ply.setFirst_name(py.getMatchName());
-								 ply.setLast_name(py.getPlayerId());
-								 if(teamIndex==0) {
-									 ply.setFirst_name(py.getMatchName()+" <sub>"+liveMatch.getMatchInfo().getContestant().get(0).getCode().trim()+"<sub>");
-								 }else {
-									 ply.setFirst_name(py.getMatchName()+" <sub>"+liveMatch.getMatchInfo().getContestant().get(1).getCode().trim()+"<sub>"); 
-								 }
-								 ply.setTeam_name(liveMatch.getLiveData().getLineUp().get(teamIndex).getContestantId());
-			                     ply.setJerseyNumber(py.getShirtNumber());
-			                     ply.setValue(stat.getValue());
-								 playerStats.add(ply);
-								break;
-							 }
-						}
-					}
-	        	 }
-	        }
-	        Collections.sort(playerStats, (p1, p2) -> Integer.parseInt(p2.getValue()) - Integer.parseInt(p1.getValue()));
-	        match.setTop_Passes(playerStats.subList(0, Math.min(3, playerStats.size())));
-	        double passingAccuracy = AccuracyPercentage(team.getPasses(), accuratePass);
-	        team.setPassingAccuracy((int) Math.round(passingAccuracy));
-	        
-			MatchPreview mp = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\MatchPreview.json"), MatchPreview.class);
-			if(mp!=null && mp.getPreviousMeetingsAnyComp()!=null) {
-				match.getApi_LiveMatch().setHomeWin(mp.getPreviousMeetingsAnyComp().getHomeContestantWins());
-				match.getApi_LiveMatch().setAwayWin(mp.getPreviousMeetingsAnyComp().getAwayContestantWins());
-				match.getApi_LiveMatch().setDraws(mp.getPreviousMeetingsAnyComp().getDraws());
-			}
-			
-			TopPerformers playerTopPerformers = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\TopPerformers.json"), TopPerformers.class);
-	        
-			if (playerTopPerformers != null && playerTopPerformers.getPlayerTopPerformers() != null) {
-	        	playerTopPerformers.getPlayerTopPerformers().getRanking().stream()
-	            .filter(ply -> ply != null && "Assists".equalsIgnoreCase(ply.getName()))
-	            .findAny()
-	            .ifPresent(category -> {
-	                List<TopPerformerPlayers> topAssists = category.getPlayer() != null ? 
-	                    category.getPlayer().stream()
-	                    .limit(5)
-	                    .collect(Collectors.toList()) 
-	                    : Collections.emptyList();
-	                match.getTopAssists().addAll(topAssists);
-	            });
-	        	playerTopPerformers.getPlayerTopPerformers().getRanking().stream()
-	            .filter(ply -> ply != null && "Goals".equalsIgnoreCase(ply.getName()))
-	            .findAny()
-	            .ifPresent(category -> {
-	                List<TopPerformerPlayers> topGoals = category.getPlayer() != null ? 
-	                    category.getPlayer().stream()
-	                        .limit(5)
-	                        .collect(Collectors.toList()) 
-	                    : Collections.emptyList(); 
-	                match.getTopGoals().addAll(topGoals);
-	            });
-	        }
-	    }
+		    }
+			 File jsonFile = new File("C:\\Sports\\Football\\Statistic\\Match_Data\\TeamStats.json");
+		        
+			 if (jsonFile.exists()) {
+		            ObjectMapper objectMapper = new ObjectMapper();
+		            List<Map<String, Object>> teamStatsList = objectMapper.readValue(jsonFile,
+		                    objectMapper.getTypeFactory().constructCollectionType(List.class, Map.class));
+
+		            Collections.sort(teamStatsList, (p1, p2) -> {
+		                int goalsConceded1 = Integer.parseInt((String) p1.get("value"));
+		                int goalsConceded2 = Integer.parseInt((String) p2.get("value"));
+		                return Integer.compare(goalsConceded2, goalsConceded1); 
+		            });
+
+		            List<PlayerStats> top5Players = teamStatsList.stream()
+		                    .limit(5) 
+		                    .map(map -> {
+		                        PlayerStats player = new PlayerStats("");
+		                        player.setFirst_name((String) map.get("matchName"));
+		                        player.setLast_name((String) map.get("id"));
+		                        player.setTeam_name((String) map.get("teamid"));
+		                        player.setValue((String) map.get("value"));
+		                        return player;
+		                    })
+		                    .collect(Collectors.toList());
+		            System.out.println(top5Players.toString());
+		            match.getGoalConceded().addAll(top5Players);
+		        }
 	    setXMLDataInMatchApi(match);
 	}
 	public static double AccuracyPercentage(int totalPassesAttempted, int accuratePasses) {
@@ -990,6 +1049,20 @@ public class FootballFunctions {
 	    }
 	    accuratePasses = Math.max(0, accuratePasses);
 	    return Double.parseDouble(new DecimalFormat("0.00").format((double) accuratePasses / totalPassesAttempted * 100));
+	}
+	public static void setjerseyNumberInMatchApi(Match match, List<Player> allPlayer) {
+		
+			for(Player ply:allPlayer) {
+				for(ApiEventStats event:match.getApi_LiveMatch().getEvents()) {
+					if(event.getPlayerId().trim().equalsIgnoreCase(ply.getPlayerAPIId())) {
+						event.setJerseyNumber(ply.getJersey_number());
+					}else if(event.getPlayerOffId()!=null && event.getPlayerOffId().trim().equalsIgnoreCase(ply.getPlayerAPIId())) {
+						event.setOffJerseyNumber(ply.getJersey_number());
+					}
+				}
+			}
+			System.out.println(match.getApi_LiveMatch().getEvents().toString());
+
 	}
 
 }
