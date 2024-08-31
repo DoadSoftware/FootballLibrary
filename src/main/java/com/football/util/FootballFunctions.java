@@ -1017,9 +1017,8 @@ public class FootballFunctions {
 			 File jsonFile = new File("C:\\Sports\\Football\\Statistic\\Match_Data\\TeamStats.json");
 		        
 			 if (jsonFile.exists()) {
-		            ObjectMapper objectMapper = new ObjectMapper();
-		            List<Map<String, Object>> teamStatsList = objectMapper.readValue(jsonFile,
-		                    objectMapper.getTypeFactory().constructCollectionType(List.class, Map.class));
+		            List<Map<String, Object>> teamStatsList = new ObjectMapper().readValue(jsonFile,
+		            		new ObjectMapper().getTypeFactory().constructCollectionType(List.class, Map.class));
 
 		            Collections.sort(teamStatsList, (p1, p2) -> {
 		                int goalsConceded1 = Integer.parseInt((String) p1.get("value"));
@@ -1038,7 +1037,6 @@ public class FootballFunctions {
 		                        return player;
 		                    })
 		                    .collect(Collectors.toList());
-		            System.out.println(top5Players.toString());
 		            match.getGoalConceded().addAll(top5Players);
 		        }
 	    setXMLDataInMatchApi(match);
