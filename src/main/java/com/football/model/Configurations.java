@@ -99,4 +99,11 @@ public class Configurations {
 	public void setFilename(String filename) {
 		this.filename = filename;
 	}
+
+	@Override
+	public String toString() {
+		return "Configurations [broadcaster=" + broadcaster + ", ipAddress=" + ipAddress + ", portNumber=" + portNumber
+				+ ", secondaryipAddress=" + secondaryipAddress + ", secondaryportNumber=" + secondaryportNumber + "]";
+	}
+	
 }

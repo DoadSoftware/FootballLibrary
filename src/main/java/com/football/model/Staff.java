@@ -24,6 +24,12 @@ public class Staff
 
   @Column(name = "NAME")
   private String name;
+  
+  @Column(name = "FIRSTNAME")
+  private String firstname;
+
+  @Column(name = "SURNAME")
+  private String surname;
 
   @Column(name = "ClubId")
   private int clubId;
@@ -82,7 +88,21 @@ public String getNationality() {
 public void setNationality(String nationality) {
 	this.nationality = nationality;
 }
-  
 
+public String getFirstname() {
+	return firstname;
+}
+
+public void setFirstname(String firstname) {
+	this.firstname = firstname;
+}
+
+public String getSurname() {
+	return surname;
+}
+
+public void setSurname(String surname) {
+	this.surname = surname;
+}
 
 }
