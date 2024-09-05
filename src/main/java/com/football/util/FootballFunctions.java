@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.Socket;
 import java.net.URL;
@@ -406,6 +407,15 @@ public class FootballFunctions {
 		if(config.getSecondaryipAddress() != null && !config.getSecondaryipAddress().isEmpty()) {
 			print_writer.add(new PrintWriter(new Socket(config.getSecondaryipAddress(), 
 					config.getSecondaryportNumber()).getOutputStream(), true));
+		}
+		
+		try {
+			if(config.getVuipAddress() != null && !config.getVuipAddress().isEmpty()) {
+				print_writer.add(new PrintWriter(new Socket(config.getVuipAddress(), 
+					config.getVuportNumber()).getOutputStream(), true));
+			}
+		} catch (ConnectException e) {
+			System.out.println("Unable to create print writer for QT");
 		}
 	
 		return print_writer;
