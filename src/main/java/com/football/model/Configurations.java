@@ -30,6 +30,12 @@ public class Configurations {
 	@XmlElement(name="secondaryportNumber")
 	private int secondaryportNumber;
 	
+	@XmlElement(name="vuipAddress")
+	private String vuipAddress;
+	
+	@XmlElement(name="vuportNumber")
+	private int vuportNumber;
+	
 	@XmlElement(name="vizscene")
 	private String vizscene;
 
@@ -38,13 +44,15 @@ public class Configurations {
 	}
 
 	public Configurations(String broadcaster, String ipAddress, int portNumber, String secondaryipAddress,
-			int secondaryportNumber) {
+			int secondaryportNumber,String vuipAddress, int vuportNumber) {
 		super();
 		this.broadcaster = broadcaster;
 		this.ipAddress = ipAddress;
 		this.portNumber = portNumber;
 		this.secondaryipAddress = secondaryipAddress;
 		this.secondaryportNumber = secondaryportNumber;
+		this.vuipAddress = vuipAddress;
+		this.vuportNumber = vuportNumber;
 	}
 
 	public String getVizscene() {
@@ -91,6 +99,22 @@ public class Configurations {
 
 	public void setSecondaryportNumber(int secondaryportNumber) {
 		this.secondaryportNumber = secondaryportNumber;
+	}
+
+	public String getVuipAddress() {
+		return vuipAddress;
+	}
+
+	public void setVuipAddress(String vuipAddress) {
+		this.vuipAddress = vuipAddress;
+	}
+
+	public int getVuportNumber() {
+		return vuportNumber;
+	}
+
+	public void setVuportNumber(int vuportNumber) {
+		this.vuportNumber = vuportNumber;
 	}
 
 	public String getFilename() {
