@@ -54,6 +54,16 @@ public class Configurations {
 		this.vuipAddress = vuipAddress;
 		this.vuportNumber = vuportNumber;
 	}
+	
+	public Configurations(String broadcaster, String ipAddress, int portNumber, String secondaryipAddress,
+			int secondaryportNumber) {
+		super();
+		this.broadcaster = broadcaster;
+		this.ipAddress = ipAddress;
+		this.portNumber = portNumber;
+		this.secondaryipAddress = secondaryipAddress;
+		this.secondaryportNumber = secondaryportNumber;
+	}
 
 	public String getVizscene() {
 		return vizscene;
