@@ -17,7 +17,9 @@ import com.football.EuroLeague.TopPerformerPlayers;
 @XmlRootElement(name="Match")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Match {
-
+   
+   private String XmlTimeSpan="";
+  	
   @XmlElement(name = "homeSubstitutesPerTeam")
   private int homeSubstitutesPerTeam;
 
@@ -537,23 +539,33 @@ public void setGoalConceded(List<PlayerStats> goalConceded) {
 	this.goalConceded = goalConceded;
 }
 
-@Override
-public String toString() {
-	return "Match [homeSubstitutesPerTeam=" + homeSubstitutesPerTeam + ", awaySubstitutesPerTeam="
-			+ awaySubstitutesPerTeam + ", matchFileTimeStamp=" + matchFileTimeStamp + ", matchResult=" + matchResult
-			+ ", matchStatus=" + matchStatus + ", matchFileName=" + matchFileName + ", tournament=" + tournament
-			+ ", matchIdent=" + matchIdent + ", matchId=" + matchId + ", homeTeamFormationId=" + homeTeamFormationId
-			+ ", awayTeamFormationId=" + awayTeamFormationId + ", homeTeamId=" + homeTeamId + ", awayTeamId="
-			+ awayTeamId + ", homePenaltiesHits=" + homePenaltiesHits + ", awayPenaltiesHits=" + awayPenaltiesHits
-			+ ", homePenaltiesMisses=" + homePenaltiesMisses + ", awayPenaltiesMisses=" + awayPenaltiesMisses
-			+ ", homeTeamJerseyColor=" + homeTeamJerseyColor + ", awayTeamJerseyColor=" + awayTeamJerseyColor
-			+ ", homeTeamGKJerseyColor=" + homeTeamGKJerseyColor + ", awayTeamGKJerseyColor=" + awayTeamGKJerseyColor
-			+ ", groundId=" + groundId + ", venueName=" + venueName + ", homeTeamScore=" + homeTeamScore
-			+ ", awayTeamScore=" + awayTeamScore + ", api_photo=" + api_photo + ", ground=" + ground + ", homeTeam="
-			+ homeTeam + ", awayTeam=" + awayTeam + ", ApiData=" + ApiData + ", homeSquad=" + homeSquad
-			+ ", homeSubstitutes=" + homeSubstitutes + ", awaySquad=" + awaySquad + ", awaySubstitutes="
-			+ awaySubstitutes + ", homeOtherSquad=" + homeOtherSquad + ", awayOtherSquad=" + awayOtherSquad
-			+ ", matchStats=" + matchStats + ", clock=" + clock + ", events=" + events + "]";
+public String getXmlTimeSpan() {
+	return XmlTimeSpan;
 }
 
+public void setXmlTimeSpan(String xmlTimeSpan) {
+	XmlTimeSpan = xmlTimeSpan;
+}
+
+@Override
+public String toString() {
+	return "Match [XmlTimeSpan=" + XmlTimeSpan + ", homeSubstitutesPerTeam=" + homeSubstitutesPerTeam
+			+ ", awaySubstitutesPerTeam=" + awaySubstitutesPerTeam + ", matchFileTimeStamp=" + matchFileTimeStamp
+			+ ", matchResult=" + matchResult + ", matchStatus=" + matchStatus + ", matchFileName=" + matchFileName
+			+ ", tournament=" + tournament + ", matchIdent=" + matchIdent + ", matchId=" + matchId
+			+ ", homeTeamFormationId=" + homeTeamFormationId + ", awayTeamFormationId=" + awayTeamFormationId
+			+ ", homeTeamId=" + homeTeamId + ", awayTeamId=" + awayTeamId + ", homePenaltiesHits=" + homePenaltiesHits
+			+ ", awayPenaltiesHits=" + awayPenaltiesHits + ", homePenaltiesMisses=" + homePenaltiesMisses
+			+ ", awayPenaltiesMisses=" + awayPenaltiesMisses + ", homeTeamJerseyColor=" + homeTeamJerseyColor
+			+ ", awayTeamJerseyColor=" + awayTeamJerseyColor + ", homeTeamGKJerseyColor=" + homeTeamGKJerseyColor
+			+ ", awayTeamGKJerseyColor=" + awayTeamGKJerseyColor + ", groundId=" + groundId + ", venueName=" + venueName
+			+ ", homeTeamScore=" + homeTeamScore + ", awayTeamScore=" + awayTeamScore + ", api_photo=" + api_photo
+			+ ", ground=" + ground + ", homeTeam=" + homeTeam + ", awayTeam=" + awayTeam + ", ApiData=" + ApiData
+			+ ", homeSquad=" + homeSquad + ", homeSubstitutes=" + homeSubstitutes + ", awaySquad=" + awaySquad
+			+ ", awaySubstitutes=" + awaySubstitutes + ", homeOtherSquad=" + homeOtherSquad + ", awayOtherSquad="
+			+ awayOtherSquad + ", matchStats=" + matchStats + ", clock=" + clock + ", events=" + events
+			+ ", Api_LiveMatch=" + Api_LiveMatch + ", topGoals=" + topGoals + ", TopAssists=" + TopAssists
+			+ ", top_Sprints=" + top_Sprints + ", top_Distance=" + top_Distance + ", top_Speed=" + top_Speed
+			+ ", top_Passes=" + top_Passes + ", goalConceded=" + goalConceded + "]";
+}
 }
