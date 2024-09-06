@@ -26,6 +26,9 @@ public class Match {
   @XmlElement(name = "awaySubstitutesPerTeam")
   private int awaySubstitutesPerTeam;
   
+  @XmlElement(name = "xmlTimeSpan")
+  private String xmlTimeSpan;
+  
   @XmlElement(name = "matchFileTimeStamp")
   private String matchFileTimeStamp;
 
@@ -538,19 +541,18 @@ public List<PlayerStats> getGoalConceded() {
 public void setGoalConceded(List<PlayerStats> goalConceded) {
 	this.goalConceded = goalConceded;
 }
-
 public String getXmlTimeSpan() {
-	return XmlTimeSpan;
+	return xmlTimeSpan;
 }
 
 public void setXmlTimeSpan(String xmlTimeSpan) {
-	XmlTimeSpan = xmlTimeSpan;
+	this.xmlTimeSpan = xmlTimeSpan;
 }
 
 @Override
 public String toString() {
-	return "Match [XmlTimeSpan=" + XmlTimeSpan + ", homeSubstitutesPerTeam=" + homeSubstitutesPerTeam
-			+ ", awaySubstitutesPerTeam=" + awaySubstitutesPerTeam + ", matchFileTimeStamp=" + matchFileTimeStamp
+	return "Match [homeSubstitutesPerTeam=" + homeSubstitutesPerTeam + ", awaySubstitutesPerTeam="
+			+ awaySubstitutesPerTeam + ", xmlTimeSpan=" + xmlTimeSpan + ", matchFileTimeStamp=" + matchFileTimeStamp
 			+ ", matchResult=" + matchResult + ", matchStatus=" + matchStatus + ", matchFileName=" + matchFileName
 			+ ", tournament=" + tournament + ", matchIdent=" + matchIdent + ", matchId=" + matchId
 			+ ", homeTeamFormationId=" + homeTeamFormationId + ", awayTeamFormationId=" + awayTeamFormationId
@@ -568,4 +570,5 @@ public String toString() {
 			+ ", top_Sprints=" + top_Sprints + ", top_Distance=" + top_Distance + ", top_Speed=" + top_Speed
 			+ ", top_Passes=" + top_Passes + ", goalConceded=" + goalConceded + "]";
 }
+
 }
