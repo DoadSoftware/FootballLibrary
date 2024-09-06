@@ -25,6 +25,12 @@ public class Officials
 
   @Column(name = "FourthOfficial")
   private String fourthOfficial;
+  
+  @Column(name = "MatchCommissioner")
+  private String matchCommissioner;
+  
+  @Column(name = "RefereeAssessor")
+  private String refereeAssessor;
 
   public Officials() {
 		super();
@@ -73,6 +79,22 @@ public String getFourthOfficial() {
 
 public void setFourthOfficial(String fourthOfficial) {
 	this.fourthOfficial = fourthOfficial;
+}
+
+public String getMatchCommissioner() {
+	return matchCommissioner;
+}
+
+public void setMatchCommissioner(String matchCommissioner) {
+	this.matchCommissioner = matchCommissioner;
+}
+
+public String getRefereeAssessor() {
+	return refereeAssessor;
+}
+
+public void setRefereeAssessor(String refereeAssessor) {
+	this.refereeAssessor = refereeAssessor;
 }
 
 }
