@@ -415,18 +415,18 @@ public class FootballFunctions {
 	{
 		List<PrintWriter> print_writer = new ArrayList<PrintWriter>();
 		
-		if(config.getIpAddress() != null && !config.getIpAddress().isEmpty()) {
+		if(config.getIpAddress() != null && !config.getIpAddress().isEmpty() && config.getPortNumber() != 0) {
 			print_writer.add(new PrintWriter(new Socket(config.getIpAddress(), 
 					config.getPortNumber()).getOutputStream(), true));
 		}
 		
-		if(config.getSecondaryipAddress() != null && !config.getSecondaryipAddress().isEmpty()) {
+		if(config.getSecondaryipAddress() != null && !config.getSecondaryipAddress().isEmpty() && config.getSecondaryportNumber() != 0) {
 			print_writer.add(new PrintWriter(new Socket(config.getSecondaryipAddress(), 
 					config.getSecondaryportNumber()).getOutputStream(), true));
 		}
 		
 		try {
-			if(config.getVuipAddress() != null && !config.getVuipAddress().isEmpty()) {
+			if(config.getVuipAddress() != null && !config.getVuipAddress().isEmpty() && config.getVuportNumber() != 0) {
 				print_writer.add(new PrintWriter(new Socket(config.getVuipAddress(), 
 					config.getVuportNumber()).getOutputStream(), true));
 			}
