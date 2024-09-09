@@ -1,5 +1,8 @@
 package com.football.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ApiTeamstats {
     private String name;
     private String code;
@@ -25,6 +28,8 @@ public class ApiTeamstats {
     private int dribbles;
     private int goals;
     private int interceptions;
+    private int left, center, right;
+    List<ApiPlayerStats> Player= new ArrayList<ApiPlayerStats>();
 	public String getName() {
 		return name;
 	}
@@ -169,6 +174,31 @@ public class ApiTeamstats {
 	}
 	public void setGoals(int goals) {
 		this.goals = goals;
+	}
+	public int getLeft() {
+		return left;
+	}
+	public void setLeft(int left) {
+		this.left = left;
+	}
+	public int getCenter() {
+		return center;
+	}
+	public void setCenter(int center) {
+		this.center = center;
+	}
+	public int getRight() {
+		return right;
+	}
+	public void setRight(int right) {
+		this.right = right;
+	}
+	
+	public List<ApiPlayerStats> getPlayer() {
+		return Player;
+	}
+	public void setPlayer(List<ApiPlayerStats> player) {
+		Player = player;
 	}
 	@Override
 	public String toString() {
