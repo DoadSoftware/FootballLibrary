@@ -41,6 +41,9 @@ public class Player implements Comparable<Player>
   
   @Column(name = "PHOTO")
   private String photo;
+  
+  @Column(name = "HeatMapRef")
+  private String heatMapRef;
  
   @Transient
   private Integer playerPosition;
@@ -164,6 +167,14 @@ public String getPlayerAPIId() {
 
 public void setPlayerAPIId(String playerAPIId) {
 	PlayerAPIId = playerAPIId;
+}
+
+public String getHeatMapRef() {
+	return heatMapRef;
+}
+
+public void setHeatMapRef(String heatMapRef) {
+	this.heatMapRef = heatMapRef;
 }
 
 @Override

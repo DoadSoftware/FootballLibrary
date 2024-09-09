@@ -50,6 +50,9 @@ public class Fixture {
   @Column(name = "AwayScorer")
   private String awayScorer;
   
+  @Column(name = "HashTag")
+  private String hashTag;
+  
   @Transient
   private Team home_Team;
 
@@ -183,6 +186,14 @@ public String getAwayScorer() {
 
 public void setAwayScorer(String awayScorer) {
 	this.awayScorer = awayScorer;
+}
+
+public String getHashTag() {
+	return hashTag;
+}
+
+public void setHashTag(String hashTag) {
+	this.hashTag = hashTag;
 }
 
 }
