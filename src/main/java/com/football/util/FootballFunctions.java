@@ -1,11 +1,9 @@
 package com.football.util;
 
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ConnectException;
@@ -44,7 +42,6 @@ import com.football.EuroLeague.Events;
 import com.football.EuroLeague.Goal;
 import com.football.EuroLeague.LiveMatch;
 import com.football.EuroLeague.SeasonalStats;
-import com.football.EuroLeague.SeasonalTeams;
 import com.football.EuroLeague.Stat;
 import com.football.EuroLeague.Substitute;
 import com.football.EuroLeague.TeamStat;
@@ -76,7 +73,6 @@ import com.football.service.FootballService;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Element;
 public class FootballFunctions {
 	public static LiveMatch LiveMatch;	
@@ -1255,48 +1251,7 @@ public class FootballFunctions {
 	    accuratePasses = Math.max(0, accuratePasses);
 	    return Double.parseDouble(new DecimalFormat("0.00").format((double) accuratePasses / totalPassesAttempted * 100));
 	}
-	public static void Event(Match match) throws StreamReadException, DatabindException, IOException, SAXException, ParserConfigurationException, FactoryConfigurationError {
-
-	    if (new File("C:\\Sports\\Football\\Statistic\\Match_Data\\MatchEvent.json").exists()) {
-
-		    LiveMatch liveMatch = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\MatchEvent.json"), LiveMatch.class);
-		    match.getApi_LiveMatch().getHomeTeam().setName(liveMatch.getMatchInfo().getContestant().get(0).getName().trim());
-	        match.getApi_LiveMatch().getHomeTeam().setCode(liveMatch.getMatchInfo().getContestant().get(0).getCode().trim());
-
-	        match.getApi_LiveMatch().getAwayTeam().setName(liveMatch.getMatchInfo().getContestant().get(1).getName().trim());
-	        match.getApi_LiveMatch().getAwayTeam().setCode(liveMatch.getMatchInfo().getContestant().get(1).getCode().trim());
-
-	        match.getApi_LiveMatch().getHomeTeam().setCenter(0);
-	        match.getApi_LiveMatch().getAwayTeam().setCenter(0);
-	        match.getApi_LiveMatch().getHomeTeam().setLeft(0);
-	        match.getApi_LiveMatch().getAwayTeam().setLeft(0);
-	        match.getApi_LiveMatch().getHomeTeam().setRight(0);
-	        match.getApi_LiveMatch().getAwayTeam().setRight(0);
-
-		    for (Events event : liveMatch.getLiveData().getEvent()) {
-		        ApiTeamstats team = event.getContestantId().equalsIgnoreCase(match.getApi_LiveMatch().getHomeTeam().getId()) ? match.getApi_LiveMatch().getHomeTeam() : 
-		                   event.getContestantId().equalsIgnoreCase(match.getApi_LiveMatch().getAwayTeam().getId()) ? match.getApi_LiveMatch().getAwayTeam() : null;
-		        if (team == null) continue;
-
-		        for (Qualifier quali : event.getQualifier()) {
-		            if (quali.getQualifierId() == 56) {
-		                switch (quali.getValue().toUpperCase()) {
-		                    case "LEFT":
-		                        team.setLeft(team.getLeft() + 1);
-		                        break;
-		                    case "CENTER":
-		                        team.setCenter(team.getCenter() + 1);
-		                        break;
-		                    case "RIGHT":
-		                        team.setRight(team.getRight() + 1);
-		                        break;
-		                }
-		            }
-		        }
-		    }
-	    }
-	}
-
+	
 	public static void setjerseyNumberInMatchApi(Match match, List<Player> allPlayer) {
 	    for (Player ply : allPlayer) {
 	        for (ApiEventStats event : match.getApi_LiveMatch().getEvents()) {
