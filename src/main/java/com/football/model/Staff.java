@@ -39,6 +39,9 @@ public class Staff
 
   @Column(name = "NATIONALITY")
   private String nationality;
+  
+  @Column(name = "Photo")
+  private String photo;
 
   public Staff() {
 		super();
@@ -103,6 +106,14 @@ public String getSurname() {
 
 public void setSurname(String surname) {
 	this.surname = surname;
+}
+
+public String getPhoto() {
+	return photo;
+}
+
+public void setPhoto(String photo) {
+	this.photo = photo;
 }
 
 }
