@@ -401,6 +401,49 @@ public class FootballFunctions {
 		return LiveMatch;
 	}
 	
+	public static void Event(Match match) throws StreamReadException, DatabindException, IOException, SAXException, ParserConfigurationException, FactoryConfigurationError {
+
+	    if (new File("C:\\Sports\\Football\\Statistic\\Match_Data\\MatchEvent.json").exists()) {
+
+		    LiveMatch liveMatch = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\MatchEvent.json"), LiveMatch.class);
+		    match.getApi_LiveMatch().getHomeTeam().setName(liveMatch.getMatchInfo().getContestant().get(0).getName().trim());
+	        match.getApi_LiveMatch().getHomeTeam().setCode(liveMatch.getMatchInfo().getContestant().get(0).getCode().trim());
+
+	        match.getApi_LiveMatch().getAwayTeam().setName(liveMatch.getMatchInfo().getContestant().get(1).getName().trim());
+	        match.getApi_LiveMatch().getAwayTeam().setCode(liveMatch.getMatchInfo().getContestant().get(1).getCode().trim());
+
+	        match.getApi_LiveMatch().getHomeTeam().setCenter(0);
+	        match.getApi_LiveMatch().getAwayTeam().setCenter(0);
+	        match.getApi_LiveMatch().getHomeTeam().setLeft(0);
+	        match.getApi_LiveMatch().getAwayTeam().setLeft(0);
+	        match.getApi_LiveMatch().getHomeTeam().setRight(0);
+	        match.getApi_LiveMatch().getAwayTeam().setRight(0);
+
+		    for (Events event : liveMatch.getLiveData().getEvent()) {
+		        ApiTeamstats team = event.getContestantId().equalsIgnoreCase(match.getApi_LiveMatch().getHomeTeam().getId()) ? match.getApi_LiveMatch().getHomeTeam() : 
+		                   event.getContestantId().equalsIgnoreCase(match.getApi_LiveMatch().getAwayTeam().getId()) ? match.getApi_LiveMatch().getAwayTeam() : null;
+		        if (team == null) continue;
+
+		        for (Qualifier quali : event.getQualifier()) {
+		            if (quali.getQualifierId() == 56) {
+		                switch (quali.getValue().toUpperCase()) {
+		                    case "LEFT":
+		                        team.setLeft(team.getLeft() + 1);
+		                        break;
+		                    case "CENTER":
+		                        team.setCenter(team.getCenter() + 1);
+		                        break;
+		                    case "RIGHT":
+		                        team.setRight(team.getRight() + 1);
+		                        break;
+		                }
+		            }
+		        }
+		    }
+	    }
+	}
+
+	
 	public static void DoadWriteCommandToSelectedViz(int SelectedViz, String SendTextIn, List<PrintWriter> print_writers) 
 	{
 		if(SelectedViz > 0 && SelectedViz <= print_writers.size()) {

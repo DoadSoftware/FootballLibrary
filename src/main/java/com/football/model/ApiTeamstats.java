@@ -30,6 +30,7 @@ public class ApiTeamstats {
     private int interceptions;
     private int left, center, right;
     List<ApiPlayerStats> Player= new ArrayList<ApiPlayerStats>();
+
 	public String getName() {
 		return name;
 	}
@@ -168,7 +169,6 @@ public class ApiTeamstats {
 	public void setInterceptions(int interceptions) {
 		this.interceptions = interceptions;
 	}
-	
 	public int getGoals() {
 		return goals;
 	}
@@ -193,7 +193,6 @@ public class ApiTeamstats {
 	public void setRight(int right) {
 		this.right = right;
 	}
-	
 	public List<ApiPlayerStats> getPlayer() {
 		return Player;
 	}
