@@ -463,9 +463,11 @@ public class FootballFunctions {
 	}	
 	public static void DoadWriteCommandToAllViz(String SendTextIn, List<PrintWriter> print_writers) 
 	{
-		for(int i = 0; i < print_writers.size(); i++) {
-			print_writers.get(i).println(SendTextIn);
-		}
+		print_writers.get(0).println(SendTextIn);
+//		for(int i = 0; i < print_writers.size(); i++) {
+//			print_writers.get(i).println(SendTextIn);
+//			
+//		}
 	}
 	
 	@SuppressWarnings("resource")
