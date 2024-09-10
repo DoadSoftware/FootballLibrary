@@ -934,10 +934,8 @@ public class FootballFunctions {
 	public static void setJsonDataInMatchApi(Match match) throws Exception {
 		if(new File(FootballUtil.LIVE_DATA).exists()) {
 		    LiveMatch liveMatch = new ObjectMapper().readValue(new File(FootballUtil.LIVE_DATA), LiveMatch.class);
-		    match.getApi_LiveMatch().getHomeTeam().setYellowCards(0);
-		    match.getApi_LiveMatch().getAwayTeam().setYellowCards(0);
-		    match.getApi_LiveMatch().getHomeTeam().setRedCards(0);
-		    match.getApi_LiveMatch().getAwayTeam().setRedCards(0);
+		    match.getApi_LiveMatch().getHomeTeam().setYellowCards(0);match.getApi_LiveMatch().getAwayTeam().setYellowCards(0);
+		    match.getApi_LiveMatch().getHomeTeam().setRedCards(0);match.getApi_LiveMatch().getAwayTeam().setRedCards(0);
 			List<PlayerStats> playerStats = new ArrayList<PlayerStats>();
 			if (liveMatch != null && liveMatch.getLiveData() != null && liveMatch.getLiveData().getCard() != null) {
 			        for (Card card : liveMatch.getLiveData().getCard()) {
@@ -1203,8 +1201,7 @@ public class FootballFunctions {
 		        }
 		        Collections.sort(playerStats, (p1, p2) -> Integer.parseInt(p2.getValue()) - Integer.parseInt(p1.getValue()));
 		        match.setTop_Passes(playerStats.subList(0, Math.min(3, playerStats.size())));
-		        double passingAccuracy = AccuracyPercentage(team.getPasses(), accuratePass);
-		        team.setPassingAccuracy((int) Math.round(passingAccuracy));
+		        team.setPassingAccuracy((int)(AccuracyPercentage(team.getPasses(), accuratePass) > 50 ? AccuracyPercentage(team.getPasses(), accuratePass) + 1 : AccuracyPercentage(team.getPasses(), accuratePass)));
 		    	} 
 		    }
 			if(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\MatchPreview.json").exists()) {
