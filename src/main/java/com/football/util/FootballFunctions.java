@@ -15,11 +15,14 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.Month;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -94,6 +97,18 @@ public class FootballFunctions {
 	        return i + "th";
 	    }
 	}
+	
+	public static String getShortMonthName(int monthNumber) {
+        // Handle the case for September (9) to return "Sept"
+        if (monthNumber == 9) {
+            return "Sept";
+        }
+        // Get the Month enum value for the given month number
+        Month month = Month.of(monthNumber);
+        
+        // Get the short name of the month using TextStyle.SHORT
+        return month.getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
+    }
 	
 	public static String FTPImageDownload(int port,int match_number,String user,String pass,String player_map_type,Configurations config) {
 		
@@ -599,16 +614,16 @@ public class FootballFunctions {
 		
 		if(half.equalsIgnoreCase("first") && number > 2700) {
 			time = ((number - 2700)/60) + 1;
-			return "45'(+" + time + "')" ;
+			return "45' (+" + time + "')" ;
 		}else if(half.equalsIgnoreCase("second") && number > 5400) {
 			time = ((number - 5400)/60) + 1;
-			return "90'(+" + time + "')" ;
+			return "90' (+" + time + "')" ;
 		}if(half.equalsIgnoreCase("extra1") && number > 6300) {
 			time = ((number - 6300)/60) + 1;
-			return "105'(+" + time + "')" ;
+			return "105' (+" + time + "')" ;
 		}else if(half.equalsIgnoreCase("extra2") && number > 7200) {
 			time = ((number - 7200)/60) + 1;
-			return "120'(+" + time + "')" ;
+			return "120' (+" + time + "')" ;
 		}else {
 			return String.valueOf((number/60)+1) + "'" ;
 		}
