@@ -11,7 +11,7 @@ public class ApiTeamstats {
     private int wonCorners;
     private int lostCorners;
     private int cornerTaken;
-    private int yellowCards;
+    private int yellowCards,redCards;
     private int possession;
     private int shots;
     private int onTarget;
@@ -27,6 +27,7 @@ public class ApiTeamstats {
     private int foulsWon;
     private int dribbles;
     private int goals;
+    private int Offside;
     private int interceptions;
     private int left, center, right;
     List<ApiPlayerStats> Player= new ArrayList<ApiPlayerStats>();
@@ -198,6 +199,18 @@ public class ApiTeamstats {
 	}
 	public void setPlayer(List<ApiPlayerStats> player) {
 		Player = player;
+	}
+	public int getRedCards() {
+		return redCards;
+	}
+	public void setRedCards(int redCards) {
+		this.redCards = redCards;
+	}
+	public int getOffside() {
+		return Offside;
+	}
+	public void setOffside(int offside) {
+		Offside = offside;
 	}
 	@Override
 	public String toString() {

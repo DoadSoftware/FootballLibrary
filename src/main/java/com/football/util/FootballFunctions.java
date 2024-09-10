@@ -932,6 +932,10 @@ public class FootballFunctions {
 	public static void setJsonDataInMatchApi(Match match) throws Exception {
 		if(new File(FootballUtil.LIVE_DATA).exists()) {
 		    LiveMatch liveMatch = new ObjectMapper().readValue(new File(FootballUtil.LIVE_DATA), LiveMatch.class);
+		    match.getApi_LiveMatch().getHomeTeam().setYellowCards(0);
+		    match.getApi_LiveMatch().getAwayTeam().setYellowCards(0);
+		    match.getApi_LiveMatch().getHomeTeam().setRedCards(0);
+		    match.getApi_LiveMatch().getAwayTeam().setRedCards(0);
 			List<PlayerStats> playerStats = new ArrayList<PlayerStats>();
 			if (liveMatch != null && liveMatch.getLiveData() != null && liveMatch.getLiveData().getCard() != null) {
 			        for (Card card : liveMatch.getLiveData().getCard()) {
@@ -945,6 +949,16 @@ public class FootballFunctions {
 			                } else if (card.getContestantId().equalsIgnoreCase(liveMatch.getMatchInfo().getContestant().get(1).getId())) {
 			                    match.getApi_LiveMatch().getAwayTeam().setYellowCards(
 			                        match.getApi_LiveMatch().getAwayTeam().getYellowCards() + 1
+			                    );
+			                }
+			            }else  if (card.getType().equalsIgnoreCase("RC")) {
+			                if (card.getContestantId().equalsIgnoreCase(liveMatch.getMatchInfo().getContestant().get(0).getId())) {
+			                    match.getApi_LiveMatch().getHomeTeam().setRedCards(
+			                        match.getApi_LiveMatch().getHomeTeam().getRedCards() + 1
+			                    );
+			                } else if (card.getContestantId().equalsIgnoreCase(liveMatch.getMatchInfo().getContestant().get(1).getId())) {
+			                    match.getApi_LiveMatch().getAwayTeam().setRedCards(
+			                        match.getApi_LiveMatch().getAwayTeam().getRedCards() + 1
 			                    );
 			                }
 			            }
@@ -1029,6 +1043,9 @@ public class FootballFunctions {
 			                	break;
 			                case "goals":
 			                	team.setGoals(Integer.parseInt(value));
+			                	break;
+			                case "totalOffside":
+			                	team.setOffside(Integer.parseInt(value));
 			                	break;
 			            }
 			        }		
