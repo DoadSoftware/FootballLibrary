@@ -1,39 +1,28 @@
 package com.football.model;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
-@XmlRootElement(name="event")
-@XmlAccessorType(XmlAccessType.FIELD)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Event implements Comparable<Event> {
 
-  @XmlElement(name = "eventNumber")
   private int eventNumber;
 
-  @XmlElement(name = "eventPlayerId")
   private int eventPlayerId;
   
-  @XmlElement(name = "eventMatchHalves")
   private String eventMatchHalves;
   
-  @XmlElement(name = "statsId")
   private int statsId;
 
-  @XmlElement(name = "eventLog")
   private String eventLog;
   
-  @XmlElement(name = "eventType")
   private String eventType;
   
-  @XmlElement(name = "offPlayerId")
   private int offPlayerId;
   
-  @XmlElement(name = "onPlayerId")
   private int onPlayerId;
 
-  @XmlElement(name = "eventScore")
   private float eventScore;
   
 public Event() {

@@ -98,16 +98,25 @@ public class FootballFunctions {
 	    }
 	}
 	
-	public static String getShortMonthName(int monthNumber) {
-        // Handle the case for September (9) to return "Sept"
-        if (monthNumber == 9) {
-            return "Sept";
-        }
-        // Get the Month enum value for the given month number
-        Month month = Month.of(monthNumber);
+	public static String[] getMonthNames(int monthNumber) {
+        String[] monthNames = new String[2];
         
-        // Get the short name of the month using TextStyle.SHORT
-        return month.getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
+        // Handle the case for September (9) to return "Sept" for short name
+        if (monthNumber == 9) {
+            monthNames[0] = "Sept";  // Custom short name for September
+        } else {
+            // Get the Month enum value for the given month number
+            Month month = Month.of(monthNumber);
+            
+            // Get the short name of the month using TextStyle.SHORT
+            monthNames[0] = month.getDisplayName(TextStyle.SHORT, Locale.ENGLISH);
+        }
+        
+        // Get the full name of the month using TextStyle.FULL
+        Month month = Month.of(monthNumber);
+        monthNames[1] = month.getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+        
+        return monthNames;
     }
 	
 	public static String FTPImageDownload(int port,int match_number,String user,String pass,String player_map_type,Configurations config) {
@@ -412,9 +421,9 @@ public class FootballFunctions {
 		return LiveMatch;
 	}
 	
-	public static void Event(Match match) throws StreamReadException, DatabindException, IOException, SAXException, ParserConfigurationException, FactoryConfigurationError {
-
-	    if (new File("C:\\Sports\\Football\\Statistic\\Match_Data\\MatchEvent.json").exists()) {
+	public static void getAttackingZoneDataFromAPI(Match match) throws StreamReadException, DatabindException, IOException, SAXException, ParserConfigurationException, FactoryConfigurationError {
+		
+		if (new File("C:\\Sports\\Football\\Statistic\\Match_Data\\MatchEvent.json").exists()) {
 
 		    LiveMatch liveMatch = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\MatchEvent.json"), LiveMatch.class);
 		    match.getApi_LiveMatch().getHomeTeam().setName(liveMatch.getMatchInfo().getContestant().get(0).getName().trim());
@@ -937,6 +946,7 @@ public class FootballFunctions {
 		    match.getApi_LiveMatch().getHomeTeam().setYellowCards(0);match.getApi_LiveMatch().getAwayTeam().setYellowCards(0);
 		    match.getApi_LiveMatch().getHomeTeam().setRedCards(0);match.getApi_LiveMatch().getAwayTeam().setRedCards(0);
 			List<PlayerStats> playerStats = new ArrayList<PlayerStats>();
+			match.getApi_LiveMatch().getEvents().clear();
 			if (liveMatch != null && liveMatch.getLiveData() != null && liveMatch.getLiveData().getCard() != null) {
 			        for (Card card : liveMatch.getLiveData().getCard()) {
 			        	 match.getApi_LiveMatch().getEvents().add(new ApiEventStats(card.getContestantId(),card.getPlayerId(),HtmlUtils.htmlEscape(card.getPlayerName()),card.getTimeMin(),
@@ -1036,7 +1046,7 @@ public class FootballFunctions {
 			                    team.setInterceptions(Integer.parseInt(value));
 			                    break;
 			                case "possessionPercentage":
-			                	team.setPossession((int) Math.round(Double.valueOf(value)));
+			                	team.setPassingAccuracy((int)(Double.valueOf(value) > 50 ? Double.valueOf(value) + 1 : Double.valueOf(value)));
 			                    break;
 			                case "bigChanceCreated":
 			                	team.setChancesCreated(Integer.parseInt(value));
@@ -1201,7 +1211,8 @@ public class FootballFunctions {
 		        }
 		        Collections.sort(playerStats, (p1, p2) -> Integer.parseInt(p2.getValue()) - Integer.parseInt(p1.getValue()));
 		        match.setTop_Passes(playerStats.subList(0, Math.min(3, playerStats.size())));
-		        team.setPassingAccuracy((int)(AccuracyPercentage(team.getPasses(), accuratePass) > 50 ? AccuracyPercentage(team.getPasses(), accuratePass) + 1 : AccuracyPercentage(team.getPasses(), accuratePass)));
+		        team.setPassingAccuracy((int)(AccuracyPercentage(team.getPasses(), accuratePass) > 50 ? AccuracyPercentage(team.getPasses(), 
+		        		accuratePass) + 1 : AccuracyPercentage(team.getPasses(), accuratePass)));
 		    	} 
 		    }
 			if(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\MatchPreview.json").exists()) {

@@ -3,166 +3,112 @@ package com.football.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-
-import com.football.EuroLeague.LiveMatch;
-import com.football.EuroLeague.SeasonalStats;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.football.EuroLeague.TopPerformerPlayers;
 
-@XmlRootElement(name="Match")
-@XmlAccessorType(XmlAccessType.FIELD)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Match {
    
-   private String XmlTimeSpan="";
-  	
-  @XmlElement(name = "homeSubstitutesPerTeam")
+  private String XmlTimeSpan="";
+  
   private int homeSubstitutesPerTeam;
 
-  @XmlElement(name = "awaySubstitutesPerTeam")
   private int awaySubstitutesPerTeam;
   
-  @XmlElement(name = "xmlTimeSpan")
   private String xmlTimeSpan;
   
-  @XmlElement(name = "matchFileTimeStamp")
   private String matchFileTimeStamp;
 
-  @XmlElement(name = "matchResult")
   private String matchResult;
 
-  @XmlElement(name = "matchStatus")
   private String matchStatus;
   
-  @XmlElement(name = "matchFileName")
   private String matchFileName;
 
-  @XmlElement(name = "tournament")
   private String tournament;
 
-  @XmlElement(name = "matchIdent")
   private String matchIdent;
   
-  @XmlElement(name = "matchId")
   private int matchId;
 
-  @XmlElement(name = "homeTeamFormationId")
   private int homeTeamFormationId;
 
-  @XmlElement(name = "awayTeamFormationId")
   private int awayTeamFormationId;
   
-  @XmlElement(name = "homeTeamId")
   private int homeTeamId;
 
-  @XmlElement(name = "awayTeamId")
   private int awayTeamId;
 
-  @XmlElement(name = "homePenaltiesHits")
   private int homePenaltiesHits;
 
-  @XmlElement(name = "awayPenaltiesHits")
   private int awayPenaltiesHits;
 
-  @XmlElement(name = "homePenaltiesMisses")
   private int homePenaltiesMisses;
 
-  @XmlElement(name = "awayPenaltiesMisses")
   private int awayPenaltiesMisses;
  
-  @XmlElement(name = "homeTeamJerseyColor")
   private String homeTeamJerseyColor;
 
-  @XmlElement(name = "awayTeamJerseyColor")
   private String awayTeamJerseyColor;
   
-  @XmlElement(name = "homeTeamGKJerseyColor")
   private String homeTeamGKJerseyColor;
 
-  @XmlElement(name = "awayTeamGKJerseyColor")
   private String awayTeamGKJerseyColor;
 
-  @XmlElement(name = "groundId")
   private int groundId;
 
-  @XmlElement(name = "venueName")
   private String venueName;
 
-  @XmlElement(name = "homeTeamScore")
   private int homeTeamScore;
 
-  @XmlElement(name = "awayTeamScore")
   private int awayTeamScore;
 
-  @XmlTransient
   private String api_photo;
   
-  @XmlTransient
   private Ground ground;
   
-  @XmlTransient
   private Team homeTeam;
 
-  @XmlTransient
   private Team awayTeam;
   
-  @XmlTransient
   private List<APITeam> ApiData;
 
-  @XmlElementWrapper(name = "homeSquad")
-  @XmlElement(name = "homeSquad")
   private List<Player> homeSquad;
 
-  @XmlElementWrapper(name = "homeSubstitutes")
-  @XmlElement(name = "homeSubstitutes")
   private List<Player> homeSubstitutes;
   
-  @XmlElementWrapper(name = "awaySquad")
-  @XmlElement(name = "awaySquad")
   private List<Player> awaySquad;
 
-  @XmlElementWrapper(name = "awaySubstitutes")
-  @XmlElement(name = "awaySubstitutes")
   private List<Player> awaySubstitutes;
   
-  @XmlElementWrapper(name = "homeOtherSquad")
-  @XmlElement(name = "homeOtherSquad")
   private List<Player> homeOtherSquad;
 
-  @XmlElementWrapper(name = "awayOtherSquad")
-  @XmlElement(name = "awayOtherSquad")
   private List<Player> awayOtherSquad;
 
-  @XmlElementWrapper(name = "matchStats")
-  @XmlElement(name = "matchStat")
   private List<MatchStats> matchStats;
   
-  @XmlElement(name = "clock")
   private Clock clock;
 
-  @XmlTransient
   private List<Event> events;
   
-  @XmlTransient
   private ApiData Api_LiveMatch = new ApiData();
-  @XmlTransient
+ 
   private List<TopPerformerPlayers> topGoals=new ArrayList<TopPerformerPlayers>();
-  @XmlTransient
+  
   private List<TopPerformerPlayers> TopAssists=new ArrayList<TopPerformerPlayers>();
-  @XmlTransient
+  
   List<PlayerStats> top_Sprints = new ArrayList<PlayerStats>();
-  @XmlTransient
+  
   List<PlayerStats> top_Distance = new ArrayList<PlayerStats>(); 
-  @XmlTransient
+  
   List<PlayerStats> top_Speed = new ArrayList<PlayerStats>();
-  @XmlTransient
+  
   List<PlayerStats> top_Passes = new ArrayList<PlayerStats>();
-  @XmlTransient
+  
   List<PlayerStats> goalConceded = new ArrayList<PlayerStats>();
+  
   
 public int getHomePenaltiesHits() {
 	return homePenaltiesHits;
