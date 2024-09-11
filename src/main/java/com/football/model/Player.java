@@ -44,6 +44,9 @@ public class Player implements Comparable<Player>
   
   @Column(name = "HeatMapRef")
   private String heatMapRef;
+  
+  @Column(name = "Nationality")
+  private String nationality;
  
   @Transient
   private Integer playerPosition;
@@ -177,12 +180,21 @@ public void setHeatMapRef(String heatMapRef) {
 	this.heatMapRef = heatMapRef;
 }
 
+public String getNationality() {
+	return nationality;
+}
+
+public void setNationality(String nationality) {
+	this.nationality = nationality;
+}
+
 @Override
 public String toString() {
 	return "Player [playerId=" + playerId + ", PlayerAPIId=" + PlayerAPIId + ", jersey_number=" + jersey_number
 			+ ", full_name=" + full_name + ", firstname=" + firstname + ", surname=" + surname + ", ticker_name="
-			+ ticker_name + ", role=" + role + ", teamId=" + teamId + ", photo=" + photo + ", playerPosition="
-			+ playerPosition + ", captainGoalKeeper=" + captainGoalKeeper + ", player_type=" + player_type + "]";
+			+ ticker_name + ", role=" + role + ", teamId=" + teamId + ", photo=" + photo + ", heatMapRef=" + heatMapRef
+			+ ", nationality=" + nationality + ", playerPosition=" + playerPosition + ", captainGoalKeeper="
+			+ captainGoalKeeper + ", player_type=" + player_type + "]";
 }
 
 @Override
