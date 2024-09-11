@@ -37,4 +37,10 @@ public void setMatchTotalMilliSeconds(long matchTotalMilliSeconds) {
 	this.matchTotalMilliSeconds = matchTotalMilliSeconds;
 }
 
+@Override
+public String toString() {
+	return "Clock [matchHalves=" + matchHalves + ", matchTimeStatus=" + matchTimeStatus + ", matchTotalMilliSeconds="
+			+ matchTotalMilliSeconds + "]";
+}
+
 }
