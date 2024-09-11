@@ -1060,6 +1060,12 @@ public class FootballFunctions {
 			                case "totalOffside":
 			                	team.setOffside(Integer.parseInt(value));
 			                	break;
+			                case "wonContest":
+			                	team.setSuccessfulDribble(Integer.parseInt(value));
+		                        break;
+			                case "duelWon":
+			                	team.setDuelWon(Integer.parseInt(value));
+		                        break;
 			            }
 			        }		
 		        	for(Players py : liveMatch.getLiveData().getLineUp().get(teamIndex).getPlayer()) {

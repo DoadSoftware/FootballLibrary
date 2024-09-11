@@ -29,6 +29,8 @@ public class ApiTeamstats {
     private int goals;
     private int Offside;
     private int interceptions;
+    private int successfulDribble;
+    private int duelWon;
     private int left, center, right;
     List<ApiPlayerStats> Player= new ArrayList<ApiPlayerStats>();
 
@@ -211,6 +213,18 @@ public class ApiTeamstats {
 	}
 	public void setOffside(int offside) {
 		Offside = offside;
+	}
+	public int getSuccessfulDribble() {
+		return successfulDribble;
+	}
+	public void setSuccessfulDribble(int successfulDribble) {
+		this.successfulDribble = successfulDribble;
+	}
+	public int getDuelWon() {
+		return duelWon;
+	}
+	public void setDuelWon(int duelWon) {
+		this.duelWon = duelWon;
 	}
 	@Override
 	public String toString() {
