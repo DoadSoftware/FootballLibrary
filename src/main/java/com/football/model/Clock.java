@@ -1,46 +1,40 @@
 package com.football.model;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
-@XmlRootElement(name="Clock")
-@XmlAccessorType(XmlAccessType.FIELD)
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Clock {
 
-	@XmlElement(name = "matchHalves")
-	private String matchHalves;
-	  
-	@XmlElement(name = "matchTimeStatus")
-	private String matchTimeStatus;
+  private String matchHalves;
+  
+  private String matchTimeStatus;
 
-	@XmlElement(name = "matchTotalMilliSeconds")
-	private long matchTotalMilliSeconds;
-	
+  private long matchTotalMilliSeconds;
 
-	public String getMatchHalves() {
-		return matchHalves;
-	}
+public String getMatchHalves() {
+	return matchHalves;
+}
 
-	public void setMatchHalves(String matchHalves) {
-		this.matchHalves = matchHalves;
-	}
+public void setMatchHalves(String matchHalves) {
+	this.matchHalves = matchHalves;
+}
 
-	public String getMatchTimeStatus() {
-		return matchTimeStatus;
-	}
+public String getMatchTimeStatus() {
+	return matchTimeStatus;
+}
 
-	public void setMatchTimeStatus(String matchTimeStatus) {
-		this.matchTimeStatus = matchTimeStatus;
-	}
+public void setMatchTimeStatus(String matchTimeStatus) {
+	this.matchTimeStatus = matchTimeStatus;
+}
 
-	public long getMatchTotalMilliSeconds() {
-		return matchTotalMilliSeconds;
-	}
+public long getMatchTotalMilliSeconds() {
+	return matchTotalMilliSeconds;
+}
 
-	public void setMatchTotalMilliSeconds(long matchTotalMilliSeconds) {
-		this.matchTotalMilliSeconds = matchTotalMilliSeconds;
-	}
+public void setMatchTotalMilliSeconds(long matchTotalMilliSeconds) {
+	this.matchTotalMilliSeconds = matchTotalMilliSeconds;
+}
 
 }
