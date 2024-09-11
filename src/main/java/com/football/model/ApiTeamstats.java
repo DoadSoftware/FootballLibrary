@@ -12,14 +12,14 @@ public class ApiTeamstats {
     private int lostCorners;
     private int cornerTaken;
     private int yellowCards,redCards;
-    private int possession;
+    private double possession;
     private int shots;
     private int onTarget;
     private int corners;
     private int saves;
     private int crosses;
     private int passes;
-    private int passingAccuracy;
+    private double passingAccuracy;
     private int distanceCovered;
     private int touches;
     private int tackles;
@@ -80,10 +80,10 @@ public class ApiTeamstats {
 	public void setYellowCards(int yellowCards) {
 		this.yellowCards = yellowCards;
 	}
-	public int getPossession() {
+	public double getPossession() {
 		return possession;
 	}
-	public void setPossession(int possession) {
+	public void setPossession(double possession) {
 		this.possession = possession;
 	}
 	public int getShots() {
@@ -122,10 +122,10 @@ public class ApiTeamstats {
 	public void setPasses(int passes) {
 		this.passes = passes;
 	}
-	public int getPassingAccuracy() {
+	public double getPassingAccuracy() {
 		return passingAccuracy;
 	}
-	public void setPassingAccuracy(int passingAccuracy) {
+	public void setPassingAccuracy(double passingAccuracy) {
 		this.passingAccuracy = passingAccuracy;
 	}
 	public int getDistanceCovered() {

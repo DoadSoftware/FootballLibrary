@@ -59,6 +59,7 @@ import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.football.model.ApiEventStats;
+import com.football.model.ApiMatch;
 import com.football.model.ApiPlayerStats;
 import com.football.model.ApiTeamstats;
 import com.football.model.Configurations;
@@ -421,7 +422,7 @@ public class FootballFunctions {
 		return LiveMatch;
 	}
 	
-	public static void getAttackingZoneDataFromAPI(Match match) throws StreamReadException, DatabindException, IOException, SAXException, ParserConfigurationException, FactoryConfigurationError {
+ 	public static void getAttackingZoneDataFromAPI(ApiMatch match) throws StreamReadException, DatabindException, IOException, SAXException, ParserConfigurationException, FactoryConfigurationError {
 		
 		if (new File("C:\\Sports\\Football\\Statistic\\Match_Data\\MatchEvent.json").exists()) {
 
@@ -651,7 +652,7 @@ public class FootballFunctions {
 		return "";
 	}
 	
-	public static List<TeamStats> getTopStatsDatafromXML(Match match) throws SAXException, IOException, ParserConfigurationException, FactoryConfigurationError {
+	public static List<TeamStats> getTopStatsDatafromXML(ApiMatch match) throws SAXException, IOException, ParserConfigurationException, FactoryConfigurationError {
 		
 		String team = "";
 		ArrayList<TeamStats> teamStats = new ArrayList<TeamStats>();
@@ -878,10 +879,10 @@ public class FootballFunctions {
 		}
 		return players;
 	}	
-	public static void readXml(Match match) {
+	public static void readXml(ApiMatch match) {
 		int k=0;
 		 try {	            
-	             Document document = (new File(FootballUtil.FOOTBALL_DIRECTORY + FootballUtil.STATISTIC_DIRECTORY + FootballUtil.MATCH_DATA_DIRECTORY + FootballUtil.SPORTVUSTATISTIC + FootballUtil.XML_EXTENSION).exists()) ? DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File(FootballUtil.FOOTBALL_DIRECTORY + FootballUtil.STATISTIC_DIRECTORY + FootballUtil.MATCH_DATA_DIRECTORY + FootballUtil.SPORTVUSTATISTIC + FootballUtil.XML_EXTENSION)) : null;
+	           Document document = (new File(FootballUtil.FOOTBALL_DIRECTORY + FootballUtil.STATISTIC_DIRECTORY + FootballUtil.MATCH_DATA_DIRECTORY + FootballUtil.SPORTVUSTATISTIC + FootballUtil.XML_EXTENSION).exists()) ? DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File(FootballUtil.FOOTBALL_DIRECTORY + FootballUtil.STATISTIC_DIRECTORY + FootballUtil.MATCH_DATA_DIRECTORY + FootballUtil.SPORTVUSTATISTIC + FootballUtil.XML_EXTENSION)) : null;
 				if(document!=null) {
 					document.getDocumentElement().normalize();
 		            NodeList resultDataList = document.getElementsByTagName("ResultData");
@@ -914,7 +915,7 @@ public class FootballFunctions {
 	            e.printStackTrace();
 	        }
 	}
-	public static void setXMLDataInMatchApi(Match match) throws Exception {
+	public static void setXMLDataInMatchApi(ApiMatch match) throws Exception {
 		List<TeamStats> topStatsData = getTopStatsDatafromXML(match);
 	    for (TeamStats statsData : topStatsData) {
 	        for (TopStats topStats : statsData.getTopStats()) {
@@ -940,7 +941,7 @@ public class FootballFunctions {
         readXml(match);
 	}
 
-	public static void setJsonDataInMatchApi(Match match) throws Exception {
+	public static void setJsonDataInMatchApi(ApiMatch match) throws Exception {
 		if(new File(FootballUtil.LIVE_DATA).exists()) {
 		    LiveMatch liveMatch = new ObjectMapper().readValue(new File(FootballUtil.LIVE_DATA), LiveMatch.class);
 		    match.getApi_LiveMatch().getHomeTeam().setYellowCards(0);match.getApi_LiveMatch().getAwayTeam().setYellowCards(0);
@@ -1046,7 +1047,9 @@ public class FootballFunctions {
 			                    team.setInterceptions(Integer.parseInt(value));
 			                    break;
 			                case "possessionPercentage":
-			                	team.setPassingAccuracy((int)(Double.valueOf(value) > 50 ? Double.valueOf(value) + 1 : Double.valueOf(value)));
+			                	 team.setPossession( Double.valueOf(value));
+			                	// team.setPossession((int) (Double.parseDouble(value) > 50 ? Double.parseDouble(value) + 1 : Double.parseDouble(value)));
+			                	//possession += value+",";
 			                    break;
 			                case "bigChanceCreated":
 			                	team.setChancesCreated(Integer.parseInt(value));
@@ -1211,80 +1214,87 @@ public class FootballFunctions {
 		        }
 		        Collections.sort(playerStats, (p1, p2) -> Integer.parseInt(p2.getValue()) - Integer.parseInt(p1.getValue()));
 		        match.setTop_Passes(playerStats.subList(0, Math.min(3, playerStats.size())));
-		        team.setPassingAccuracy((int)(AccuracyPercentage(team.getPasses(), accuratePass) > 50 ? AccuracyPercentage(team.getPasses(), 
-		        		accuratePass) + 1 : AccuracyPercentage(team.getPasses(), accuratePass)));
+		        team.setPassingAccuracy(AccuracyPercentage(team.getPasses(), accuratePass));
+
 		    	} 
 		    }
-			if(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\MatchPreview.json").exists()) {
-				MatchPreview mp = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\MatchPreview.json"), MatchPreview.class);
-				if(mp!=null && mp.getPreviousMeetingsAnyComp()!=null) {
-					match.getApi_LiveMatch().setHomeWin(mp.getPreviousMeetingsAnyComp().getHomeContestantWins());
-					match.getApi_LiveMatch().setAwayWin(mp.getPreviousMeetingsAnyComp().getAwayContestantWins());
-					match.getApi_LiveMatch().setDraws(mp.getPreviousMeetingsAnyComp().getDraws());
-				}
+	}
+	public static String RoundValues(String values) {
+	    String[] parts = values.split(","); 
+	    return (parts[0].endsWith(".5") && parts[1].endsWith(".5")) ? (Integer.parseInt(parts[0].split("\\.")[0]) + 1) + "," + parts[1].split("\\.")[0] 
+	        : Math.round(Double.parseDouble(parts[0])) + "," + Math.round(Double.parseDouble(parts[1]));
+	}
+	public static void setApiTournament(ApiMatch match)throws Exception{
+		if(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\MatchPreview.json").exists()) {
+			MatchPreview mp = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\MatchPreview.json"), MatchPreview.class);
+			if(mp!=null && mp.getPreviousMeetingsAnyComp()!=null) {
+				match.getApi_LiveMatch().setHomeWin(mp.getPreviousMeetingsAnyComp().getHomeContestantWins());
+				match.getApi_LiveMatch().setAwayWin(mp.getPreviousMeetingsAnyComp().getAwayContestantWins());
+				match.getApi_LiveMatch().setDraws(mp.getPreviousMeetingsAnyComp().getDraws());
 			}
-			if(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\TopPerformers.json").exists()) {
-				TopPerformers playerTopPerformers = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\TopPerformers.json"), TopPerformers.class);
-		        
-				if (playerTopPerformers != null && playerTopPerformers.getPlayerTopPerformers() != null) {
-		        	playerTopPerformers.getPlayerTopPerformers().getRanking().stream()
-		            .filter(ply -> ply != null && "Assists".equalsIgnoreCase(HtmlUtils.htmlEscape(ply.getName())))
-		            .findAny()
-		            .ifPresent(category -> {
-		                List<TopPerformerPlayers> topAssists = category.getPlayer() != null ? 
-		                    category.getPlayer().stream()
-		                    .limit(5)
-		                    .map(player -> {
+		}
+		if(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\TopPerformers.json").exists()) {
+			TopPerformers playerTopPerformers = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\TopPerformers.json"), TopPerformers.class);
+	        
+			if (playerTopPerformers != null && playerTopPerformers.getPlayerTopPerformers() != null) {
+	        	playerTopPerformers.getPlayerTopPerformers().getRanking().stream()
+	            .filter(ply -> ply != null && "Assists".equalsIgnoreCase(HtmlUtils.htmlEscape(ply.getName())))
+	            .findAny()
+	            .ifPresent(category -> {
+	                List<TopPerformerPlayers> topAssists = category.getPlayer() != null ? 
+	                    category.getPlayer().stream()
+	                    .limit(5)
+	                    .map(player -> {
+                            player.setMatchName(HtmlUtils.htmlEscape(player.getMatchName()));
+                            return player;
+                        })
+	                    .collect(Collectors.toList()) 
+	                    : Collections.emptyList();
+	                match.getTopAssists().addAll(topAssists);
+	            });
+	        	playerTopPerformers.getPlayerTopPerformers().getRanking().stream()
+	            .filter(ply -> ply != null && "Goals".equalsIgnoreCase(HtmlUtils.htmlEscape(ply.getName())))
+	            .findAny()
+	            .ifPresent(category -> {
+	                List<TopPerformerPlayers> topGoals = category.getPlayer() != null ? 
+	                    category.getPlayer().stream()
+	                        .limit(5)
+	                        .map(player -> {
 	                            player.setMatchName(HtmlUtils.htmlEscape(player.getMatchName()));
 	                            return player;
 	                        })
-		                    .collect(Collectors.toList()) 
-		                    : Collections.emptyList();
-		                match.getTopAssists().addAll(topAssists);
-		            });
-		        	playerTopPerformers.getPlayerTopPerformers().getRanking().stream()
-		            .filter(ply -> ply != null && "Goals".equalsIgnoreCase(HtmlUtils.htmlEscape(ply.getName())))
-		            .findAny()
-		            .ifPresent(category -> {
-		                List<TopPerformerPlayers> topGoals = category.getPlayer() != null ? 
-		                    category.getPlayer().stream()
-		                        .limit(5)
-		                        .map(player -> {
-		                            player.setMatchName(HtmlUtils.htmlEscape(player.getMatchName()));
-		                            return player;
-		                        })
-		                        .collect(Collectors.toList()) 
-		                    : Collections.emptyList(); 
-		                match.getTopGoals().addAll(topGoals);
-		            });
-		        }
-		    }
-			 File jsonFile = new File("C:\\Sports\\Football\\Statistic\\Match_Data\\TeamStats.json");
-		        
-			 if (jsonFile.exists()) {
-		            List<Map<String, Object>> teamStatsList = new ObjectMapper().readValue(jsonFile,
-		            		new ObjectMapper().getTypeFactory().constructCollectionType(List.class, Map.class));
+	                        .collect(Collectors.toList()) 
+	                    : Collections.emptyList(); 
+	                match.getTopGoals().addAll(topGoals);
+	            });
+	        }
+	    }
+		 File jsonFile = new File("C:\\Sports\\Football\\Statistic\\Match_Data\\TeamStats.json");
+	        
+		 if (jsonFile.exists()) {
+	            List<Map<String, Object>> teamStatsList = new ObjectMapper().readValue(jsonFile,
+	            		new ObjectMapper().getTypeFactory().constructCollectionType(List.class, Map.class));
 
-		            Collections.sort(teamStatsList, (p1, p2) -> {
-		                int goalsConceded1 = Integer.parseInt((String) p1.get("value"));
-		                int goalsConceded2 = Integer.parseInt((String) p2.get("value"));
-		                return Integer.compare(goalsConceded2, goalsConceded1); 
-		            });
+	            Collections.sort(teamStatsList, (p1, p2) -> {
+	                int goalsConceded1 = Integer.parseInt((String) p1.get("value"));
+	                int goalsConceded2 = Integer.parseInt((String) p2.get("value"));
+	                return Integer.compare(goalsConceded2, goalsConceded1); 
+	            });
 
-		            List<PlayerStats> top5Players = teamStatsList.stream()
-		                    .limit(5) 
-		                    .map(map -> {
-		                    	PlayerStats player = new PlayerStats("");
-		                        player.setFirst_name(HtmlUtils.htmlEscape((String) map.get("matchName")));
-		                        player.setLast_name(HtmlUtils.htmlEscape((String) map.get("id")));
-		                        player.setTeam_name(HtmlUtils.htmlEscape((String) map.get("teamid")));
-		                        player.setValue(HtmlUtils.htmlEscape((String) map.get("value")));
-		                        return player;
-		                    })
-		                    .collect(Collectors.toList());
-		            match.getGoalConceded().addAll(top5Players);
-		        }
-	    setXMLDataInMatchApi(match);
+	            List<PlayerStats> top5Players = teamStatsList.stream()
+	                    .limit(5) 
+	                    .map(map -> {
+	                    	PlayerStats player = new PlayerStats("");
+	                        player.setFirst_name(HtmlUtils.htmlEscape((String) map.get("matchName")));
+	                        player.setLast_name(HtmlUtils.htmlEscape((String) map.get("id")));
+	                        player.setTeam_name(HtmlUtils.htmlEscape((String) map.get("teamid")));
+	                        player.setValue(HtmlUtils.htmlEscape((String) map.get("value")));
+	                        return player;
+	                    })
+	                    .collect(Collectors.toList());
+	            match.getGoalConceded().addAll(top5Players);
+	        }
+		 setXMLDataInMatchApi(match);
 	}
 	public static double AccuracyPercentage(int totalPassesAttempted, int accuratePasses) {
 	    if (totalPassesAttempted <= 0) {
@@ -1294,7 +1304,7 @@ public class FootballFunctions {
 	    return Double.parseDouble(new DecimalFormat("0.00").format((double) accuratePasses / totalPassesAttempted * 100));
 	}
 	
-	public static void setjerseyNumberInMatchApi(Match match, List<Player> allPlayer) {
+	public static void setjerseyNumberInMatchApi(ApiMatch match, List<Player> allPlayer) {
 	    for (Player ply : allPlayer) {
 	        for (ApiEventStats event : match.getApi_LiveMatch().getEvents()) {
 	            if (event.getPlayerId().trim().equalsIgnoreCase(ply.getPlayerAPIId())) {
