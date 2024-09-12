@@ -429,9 +429,11 @@ public class FootballFunctions {
 		    LiveMatch liveMatch = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\MatchEvent.json"), LiveMatch.class);
 		    match.getApi_LiveMatch().getHomeTeam().setName(liveMatch.getMatchInfo().getContestant().get(0).getName().trim());
 	        match.getApi_LiveMatch().getHomeTeam().setCode(liveMatch.getMatchInfo().getContestant().get(0).getCode().trim());
+	        match.getApi_LiveMatch().getHomeTeam().setId(liveMatch.getMatchInfo().getContestant().get(0).getId().trim());
 
 	        match.getApi_LiveMatch().getAwayTeam().setName(liveMatch.getMatchInfo().getContestant().get(1).getName().trim());
 	        match.getApi_LiveMatch().getAwayTeam().setCode(liveMatch.getMatchInfo().getContestant().get(1).getCode().trim());
+	        match.getApi_LiveMatch().getAwayTeam().setId(liveMatch.getMatchInfo().getContestant().get(1).getId().trim());
 
 	        match.getApi_LiveMatch().getHomeTeam().setCenter(0);
 	        match.getApi_LiveMatch().getAwayTeam().setCenter(0);
@@ -439,12 +441,13 @@ public class FootballFunctions {
 	        match.getApi_LiveMatch().getAwayTeam().setLeft(0);
 	        match.getApi_LiveMatch().getHomeTeam().setRight(0);
 	        match.getApi_LiveMatch().getAwayTeam().setRight(0);
-
+	        
 		    for (Events event : liveMatch.getLiveData().getEvent()) {
 		        ApiTeamstats team = event.getContestantId().equalsIgnoreCase(match.getApi_LiveMatch().getHomeTeam().getId()) ? match.getApi_LiveMatch().getHomeTeam() : 
 		                   event.getContestantId().equalsIgnoreCase(match.getApi_LiveMatch().getAwayTeam().getId()) ? match.getApi_LiveMatch().getAwayTeam() : null;
-		        if (team == null) continue;
-
+		         if (team == null) continue;
+		        
+		        
 		        for (Qualifier quali : event.getQualifier()) {
 		            if (quali.getQualifierId() == 56) {
 		                switch (quali.getValue().toUpperCase()) {
