@@ -746,15 +746,17 @@ public class FootballFunctions {
 				                                    				
 //				                                    				System.out.println("PlayerJerseyNumber = " + childNodes.item(i).getChildNodes().item(j).getChildNodes()
 //				                                        				.item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
+				                                    				
+				                                    				 				
 				                                    				teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1).getTopStats().size()-1)
 		                                    						.getPlayersStats().get(teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1)
 		                                    								.getTopStats().size()-1).getPlayersStats().size()-1).setJerseyNumber(Integer.valueOf(childNodes.item(i).getChildNodes().item(j)
 		                                    										.getChildNodes().item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue()));
 				                                    				
-				                                    				
 				                                    			}else if(childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().item(l).getChildNodes()
 				                                                		.item(m).getNodeName().equalsIgnoreCase("Value")) {
 				                                    				
+				                                    			
 				                                    				teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1).getTopStats().size()-1)
 			                                    						.getPlayersStats().get(teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1)
 			                                    								.getTopStats().size()-1).getPlayersStats().size()-1).setValue(childNodes.item(i).getChildNodes().item(j)
@@ -922,6 +924,9 @@ public class FootballFunctions {
 	}
 	public static void setXMLDataInMatchApi(ApiMatch match) throws Exception {
 		List<TeamStats> topStatsData = getTopStatsDatafromXML(match);
+		
+		match.getTop_Distance().clear();match.getTop_Sprints().clear();match.getTop_Speed().clear();
+				
 	    for (TeamStats statsData : topStatsData) {
 	        for (TopStats topStats : statsData.getTopStats()) {
 	            String header = topStats.getHeader().toLowerCase();
@@ -940,9 +945,18 @@ public class FootballFunctions {
 	            }
 	        }
 	    }
-        Collections.sort(match.getTop_Speed(),new FootballFunctions.PlayerStatsComparator());
-        Collections.sort(match.getTop_Distance(),new FootballFunctions.PlayerStatsComparator());
-        Collections.sort(match.getTop_Sprints(),new FootballFunctions.PlayerStatsComparator());
+	    if (match.getTop_Speed() != null && !match.getTop_Speed().isEmpty()) {
+	        Collections.sort(match.getTop_Speed(), new FootballFunctions.PlayerStatsComparator());
+	    }
+
+	    if (match.getTop_Distance() != null && !match.getTop_Distance().isEmpty()) {
+	        Collections.sort(match.getTop_Distance(), new FootballFunctions.PlayerStatsComparator());
+	    }
+
+	    if (match.getTop_Sprints() != null && !match.getTop_Sprints().isEmpty()) {
+	        Collections.sort(match.getTop_Sprints(), new FootballFunctions.PlayerStatsComparator());
+	    }
+
         readXml(match);
 	}
 
@@ -1012,7 +1026,6 @@ public class FootballFunctions {
 
 		    for (int teamIndex = 0; teamIndex <= 1; teamIndex++) {
 		        ApiTeamstats team = (teamIndex == 0) ? match.getApi_LiveMatch().getHomeTeam() : match.getApi_LiveMatch().getAwayTeam();
-		        int accuratePass = 0;
 		       
 		        if (liveMatch != null && liveMatch.getLiveData() != null &&  liveMatch.getLiveData().getLineUp() != null && liveMatch.getLiveData().getLineUp().get(teamIndex) != null &&
 		        	    liveMatch.getLiveData().getLineUp().get(teamIndex).getStat() != null) {
@@ -1041,7 +1054,7 @@ public class FootballFunctions {
 			                    team.setPasses(Integer.parseInt(value));
 			                    break;
 			                case "accuratePass":
-			                    accuratePass = Integer.parseInt(value);
+			                    team.setAccuratePass(Integer.parseInt(value));
 			                    break;
 			                case "touches":
 			                    team.setTouches(Integer.parseInt(value));
@@ -1057,8 +1070,6 @@ public class FootballFunctions {
 			                    break;
 			                case "possessionPercentage":
 			                	 team.setPossession( Double.valueOf(value));
-			                	// team.setPossession((int) (Double.parseDouble(value) > 50 ? Double.parseDouble(value) + 1 : Double.parseDouble(value)));
-			                	//possession += value+",";
 			                    break;
 			                case "bigChanceCreated":
 			                	team.setChancesCreated(Integer.parseInt(value));
@@ -1074,6 +1085,72 @@ public class FootballFunctions {
 		                        break;
 			                case "duelWon":
 			                	team.setDuelWon(Integer.parseInt(value));
+		                        break;
+			                case "fkFoulLost":
+			                	team.setFoulLost(Integer.parseInt(stat.getValue()));
+			                	break;
+			                case "totalClearance":
+			                	team.setTotalClearance(Integer.parseInt(stat.getValue()));
+		                    	break;
+		                    case "effectiveClearance":
+		                    	team.setEffectiveClearance(Integer.parseInt(stat.getValue()));
+		                    	break;
+		                    case "interceptionWon":
+		                    	team.setInterceptionWon(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "ballRecovery":
+		                    	team.setBallRecovery(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "unsuccessfulTouch":
+		                    	team.setUnsuccessfulTouch(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "turnover":
+		                    	team.setTurnover(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "wonTackle":
+		                       team.setWonTackle(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "totalFinalThirdPasses":
+		                       team.setTotalFinalThirdPasses(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "successfulFinalThirdPasses":
+		                    	team.setSuccessfulFinalThirdPasses(Integer.parseInt(stat.getValue()));
+		                    	break;
+		                    case "possWonAtt3rd":
+		                       team.setPossWonAtt3rd(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "possWonDef3rd":
+		                       team.setPossWonDef3rd(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "touchesInOppBox":
+		                       team.setTouchesInOppBox(Integer.parseInt(stat.getValue()));
+		                    	break;
+		                    case "wonCorners":
+		                       team.setWonCorners(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "lostCorners":
+		                       team.setLostCorners(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "duelLost":
+		                       team.setDuelLost(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "blockedScoringAtt":
+		                    	team.setBlockedScoringAtt(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "ShotOffTarget":
+		                    	team.setShotOffTarget(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "goalsConceded":
+		                    	team.setGoalsConceded(Integer.parseInt(stat.getValue()));
+		                    	break;
+		                    case "totalThrows":
+		                    	team.setTotalThrows(Integer.parseInt(stat.getValue()));
+		                    	break;
+		                    case "aerialWon":
+		                    	team.setAerialWon(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "aerialLost":
+		                    	team.setAerialLost(Integer.parseInt(stat.getValue()));
 		                        break;
 			            }
 			        }		
@@ -1229,7 +1306,7 @@ public class FootballFunctions {
 		        }
 		        Collections.sort(playerStats, (p1, p2) -> Integer.parseInt(p2.getValue()) - Integer.parseInt(p1.getValue()));
 		        match.setTop_Passes(playerStats.subList(0, Math.min(3, playerStats.size())));
-		        team.setPassingAccuracy(AccuracyPercentage(team.getPasses(), accuratePass));
+		        team.setPassingAccuracy(AccuracyPercentage(team.getPasses(), team.getAccuratePass()));
 
 		    	} 
 		    }

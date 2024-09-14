@@ -13,7 +13,7 @@ public class ApiTeamstats {
     private int cornerTaken;
     private int yellowCards,redCards;
     private double possession;
-    private int shots;
+    private int shots,accuratePass;
     private int onTarget;
     private int corners;
     private int saves;
@@ -32,6 +32,11 @@ public class ApiTeamstats {
     private int successfulDribble;
     private int duelWon;
     private int left, center, right;
+    private int foulLost, totalClearance, effectiveClearance,interceptionWon,
+    			ballRecovery, unsuccessfulTouch, turnover,wonTackle,totalFinalThirdPasses,successfulFinalThirdPasses,
+    			possWonAtt3rd,possWonDef3rd,touchesInOppBox,duelLost,blockedScoringAtt,ShotOffTarget,goalsConceded,
+    			totalThrows,aerialWon,aerialLost;
+
     List<ApiPlayerStats> Player= new ArrayList<ApiPlayerStats>();
 
 	public String getName() {
@@ -225,6 +230,134 @@ public class ApiTeamstats {
 	}
 	public void setDuelWon(int duelWon) {
 		this.duelWon = duelWon;
+	}
+	
+	public int getAccuratePass() {
+		return accuratePass;
+	}
+	public void setAccuratePass(int accuratePass) {
+		this.accuratePass = accuratePass;
+	}
+	
+	public int getFoulLost() {
+		return foulLost;
+	}
+	public void setFoulLost(int foulLost) {
+		this.foulLost = foulLost;
+	}
+	public int getTotalClearance() {
+		return totalClearance;
+	}
+	public void setTotalClearance(int totalClearance) {
+		this.totalClearance = totalClearance;
+	}
+	public int getEffectiveClearance() {
+		return effectiveClearance;
+	}
+	public void setEffectiveClearance(int effectiveClearance) {
+		this.effectiveClearance = effectiveClearance;
+	}
+	public int getInterceptionWon() {
+		return interceptionWon;
+	}
+	public void setInterceptionWon(int interceptionWon) {
+		this.interceptionWon = interceptionWon;
+	}
+	public int getBallRecovery() {
+		return ballRecovery;
+	}
+	public void setBallRecovery(int ballRecovery) {
+		this.ballRecovery = ballRecovery;
+	}
+	public int getUnsuccessfulTouch() {
+		return unsuccessfulTouch;
+	}
+	public void setUnsuccessfulTouch(int unsuccessfulTouch) {
+		this.unsuccessfulTouch = unsuccessfulTouch;
+	}
+	public int getTurnover() {
+		return turnover;
+	}
+	public void setTurnover(int turnover) {
+		this.turnover = turnover;
+	}
+	public int getWonTackle() {
+		return wonTackle;
+	}
+	public void setWonTackle(int wonTackle) {
+		this.wonTackle = wonTackle;
+	}
+	public int getTotalFinalThirdPasses() {
+		return totalFinalThirdPasses;
+	}
+	public void setTotalFinalThirdPasses(int totalFinalThirdPasses) {
+		this.totalFinalThirdPasses = totalFinalThirdPasses;
+	}
+	public int getSuccessfulFinalThirdPasses() {
+		return successfulFinalThirdPasses;
+	}
+	public void setSuccessfulFinalThirdPasses(int successfulFinalThirdPasses) {
+		this.successfulFinalThirdPasses = successfulFinalThirdPasses;
+	}
+	public int getPossWonAtt3rd() {
+		return possWonAtt3rd;
+	}
+	public void setPossWonAtt3rd(int possWonAtt3rd) {
+		this.possWonAtt3rd = possWonAtt3rd;
+	}
+	public int getPossWonDef3rd() {
+		return possWonDef3rd;
+	}
+	public void setPossWonDef3rd(int possWonDef3rd) {
+		this.possWonDef3rd = possWonDef3rd;
+	}
+	public int getTouchesInOppBox() {
+		return touchesInOppBox;
+	}
+	public void setTouchesInOppBox(int touchesInOppBox) {
+		this.touchesInOppBox = touchesInOppBox;
+	}
+	public int getDuelLost() {
+		return duelLost;
+	}
+	public void setDuelLost(int duelLost) {
+		this.duelLost = duelLost;
+	}
+	public int getBlockedScoringAtt() {
+		return blockedScoringAtt;
+	}
+	public void setBlockedScoringAtt(int blockedScoringAtt) {
+		this.blockedScoringAtt = blockedScoringAtt;
+	}
+	public int getShotOffTarget() {
+		return ShotOffTarget;
+	}
+	public void setShotOffTarget(int shotOffTarget) {
+		ShotOffTarget = shotOffTarget;
+	}
+	public int getGoalsConceded() {
+		return goalsConceded;
+	}
+	public void setGoalsConceded(int goalsConceded) {
+		this.goalsConceded = goalsConceded;
+	}
+	public int getTotalThrows() {
+		return totalThrows;
+	}
+	public void setTotalThrows(int totalThrows) {
+		this.totalThrows = totalThrows;
+	}
+	public int getAerialWon() {
+		return aerialWon;
+	}
+	public void setAerialWon(int aerialWon) {
+		this.aerialWon = aerialWon;
+	}
+	public int getAerialLost() {
+		return aerialLost;
+	}
+	public void setAerialLost(int aerialLost) {
+		this.aerialLost = aerialLost;
 	}
 	@Override
 	public String toString() {

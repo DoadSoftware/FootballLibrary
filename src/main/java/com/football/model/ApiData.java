@@ -6,10 +6,15 @@ import java.util.List;
 import com.football.EuroLeague.TopPerformerPlayers;
 
 public class ApiData {
+	
 	ApiTeamstats homeTeam = new ApiTeamstats();
+	
 	ApiTeamstats awayTeam = new ApiTeamstats();
+	
 	List<ApiEventStats> events= new ArrayList<ApiEventStats>(); 
+	
 	int homeWin,awayWin,draws;
+	
 	public ApiTeamstats getHomeTeam() {
 		return homeTeam;
 	}
