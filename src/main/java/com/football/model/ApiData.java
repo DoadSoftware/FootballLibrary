@@ -3,7 +3,8 @@ package com.football.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.football.EuroLeague.TopPerformerPlayers;
+import com.football.EuroLeague.Possession;
+
 
 public class ApiData {
 	
@@ -12,8 +13,9 @@ public class ApiData {
 	ApiTeamstats awayTeam = new ApiTeamstats();
 	
 	List<ApiEventStats> events= new ArrayList<ApiEventStats>(); 
-	
 	int homeWin,awayWin,draws;
+	
+	Possession  Possession =new Possession();
 	
 	public ApiTeamstats getHomeTeam() {
 		return homeTeam;
@@ -51,6 +53,13 @@ public class ApiData {
 	}
 	public void setEvents(List<ApiEventStats> events) {
 		this.events = events;
+	}
+	
+	public Possession getPossession() {
+		return Possession;
+	}
+	public void setPossession(Possession possession) {
+		Possession = possession;
 	}
 	@Override
 	public String toString() {

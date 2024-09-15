@@ -53,6 +53,7 @@ import com.football.EuroLeague.TopPerformers;
 import com.football.EuroLeague.rankings;
 import com.football.EuroLeague.PassMatrix;
 import com.football.EuroLeague.Players;
+import com.football.EuroLeague.Possession;
 import com.football.EuroLeague.Qualifier;
 import com.football.EuroLeague.MatchPreview;
 import com.fasterxml.jackson.core.exc.StreamReadException;
@@ -825,6 +826,7 @@ public class FootballFunctions {
 		                                    						.getPlayersStats().get(teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1)
 		                                    								.getTopStats().size()-1).getPlayersStats().size()-1).setFirst_name(childNodes.item(i).getChildNodes().item(j)
 		                                    										.getChildNodes().item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
+				                                    			
 				                                    				
 				                                    			}else if(childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().item(l).getChildNodes()
 				                                            		.item(m).getNodeName().equalsIgnoreCase("PlayerJerseyNumber")) {
@@ -832,21 +834,21 @@ public class FootballFunctions {
 //				                                    				System.out.println("PlayerJerseyNumber = " + childNodes.item(i).getChildNodes().item(j).getChildNodes()
 //				                                        				.item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
 				                                    				
-				                                    				 				
+				                                    				                				
 				                                    				teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1).getTopStats().size()-1)
 		                                    						.getPlayersStats().get(teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1)
 		                                    								.getTopStats().size()-1).getPlayersStats().size()-1).setJerseyNumber(Integer.valueOf(childNodes.item(i).getChildNodes().item(j)
 		                                    										.getChildNodes().item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue()));
 				                                    				
+				                                    				
 				                                    			}else if(childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().item(l).getChildNodes()
 				                                                		.item(m).getNodeName().equalsIgnoreCase("Value")) {
-				                                    				
-				                                    			
+
 				                                    				teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1).getTopStats().size()-1)
 			                                    						.getPlayersStats().get(teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1)
 			                                    								.getTopStats().size()-1).getPlayersStats().size()-1).setValue(childNodes.item(i).getChildNodes().item(j)
 			                                    										.getChildNodes().item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
-				                                    				
+			                                    				
 //				                                    				System.out.println("Value = " + childNodes.item(i).getChildNodes().item(j).getChildNodes()
 //				                                        					.item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
 				                                        		}
@@ -1395,12 +1397,16 @@ public class FootballFunctions {
 
 		    	} 
 		    }
+		if(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\Possession.json").exists()) {
+			match.getApi_LiveMatch().setPossession(new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\Possession.json"), Possession.class));
+		}
 	}
 	public static String RoundValues(String values) {
 	    String[] parts = values.split(","); 
 	    return (parts[0].endsWith(".5") && parts[1].endsWith(".5")) ? (Integer.parseInt(parts[0].split("\\.")[0]) + 1) + "," + parts[1].split("\\.")[0] 
 	        : Math.round(Double.parseDouble(parts[0])) + "," + Math.round(Double.parseDouble(parts[1]));
 	}
+	
 	public static void setApiTournament(ApiMatch match)throws Exception{
 		if(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\MatchPreview.json").exists()) {
 			MatchPreview mp = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\MatchPreview.json"), MatchPreview.class);
