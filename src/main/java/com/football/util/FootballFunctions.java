@@ -74,6 +74,7 @@ import com.football.model.PlayerStats;
 import com.football.model.Team;
 import com.football.model.TeamStats;
 import com.football.model.TopStats;
+import com.football.model.Tournament;
 import com.football.service.FootballService;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
@@ -120,6 +121,58 @@ public class FootballFunctions {
         
         return monthNames;
     }
+	
+	public static String hundredsTensUnits(String number) {
+		String hundReds ="0",tens="0",units="0";
+		
+		switch (number.length()) {
+		case 1:
+			units = String.valueOf(number.charAt(0));
+			break;
+		case 2:
+			tens = String.valueOf(number.charAt(0));
+			units = String.valueOf(number.charAt(1));
+			break;
+		case 3:
+			hundReds = String.valueOf(number.charAt(0));
+			tens = String.valueOf(number.charAt(1));
+			units = String.valueOf(number.charAt(2));
+			break;
+		}
+		
+		return hundReds + "," + tens + "," + units;
+	}
+	
+	public static Tournament extracttournamentGoals(String typeOfExtraction, List<Fixture> fixtures, Match currentMatch, 
+			Tournament past_tournament_stat) throws CloneNotSupportedException 
+	{
+		Tournament tournament_stats = new Tournament();	
+		switch(typeOfExtraction) {
+		case "COMBINED_PAST_CURRENT_MATCH_DATA":
+			 return extracttournamentGoals("CURRENT_MATCH_DATA", fixtures, currentMatch, 
+					 extracttournamentGoals("PAST_MATCHES_DATA", fixtures, currentMatch, null));
+		case "PAST_MATCHES_DATA":
+			for(Fixture fix : fixtures) {
+				if(!fix.getMatchfilename().equalsIgnoreCase(currentMatch.getMatchFileName().replace(".json", "")) && fix.getMargin() != null) {
+					tournament_stats.setGoals(tournament_stats.getGoals() + Integer.valueOf(fix.getMargin().split("-")[0]));
+					tournament_stats.setGoals(tournament_stats.getGoals() + Integer.valueOf(fix.getMargin().split("-")[1]));
+				}
+			}
+			return tournament_stats;
+		case "CURRENT_MATCH_DATA":
+			Tournament past_tournament_stat_clone = new Tournament();
+			if(past_tournament_stat  != null) {
+				past_tournament_stat_clone = past_tournament_stat.clone(); // create clone of past_tournament_stat
+			}
+			
+			past_tournament_stat_clone.setGoals(past_tournament_stat_clone.getGoals() + currentMatch.getHomeTeamScore());
+			past_tournament_stat_clone.setGoals(past_tournament_stat_clone.getGoals() + currentMatch.getAwayTeamScore());
+			
+			return past_tournament_stat_clone;
+		}
+		
+		return null;
+	}
 	
 	public static String FTPImageDownload(int port,int match_number,String user,String pass,String player_map_type,Configurations config) {
 		
@@ -447,22 +500,45 @@ public class FootballFunctions {
 		        ApiTeamstats team = event.getContestantId().equalsIgnoreCase(match.getApi_LiveMatch().getHomeTeam().getId()) ? match.getApi_LiveMatch().getHomeTeam() : 
 		                   event.getContestantId().equalsIgnoreCase(match.getApi_LiveMatch().getAwayTeam().getId()) ? match.getApi_LiveMatch().getAwayTeam() : null;
 		         if (team == null) continue;
-		        
-		        
-		        for (Qualifier quali : event.getQualifier()) {
-		            if (quali.getQualifierId() == 56) {
-		                switch (quali.getValue().toUpperCase()) {
-		                    case "LEFT":
-		                        team.setLeft(team.getLeft() + 1);
-		                        break;
-		                    case "CENTER":
-		                        team.setCenter(team.getCenter() + 1);
-		                        break;
-		                    case "RIGHT":
-		                        team.setRight(team.getRight() + 1);
-		                        break;
-		                }
-		            }
+		         
+		        if(((event.getTypeId() == 44 && event.getOutcome() == 0) || (event.getTypeId() == 59 && event.getOutcome() == 0)) && event.getX() >= 50) {
+		        	for (Qualifier quali : event.getQualifier()) {
+			            if (quali.getQualifierId() == 56) {
+			                switch (quali.getValue().toUpperCase()) {
+			                    case "LEFT":
+			                        team.setLeft(team.getLeft() + 1);
+			                        break;
+			                    case "CENTER":
+			                        team.setCenter(team.getCenter() + 1);
+			                        break;
+			                    case "RIGHT":
+			                        team.setRight(team.getRight() + 1);
+			                        break;
+			                }
+			            }
+			        }
+		        	
+		        }else if(((event.getTypeId() >= 1 && event.getTypeId() <= 4) || (event.getTypeId() >= 6 && event.getTypeId() <= 8)
+	        			|| (event.getTypeId() >= 10 && event.getTypeId() <= 16) || (event.getTypeId() == 41) || (event.getTypeId() == 42)
+	        			|| (event.getTypeId() == 45) || (event.getTypeId() >= 49 && event.getTypeId() <= 56) || (event.getTypeId() == 60)
+	        			|| (event.getTypeId() == 61) || (event.getTypeId() == 69) || (event.getTypeId() == 72) || (event.getTypeId() == 74)) 
+		        		&& event.getX() >= 50) {
+		        	
+		        	for (Qualifier quali : event.getQualifier()) {
+			            if (quali.getQualifierId() == 56) {
+			                switch (quali.getValue().toUpperCase()) {
+			                    case "LEFT":
+			                        team.setLeft(team.getLeft() + 1);
+			                        break;
+			                    case "CENTER":
+			                        team.setCenter(team.getCenter() + 1);
+			                        break;
+			                    case "RIGHT":
+			                        team.setRight(team.getRight() + 1);
+			                        break;
+			                }
+			            }
+			        }
 		        }
 		    }
 	    }
