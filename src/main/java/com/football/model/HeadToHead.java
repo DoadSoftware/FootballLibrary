@@ -3,6 +3,7 @@ package com.football.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.Column;
 
 @Entity
@@ -54,8 +55,19 @@ public class HeadToHead {
   
   @Column(name = "ValueStats6")
   private String valueStats6;
+  
+  @Transient
+  private Team team;
 
   
+public Team getTeam() {
+	return team;
+}
+
+public void setTeam(Team team) {
+	this.team = team;
+}
+
 public int getHeadToHeadId() {
 	return headToHeadId;
 }

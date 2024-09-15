@@ -64,6 +64,7 @@ import com.football.model.ApiPlayerStats;
 import com.football.model.ApiTeamstats;
 import com.football.model.Configurations;
 import com.football.model.Fixture;
+import com.football.model.HeadToHead;
 import com.football.model.LeaderBoard;
 import com.football.model.Match;
 import com.football.model.MatchStats;
@@ -558,6 +559,14 @@ public class FootballFunctions {
 			leader.setPlayer5(footballService.getPlayer(FootballUtil.PLAYER, String.valueOf(leader.getPlayer5Id())));
 		}
 		return leaderBoards;
+	}
+	
+	public static List<HeadToHead> processAllHeadToHead(FootballService footballService){
+		List<HeadToHead> h2h = footballService.getHeadToHeadStats();
+		for(HeadToHead h : h2h) {
+			h.setTeam(footballService.getTeam(FootballUtil.TEAM, String.valueOf(h.getTeamId())));
+		}
+		return h2h;
 	}
 	
 	public static String twoDigitString(long number) {
