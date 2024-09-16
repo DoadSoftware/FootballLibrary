@@ -1239,9 +1239,13 @@ public class FootballFunctions {
 		                    case "aerialLost":
 		                    	team.setAerialLost(Integer.parseInt(stat.getValue()));
 		                        break;
+		                    case "finalThirdEntries":
+		                    	team.setFinalThirdEntries(Integer.parseInt(stat.getValue()));
+		                    	break;
+		                    
 			            }
-			        }		
-		        	for(Players py : liveMatch.getLiveData().getLineUp().get(teamIndex).getPlayer()) {
+			        }	
+		            for(Players py : liveMatch.getLiveData().getLineUp().get(teamIndex).getPlayer()) {
 						 ApiPlayerStats playerStats1 = new ApiPlayerStats();
 				            playerStats1.setId(py.getPlayerId().trim());
 							playerStats1.setName(HtmlUtils.htmlEscape(py.getMatchName().trim()));
@@ -1365,7 +1369,6 @@ public class FootballFunctions {
 					                }
 					            }
 				            }
-				           
 				            team.getPlayer().add(playerStats1);
 					}
 		        	 for(Players py : liveMatch.getLiveData().getLineUp().get(teamIndex).getPlayer()) {
@@ -1393,7 +1396,12 @@ public class FootballFunctions {
 		        }
 		        Collections.sort(playerStats, (p1, p2) -> Integer.parseInt(p2.getValue()) - Integer.parseInt(p1.getValue()));
 		        match.setTop_Passes(playerStats.subList(0, Math.min(3, playerStats.size())));
+		        
 		        team.setPassingAccuracy(AccuracyPercentage(team.getPasses(), team.getAccuratePass()));
+	            team.setSuccessfulDribblePercent(team.getDribbles() > 0 ? (int) Math.round((team.getSuccessfulDribble() * 100.0) / team.getDribbles()) : 0);
+	            team.setDuelwonPercent((team.getDuelWon() + team.getDuelLost() > 0) ? (int) Math.round((team.getDuelWon() * 100.0) / (team.getDuelWon() + team.getDuelLost())) : 0);
+	            team.setArielwonPercent((team.getAerialWon() + team.getAerialLost() > 0) ? (int) Math.round((team.getAerialWon() * 100.0) / (team.getAerialWon() + team.getAerialLost())) : 0);
+	            team.setFinalThirdPassingAccuracy(team.getTotalFinalThirdPasses() > 0 ? (int) Math.round((team.getSuccessfulFinalThirdPasses() * 100.0) / team.getTotalFinalThirdPasses()) : 0);
 
 		    	} 
 		    }
@@ -1528,6 +1536,10 @@ public class FootballFunctions {
 		    	home_value = api_match.getApi_LiveMatch().getHomeTeam().getCornerTaken();
 		        away_value = api_match.getApi_LiveMatch().getAwayTeam().getCornerTaken();
 		        break;
+		    case "Corners_Won":
+		    	home_value = api_match.getApi_LiveMatch().getHomeTeam().getWonCorners();
+		        away_value = api_match.getApi_LiveMatch().getAwayTeam().getWonCorners();
+		        break;
 		    case "Yellow_Cards":
 		    	home_value = api_match.getApi_LiveMatch().getHomeTeam().getYellowCards();
 		        away_value = api_match.getApi_LiveMatch().getAwayTeam().getYellowCards();
@@ -1567,6 +1579,10 @@ public class FootballFunctions {
 		    	home_value = api_match.getApi_LiveMatch().getHomeTeam().getFoulsWon();
 		        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFoulsWon();
 		        break;
+		    case "Fouls":
+		    	home_value = api_match.getApi_LiveMatch().getHomeTeam().getFoulLost();
+		        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFoulLost();
+		        break;
 		    case "Dribbles":
 		    	home_value = api_match.getApi_LiveMatch().getHomeTeam().getDribbles();
 		        away_value = api_match.getApi_LiveMatch().getAwayTeam().getDribbles();
@@ -1575,6 +1591,10 @@ public class FootballFunctions {
 		    	home_value = api_match.getApi_LiveMatch().getHomeTeam().getInterceptions();
 		        away_value = api_match.getApi_LiveMatch().getAwayTeam().getInterceptions();
 		        break;
+		    case "InterceptionsWon":
+		    	home_value = api_match.getApi_LiveMatch().getHomeTeam().getInterceptionWon();
+		        away_value = api_match.getApi_LiveMatch().getAwayTeam().getInterceptionWon();
+		    	break;
 		    case "goalsConceded":
 		    	home_value = api_match.getApi_LiveMatch().getHomeTeam().getGoalsConceded();
 		        away_value = api_match.getApi_LiveMatch().getAwayTeam().getGoalsConceded();
@@ -1591,6 +1611,48 @@ public class FootballFunctions {
 		    	home_value = api_match.getApi_LiveMatch().getHomeTeam().getRedCards();
 		        away_value = api_match.getApi_LiveMatch().getAwayTeam().getRedCards();
 		    	break;
+		    case "Aerial":
+		    	home_value = (api_match.getApi_LiveMatch().getHomeTeam().getAerialWon()+api_match.getApi_LiveMatch().getHomeTeam().getAerialLost());
+		        away_value = (api_match.getApi_LiveMatch().getAwayTeam().getAerialWon()+api_match.getApi_LiveMatch().getAwayTeam().getAerialLost());
+                break;
+            case "Successful_Dribbles":
+            	home_value = api_match.getApi_LiveMatch().getHomeTeam().getSuccessfulDribblePercent();
+		        away_value = api_match.getApi_LiveMatch().getAwayTeam().getSuccessfulDribblePercent();
+		        WhichStyle="Successful Dribbles(%)";
+                break;
+            case "Duel_won":
+            	home_value = api_match.getApi_LiveMatch().getHomeTeam().getDuelwonPercent();
+		        away_value = api_match.getApi_LiveMatch().getAwayTeam().getDuelwonPercent();
+		        WhichStyle= "Duel won (%)";
+                break;
+            case "Duel":
+            	home_value = (api_match.getApi_LiveMatch().getHomeTeam().getDuelWon()+api_match.getApi_LiveMatch().getHomeTeam().getDuelLost());
+		        away_value = (api_match.getApi_LiveMatch().getAwayTeam().getDuelWon()+api_match.getApi_LiveMatch().getAwayTeam().getDuelLost());
+               break;
+            case "passes_final_3rd_Accuracy":
+            	home_value = api_match.getApi_LiveMatch().getHomeTeam().getFinalThirdPassingAccuracy();
+		        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFinalThirdPassingAccuracy();
+                break;
+            case "Final_3rd_Entries":
+            	home_value = api_match.getApi_LiveMatch().getHomeTeam().getFinalThirdEntries();
+		        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFinalThirdEntries();
+                break;
+            case "Touches_In_OppBox":
+            	home_value = api_match.getApi_LiveMatch().getHomeTeam().getTouchesInOppBox();
+		        away_value = api_match.getApi_LiveMatch().getAwayTeam().getTouchesInOppBox();
+               break;
+            case "Final_Third_Passes":
+            	home_value = api_match.getApi_LiveMatch().getHomeTeam().getTotalFinalThirdPasses();
+		        away_value = api_match.getApi_LiveMatch().getAwayTeam().getTotalFinalThirdPasses();
+                break;
+            case "Accurate_Pass":
+            	home_value = api_match.getApi_LiveMatch().getHomeTeam().getAccuratePass();
+		        away_value = api_match.getApi_LiveMatch().getAwayTeam().getAccuratePass();
+            	break;
+            case "Tackles_won":
+		    	home_value = api_match.getApi_LiveMatch().getHomeTeam().getWonTackle();
+		        away_value = api_match.getApi_LiveMatch().getAwayTeam().getWonTackle();
+		        break;
 			}
 			dataList.add(home_value + "," + WhichStyle.replace("_", " ") + "," + away_value);
 		}

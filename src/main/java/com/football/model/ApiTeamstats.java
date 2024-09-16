@@ -29,9 +29,9 @@ public class ApiTeamstats {
     private int goals;
     private int Offside;
     private int interceptions;
-    private int successfulDribble;
+    private int successfulDribble,finalThirdEntries,successfulDribblePercent,duelwonPercent,arielwonPercent;
     private int duelWon;
-    private int left, center, right;
+    private int left, center, right,finalThirdPassingAccuracy;
     private int foulLost, totalClearance, effectiveClearance,interceptionWon,
     			ballRecovery, unsuccessfulTouch, turnover,wonTackle,totalFinalThirdPasses,successfulFinalThirdPasses,
     			possWonAtt3rd,possWonDef3rd,touchesInOppBox,duelLost,blockedScoringAtt,ShotOffTarget,goalsConceded,
@@ -358,6 +358,37 @@ public class ApiTeamstats {
 	}
 	public void setAerialLost(int aerialLost) {
 		this.aerialLost = aerialLost;
+	}
+	public int getFinalThirdEntries() {
+		return finalThirdEntries;
+	}
+	public void setFinalThirdEntries(int finalThirdEntries) {
+		this.finalThirdEntries = finalThirdEntries;
+	}
+	
+	public int getFinalThirdPassingAccuracy() {
+		return finalThirdPassingAccuracy;
+	}
+	public void setFinalThirdPassingAccuracy(int finalThirdPassingAccuracy) {
+		this.finalThirdPassingAccuracy = finalThirdPassingAccuracy;
+	}
+	public int getSuccessfulDribblePercent() {
+		return successfulDribblePercent;
+	}
+	public void setSuccessfulDribblePercent(int successfulDribblePercent) {
+		this.successfulDribblePercent = successfulDribblePercent;
+	}
+	public int getDuelwonPercent() {
+		return duelwonPercent;
+	}
+	public void setDuelwonPercent(int duelwonPercent) {
+		this.duelwonPercent = duelwonPercent;
+	}
+	public int getArielwonPercent() {
+		return arielwonPercent;
+	}
+	public void setArielwonPercent(int arielwonPercent) {
+		this.arielwonPercent = arielwonPercent;
 	}
 	@Override
 	public String toString() {
