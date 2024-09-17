@@ -67,6 +67,7 @@ import com.football.model.Configurations;
 import com.football.model.Fixture;
 import com.football.model.HeadToHead;
 import com.football.model.LeaderBoard;
+import com.football.model.LeagueTeam;
 import com.football.model.Match;
 import com.football.model.MatchStats;
 import com.football.model.Player;
@@ -142,6 +143,80 @@ public class FootballFunctions {
 		}
 		
 		return hundReds + "," + tens + "," + units;
+	}
+	
+	public static List<LeagueTeam> PointsTableAsStanding(List<LeagueTeam> points_table, Match match) throws IOException {
+		
+		if(match.getHomeTeamScore() > match.getAwayTeamScore()) {
+			for(LeagueTeam table : points_table) {
+				if(table.getTeamName().equalsIgnoreCase(match.getHomeTeam().getTeamBadge())) {
+					table.setPlayed(table.getPlayed()+1);
+					table.setWon(table.getWon()+1);
+					table.setGoal_For(table.getGoal_For() + match.getHomeTeamScore());
+					table.setGoal_Against(table.getGoal_Against() + match.getAwayTeamScore());
+					table.setGD(table.getGoal_For() - table.getGoal_Against());
+					table.setPoints(table.getPoints() + 3);
+				}
+				if(table.getTeamName().equalsIgnoreCase(match.getAwayTeam().getTeamBadge())) {
+					table.setPlayed(table.getPlayed()+1);
+					table.setLost(table.getLost()+1);
+					table.setGoal_For(table.getGoal_For() + match.getAwayTeamScore());
+					table.setGoal_Against(table.getGoal_Against() + match.getHomeTeamScore());
+					table.setGD(table.getGoal_For() - table.getGoal_Against());
+				}
+			}
+		}else if(match.getHomeTeamScore() < match.getAwayTeamScore()) {
+			for(LeagueTeam table : points_table) {
+				if(table.getTeamName().equalsIgnoreCase(match.getAwayTeam().getTeamBadge())) {
+					table.setPlayed(table.getPlayed()+1);
+					table.setWon(table.getWon()+1);
+					table.setGoal_For(table.getGoal_For() + match.getAwayTeamScore());
+					table.setGoal_Against(table.getGoal_Against()+ match.getHomeTeamScore());
+					table.setGD(table.getGoal_For() - table.getGoal_Against());
+					table.setPoints(table.getPoints() + 3);
+				}
+				if(table.getTeamName().equalsIgnoreCase(match.getHomeTeam().getTeamBadge())) {
+					table.setPlayed(table.getPlayed()+1);
+					table.setLost(table.getLost()+1);
+					table.setGoal_For(table.getGoal_For() + match.getHomeTeamScore());
+					table.setGoal_Against(table.getGoal_Against() + match.getAwayTeamScore());
+					table.setGD(table.getGoal_For() - table.getGoal_Against());
+				}
+			}
+		}else if(match.getHomeTeamScore() == match.getAwayTeamScore()) {
+			for(LeagueTeam table : points_table) {
+				if(table.getTeamName().equalsIgnoreCase(match.getAwayTeam().getTeamBadge())) {
+					table.setPlayed(table.getPlayed()+1);
+					table.setDrawn(table.getDrawn() + 1);
+					table.setGoal_For(table.getGoal_For() + match.getAwayTeamScore());
+					table.setGoal_Against(table.getGoal_Against()+ match.getHomeTeamScore());
+					table.setGD(table.getGoal_For() - table.getGoal_Against());
+					table.setPoints(table.getPoints() + 1);
+				}
+				if(table.getTeamName().equalsIgnoreCase(match.getHomeTeam().getTeamBadge())) {
+					table.setPlayed(table.getPlayed()+1);
+					table.setDrawn(table.getDrawn() + 1);
+					table.setGoal_For(table.getGoal_For() + match.getHomeTeamScore());
+					table.setGoal_Against(table.getGoal_Against() + match.getAwayTeamScore());
+					table.setGD(table.getGoal_For() - table.getGoal_Against());
+					table.setPoints(table.getPoints() + 1);
+				}
+			}
+		}
+		Collections.sort(points_table,new FootballFunctions.PointsComparator());
+		
+		return points_table;
+	}
+	
+	public static class PointsComparator implements Comparator<LeagueTeam> {
+	    @Override
+	    public int compare(LeagueTeam pt1, LeagueTeam pt2) {
+	    	if(pt2.getPoints() == pt1.getPoints()) {
+	    		return Integer.compare(pt2.getGD(), pt1.getGD());
+	    	}else {
+	    		return Integer.compare(pt2.getPoints(), pt1.getPoints());
+	    	}
+	    }
 	}
 	
 	public static Tournament extracttournamentGoals(String typeOfExtraction, List<Fixture> fixtures, Match currentMatch, 
