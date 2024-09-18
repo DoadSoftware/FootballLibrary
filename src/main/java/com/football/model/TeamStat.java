@@ -16,6 +16,9 @@ public class TeamStat {
   @Column(name = "TeamId")
   private int teamId;
   
+  @Column(name = "Header")
+  private String header;
+  
   @Column(name = "HeadStats1")
   private String headStats1;
   
@@ -118,6 +121,14 @@ public String getValueStats4() {
 
 public void setValueStats4(String valueStats4) {
 	this.valueStats4 = valueStats4;
+}
+
+public String getHeader() {
+	return header;
+}
+
+public void setHeader(String header) {
+	this.header = header;
 }
 
   
