@@ -1125,12 +1125,11 @@ public class FootballFunctions {
 	public static void setJsonDataInMatchApi(ApiMatch match) throws Exception {
 		if(new File(FootballUtil.LIVE_DATA).exists()) {
 		    LiveMatch liveMatch = new ObjectMapper().readValue(new File(FootballUtil.LIVE_DATA), LiveMatch.class);
-		    match.getApi_LiveMatch().getHomeTeam().setYellowCards(0);
-		    match.getApi_LiveMatch().getAwayTeam().setYellowCards(0);
-		    match.getApi_LiveMatch().getHomeTeam().setRedCards(0);
-		    match.getApi_LiveMatch().getAwayTeam().setRedCards(0);
+		    
 		    match.getApi_LiveMatch().getHomeTeam().getPlayer().clear();
 		    match.getApi_LiveMatch().getAwayTeam().getPlayer().clear();
+		    match.getApi_LiveMatch().getAwayTeam().reset();
+		    match.getApi_LiveMatch().getHomeTeam().reset();
 			List<PlayerStats> playerStats = new ArrayList<PlayerStats>();
 			match.getApi_LiveMatch().getEvents().clear();
 			if (liveMatch != null && liveMatch.getLiveData() != null && liveMatch.getLiveData().getCard() != null) {

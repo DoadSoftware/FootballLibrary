@@ -390,6 +390,23 @@ public class ApiTeamstats {
 	public void setArielwonPercent(int arielwonPercent) {
 		this.arielwonPercent = arielwonPercent;
 	}
+	public void reset() {
+	    name = code = id = "";  
+	    shotOnTarget = wonCorners = lostCorners = cornerTaken = yellowCards = redCards = 0;
+	    possession = passingAccuracy = 0.0;
+	    shots = accuratePass = onTarget = corners = saves = crosses = passes = 0;
+	    distanceCovered = touches = tackles = chancesCreated = foulsWon = dribbles = 0;
+	    goals = Offside = interceptions = successfulDribble = finalThirdEntries = 0;
+	    successfulDribblePercent = duelwonPercent = arielwonPercent = duelWon = 0;
+	    left = center = right = finalThirdPassingAccuracy = 0;
+	    foulLost = totalClearance = effectiveClearance = interceptionWon = 0;
+	    ballRecovery = unsuccessfulTouch = turnover = wonTackle = 0;
+	    totalFinalThirdPasses = successfulFinalThirdPasses = 0;
+	    possWonAtt3rd = possWonDef3rd = touchesInOppBox = duelLost = 0;
+	    blockedScoringAtt = ShotOffTarget = goalsConceded = totalThrows = 0;
+	    aerialWon = aerialLost = 0;
+	}
+
 	@Override
 	public String toString() {
 		return "ApiTeamstats [name=" + name + ", code=" + code + ", id=" + id + ", shotOnTarget=" + shotOnTarget
