@@ -3,9 +3,11 @@ package com.football.EuroLeague;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 
 public class possessionStats {
 	
@@ -30,6 +32,7 @@ public class possessionStats {
 	}
 	
 	@JsonIgnoreProperties(ignoreUnknown = true)
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 
 	public static class possessionWave {
 		@JsonProperty("type")
@@ -37,6 +40,12 @@ public class possessionStats {
 		
 		@JsonProperty("intervalLength")
 		private List<intervalLength> intervalLength;
+		
+		@JsonProperty("last")
+		private List<interval> last;
+		
+		@JsonProperty("overall")
+		private interval overall;
 
 		public String getType() {
 			return type;
@@ -54,19 +63,38 @@ public class possessionStats {
 			this.intervalLength = intervalLength;
 		}
 
+		public List<interval> getLast() {
+			return last;
+		}
+
+		public void setLast(List<interval> last) {
+			this.last = last;
+		}
+
+		public interval getOverall() {
+			return overall;
+		}
+
+		public void setOverall(interval overall) {
+			this.overall = overall;
+		}
+
 		public possessionWave() {
 			super();
 		}
 
 		@Override
 		public String toString() {
-			return "possessionWave [type=" + type + ", intervalLength=" + intervalLength + "]";
+			return "possessionWave [type=" + type + ", intervalLength=" + intervalLength + ", last=" + last
+					+ ", overall=" + overall + "]";
 		}
 		
 		
 	}
 	
 	@JsonIgnoreProperties(ignoreUnknown = true)
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+
 	public static class intervalLength {
 		@JsonProperty("type")
 		private String type;
@@ -97,13 +125,14 @@ public class possessionStats {
 
 		public intervalLength() {
 			super();
-			// TODO Auto-generated constructor stub
 		}
 		
 		 
 	}
 	
 	@JsonIgnoreProperties(ignoreUnknown = true)
+	@JsonInclude(JsonInclude.Include.NON_NULL)
+
 	public static class interval {
 		@JsonProperty("type")
 		private String type;
@@ -113,6 +142,9 @@ public class possessionStats {
 		
 		@JsonProperty("home")
 		private String home;
+		
+		@JsonProperty("middle")
+		private String middle;
 
 		public String getType() {
 			return type;
@@ -138,8 +170,21 @@ public class possessionStats {
 			this.home = home;
 		}
 
+		public String getMiddle() {
+			return middle;
+		}
+
+		public void setMiddle(String middle) {
+			this.middle = middle;
+		}
+
 		public interval() {
 			super();
+		}
+
+		@Override
+		public String toString() {
+			return "interval [type=" + type + ", away=" + away + ", home=" + home + "]";
 		}
 		
 	}
