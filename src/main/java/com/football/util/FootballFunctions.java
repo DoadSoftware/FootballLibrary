@@ -53,7 +53,6 @@ import com.football.EuroLeague.TopPerformers;
 import com.football.EuroLeague.rankings;
 import com.football.EuroLeague.PassMatrix;
 import com.football.EuroLeague.Players;
-import com.football.EuroLeague.Possession;
 import com.football.EuroLeague.Qualifier;
 import com.football.EuroLeague.MatchPreview;
 import com.fasterxml.jackson.core.exc.StreamReadException;
@@ -1479,9 +1478,6 @@ public class FootballFunctions {
 
 		    	} 
 		    }
-		if(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\Possession.json").exists()) {
-			match.getApi_LiveMatch().setPossession(new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\Possession.json"), Possession.class));
-		}
 	}
 	public static String RoundValues(String values) {
 	    String[] parts = values.split(","); 
@@ -1668,6 +1664,10 @@ public class FootballFunctions {
 		    case "InterceptionsWon":
 		    	home_value = api_match.getApi_LiveMatch().getHomeTeam().getInterceptionWon();
 		        away_value = api_match.getApi_LiveMatch().getAwayTeam().getInterceptionWon();
+		    	break;
+		    case "Chance_Created":
+		    	home_value = api_match.getApi_LiveMatch().getHomeTeam().getChancesCreated();
+		        away_value = api_match.getApi_LiveMatch().getAwayTeam().getChancesCreated();
 		    	break;
 		    case "goalsConceded":
 		    	home_value = api_match.getApi_LiveMatch().getHomeTeam().getGoalsConceded();

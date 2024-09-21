@@ -15,8 +15,6 @@ public class ApiData {
 	List<ApiEventStats> events= new ArrayList<ApiEventStats>(); 
 	int homeWin,awayWin,draws;
 	
-	Possession  Possession =new Possession();
-	
 	public ApiTeamstats getHomeTeam() {
 		return homeTeam;
 	}
@@ -55,12 +53,6 @@ public class ApiData {
 		this.events = events;
 	}
 	
-	public Possession getPossession() {
-		return Possession;
-	}
-	public void setPossession(Possession possession) {
-		Possession = possession;
-	}
 	@Override
 	public String toString() {
 		return "ApiData [homeTeam=" + homeTeam + ", awayTeam=" + awayTeam + "]";
