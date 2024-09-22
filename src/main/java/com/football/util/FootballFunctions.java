@@ -903,29 +903,32 @@ public class FootballFunctions {
 				                                    			
 				                                    				
 				                                    			}else if(childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().item(l).getChildNodes()
-				                                            		.item(m).getNodeName().equalsIgnoreCase("PlayerJerseyNumber")) {
+					                                            		.item(m).getNodeName().equalsIgnoreCase("PlayerJerseyNumber")) {
 				                                    				
-//				                                    				System.out.println("PlayerJerseyNumber = " + childNodes.item(i).getChildNodes().item(j).getChildNodes()
-//				                                        				.item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
-				                                    				
-				                                    				                				
-				                                    				teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1).getTopStats().size()-1)
-		                                    						.getPlayersStats().get(teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1)
-		                                    								.getTopStats().size()-1).getPlayersStats().size()-1).setJerseyNumber(Integer.valueOf(childNodes.item(i).getChildNodes().item(j)
-		                                    										.getChildNodes().item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue()));
-				                                    				
-				                                    				
-				                                    			}else if(childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().item(l).getChildNodes()
-				                                                		.item(m).getNodeName().equalsIgnoreCase("Value")) {
+//					                                    				System.out.println("PlayerJerseyNumber = " + childNodes.item(i).getChildNodes().item(j).getChildNodes()
+//					                                        				.item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
+					                                    				
+					                                    			    teamStats.get(teamStats.size() - 1).getTopStats().get(teamStats.get(teamStats.size() - 1).getTopStats().size() - 1).getPlayersStats()
+					                                    			    .get(teamStats.get(teamStats.size() - 1).getTopStats().get(teamStats.get(teamStats.size() - 1).getTopStats().size() - 1).
+					                                    			    		getPlayersStats().size() - 1).setJerseyNumber(Integer.valueOf((childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).
+					                                    			    				getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue().isEmpty() || !childNodes.item(i).getChildNodes()
+					                                    			    				.item(j).getChildNodes().item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue().matches("\\d+") ? "0" : 
+					                                    			    					childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild(
+					                                    			    							).getNodeValue())));
+					                                    				
+					                                    			}else if(childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().item(l).getChildNodes()
+					                                                		.item(m).getNodeName().equalsIgnoreCase("Value")) {
 
-				                                    				teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1).getTopStats().size()-1)
-			                                    						.getPlayersStats().get(teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1)
-			                                    								.getTopStats().size()-1).getPlayersStats().size()-1).setValue(childNodes.item(i).getChildNodes().item(j)
-			                                    										.getChildNodes().item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
-			                                    				
-//				                                    				System.out.println("Value = " + childNodes.item(i).getChildNodes().item(j).getChildNodes()
-//				                                        					.item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
-				                                        		}
+					                                    				teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1).getTopStats().size()-1)
+				                                    						.getPlayersStats().get(teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1)
+				                                    								.getTopStats().size()-1).getPlayersStats().size()-1).setValue(childNodes.item(i).getChildNodes().item(j)
+				                                    										.getChildNodes().item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue().trim().isEmpty()? "0.0":
+				                                    											childNodes.item(i).getChildNodes().item(j)
+					                                    										.getChildNodes().item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
+				                                    				
+//					                                    				System.out.println("Value = " + childNodes.item(i).getChildNodes().item(j).getChildNodes()
+//					                                        					.item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
+					                                        		}
 				                                    		}
 				                                    	}
 				                            		}
