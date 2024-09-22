@@ -14,6 +14,7 @@ import com.football.model.Fixture;
 import com.football.model.Formation;
 import com.football.model.Ground;
 import com.football.model.HeadToHead;
+import com.football.model.InfobarStats;
 import com.football.model.LeaderBoard;
 import com.football.model.Player;
 import com.football.model.PlayerStat;
@@ -142,6 +143,11 @@ public List<HeadToHead> getHeadToHeadStats() {
 @Override
 public List<PlayerStat> getPlayerStats() {
 	return footballDao.getPlayerStats();
+}
+
+@Override
+public List<InfobarStats> getInfobarStats() {
+	return footballDao.getInfobarStats();
 }
 
 }
