@@ -69,6 +69,7 @@ import com.football.model.ApiTeamstats;
 import com.football.model.Configurations;
 import com.football.model.Fixture;
 import com.football.model.HeadToHead;
+import com.football.model.HeaderText;
 import com.football.model.LeaderBoard;
 import com.football.model.LeagueTeam;
 import com.football.model.Match;
@@ -2361,6 +2362,26 @@ public class FootballFunctions {
 		return dataList;
 
 	}
+	public static String ChangedHeader(List<HeaderText> headerText, String header) {
+	    List<String> updatedHeaders = new ArrayList<>();
+	    
+	    for (String str : header.split(",")) {
+	        boolean found = false;
+	        for (HeaderText txt : headerText) {
+	            if (str.equalsIgnoreCase(txt.getHeader()) && txt.getChangeHeader() != null) {
+	                updatedHeaders.add(txt.getChangeHeader());
+	                found = true;
+	                break;
+	            }
+	        }
+	        if (!found) {
+	            updatedHeaders.add(str);
+	        }
+	    }
+	    
+	    return String.join(",", updatedHeaders);
+	}
+
 }
 
 
