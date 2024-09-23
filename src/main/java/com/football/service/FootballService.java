@@ -10,6 +10,7 @@ import com.football.model.Fixture;
 import com.football.model.Formation;
 import com.football.model.Ground;
 import com.football.model.HeadToHead;
+import com.football.model.HeaderText;
 import com.football.model.InfobarStats;
 import com.football.model.LeaderBoard;
 import com.football.model.Player;
@@ -46,4 +47,5 @@ public interface FootballService {
   List<HeadToHead> getHeadToHeadStats();
   List<PlayerStat> getPlayerStats();
   List<InfobarStats> getInfobarStats();
+  List<HeaderText> getHeaderText();
 }

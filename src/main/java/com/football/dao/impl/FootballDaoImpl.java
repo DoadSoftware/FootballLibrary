@@ -16,6 +16,7 @@ import com.football.model.Fixture;
 import com.football.model.Formation;
 import com.football.model.Ground;
 import com.football.model.HeadToHead;
+import com.football.model.HeaderText;
 import com.football.model.InfobarStats;
 import com.football.model.LeaderBoard;
 import com.football.model.Player;
@@ -164,6 +165,11 @@ public List<PlayerStat> getPlayerStats() {
 @Override
 public List<InfobarStats> getInfobarStats() {
 	return sessionFactory.getCurrentSession().createQuery("from InfobarStats").list();
+}
+
+@Override
+public List<HeaderText> getHeaderText() {
+	return sessionFactory.getCurrentSession().createQuery("from HeaderText").list();
 }
 
 }
