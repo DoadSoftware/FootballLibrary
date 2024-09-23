@@ -1,5 +1,6 @@
 package com.football.util;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -26,6 +27,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.imageio.ImageIO;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
@@ -33,6 +35,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
+import org.hibernate.mapping.Collection;
 import org.json.JSONObject;
 import org.springframework.web.util.HtmlUtils;
 import org.w3c.dom.Document;
@@ -48,6 +51,7 @@ import com.football.EuroLeague.SeasonalStats;
 import com.football.EuroLeague.Stat;
 import com.football.EuroLeague.Substitute;
 import com.football.EuroLeague.TeamStat;
+import com.football.EuroLeague.TeamsStanding;
 import com.football.EuroLeague.TopPerformerPlayers;
 import com.football.EuroLeague.TopPerformers;
 import com.football.EuroLeague.rankings;
@@ -626,6 +630,7 @@ public class FootballFunctions {
 			print_writers.get(SelectedViz-1).println(SendTextIn);
 		}
 	}	
+	
 	public static void DoadWriteCommandToAllViz(String SendTextIn, List<PrintWriter> print_writers) 
 	{
 		if(print_writers.size() > 0) {
@@ -712,7 +717,7 @@ public class FootballFunctions {
 		return leaderBoards;
 	}
 	
-	public static List<HeadToHead> processAllHeadToHead(FootballService footballService){
+	public static List<HeadToHead> processAllHeadToHead(FootballService footballService){		
 		List<HeadToHead> h2h = footballService.getHeadToHeadStats();
 		for(HeadToHead h : h2h) {
 			h.setTeam(footballService.getTeam(FootballUtil.TEAM, String.valueOf(h.getTeamId())));
@@ -903,32 +908,32 @@ public class FootballFunctions {
 				                                    			
 				                                    				
 				                                    			}else if(childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().item(l).getChildNodes()
-					                                            		.item(m).getNodeName().equalsIgnoreCase("PlayerJerseyNumber")) {
+				                                            		.item(m).getNodeName().equalsIgnoreCase("PlayerJerseyNumber")) {
 				                                    				
-//					                                    				System.out.println("PlayerJerseyNumber = " + childNodes.item(i).getChildNodes().item(j).getChildNodes()
-//					                                        				.item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
-					                                    				
-					                                    			    teamStats.get(teamStats.size() - 1).getTopStats().get(teamStats.get(teamStats.size() - 1).getTopStats().size() - 1).getPlayersStats()
-					                                    			    .get(teamStats.get(teamStats.size() - 1).getTopStats().get(teamStats.get(teamStats.size() - 1).getTopStats().size() - 1).
-					                                    			    		getPlayersStats().size() - 1).setJerseyNumber(Integer.valueOf((childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).
-					                                    			    				getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue().isEmpty() || !childNodes.item(i).getChildNodes()
-					                                    			    				.item(j).getChildNodes().item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue().matches("\\d+") ? "0" : 
-					                                    			    					childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild(
-					                                    			    							).getNodeValue())));
-					                                    				
-					                                    			}else if(childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().item(l).getChildNodes()
-					                                                		.item(m).getNodeName().equalsIgnoreCase("Value")) {
+//				                                    				System.out.println("PlayerJerseyNumber = " + childNodes.item(i).getChildNodes().item(j).getChildNodes()
+//				                                        				.item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
+				                                    				
+				                                    			    teamStats.get(teamStats.size() - 1).getTopStats().get(teamStats.get(teamStats.size() - 1).getTopStats().size() - 1).getPlayersStats()
+				                                    			    .get(teamStats.get(teamStats.size() - 1).getTopStats().get(teamStats.get(teamStats.size() - 1).getTopStats().size() - 1).
+				                                    			    		getPlayersStats().size() - 1).setJerseyNumber(Integer.valueOf((childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).
+				                                    			    				getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue().isEmpty() || !childNodes.item(i).getChildNodes()
+				                                    			    				.item(j).getChildNodes().item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue().matches("\\d+") ? "0" : 
+				                                    			    					childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild(
+				                                    			    							).getNodeValue())));
+				                                    				
+				                                    			}else if(childNodes.item(i).getChildNodes().item(j).getChildNodes().item(k).getChildNodes().item(l).getChildNodes()
+				                                                		.item(m).getNodeName().equalsIgnoreCase("Value")) {
 
-					                                    				teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1).getTopStats().size()-1)
-				                                    						.getPlayersStats().get(teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1)
-				                                    								.getTopStats().size()-1).getPlayersStats().size()-1).setValue(childNodes.item(i).getChildNodes().item(j)
-				                                    										.getChildNodes().item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue().trim().isEmpty()? "0.0":
-				                                    											childNodes.item(i).getChildNodes().item(j)
-					                                    										.getChildNodes().item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
-				                                    				
-//					                                    				System.out.println("Value = " + childNodes.item(i).getChildNodes().item(j).getChildNodes()
-//					                                        					.item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
-					                                        		}
+				                                    				teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1).getTopStats().size()-1)
+			                                    						.getPlayersStats().get(teamStats.get(teamStats.size()-1).getTopStats().get(teamStats.get(teamStats.size()-1)
+			                                    								.getTopStats().size()-1).getPlayersStats().size()-1).setValue(childNodes.item(i).getChildNodes().item(j)
+			                                    										.getChildNodes().item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue().trim().isEmpty()? "0.0":
+			                                    											childNodes.item(i).getChildNodes().item(j)
+				                                    										.getChildNodes().item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
+			                                    				
+//				                                    				System.out.println("Value = " + childNodes.item(i).getChildNodes().item(j).getChildNodes()
+//				                                        					.item(k).getChildNodes().item(l).getChildNodes().item(m).getFirstChild().getNodeValue());
+				                                        		}
 				                                    		}
 				                                    	}
 				                            		}
@@ -1186,136 +1191,239 @@ public class FootballFunctions {
 		    	    Integer.parseInt(p2.getTimeMinSec().split(":")[0]) * 60 + Integer.parseInt(p2.getTimeMinSec().split(":")[1]),
 		    	    Integer.parseInt(p1.getTimeMinSec().split(":")[0]) * 60 + Integer.parseInt(p1.getTimeMinSec().split(":")[1])
 		    	));
-
+		    //GOALS
+		    if(liveMatch != null && liveMatch.getLiveData() != null && liveMatch.getLiveData().getMatchDetails()!=null &&
+		    	liveMatch.getLiveData().getMatchDetails().getScores()!=null && liveMatch.getLiveData().getMatchDetails().getScores().getTotal()!=null) {
+		    	
+		    	match.getApi_LiveMatch().getHomeTeam().setGoals(liveMatch.getLiveData().getMatchDetails().getScores().getTotal().getHome());
+		    	match.getApi_LiveMatch().getAwayTeam().setGoals(liveMatch.getLiveData().getMatchDetails().getScores().getTotal().getAway());
+		    }
+		  //GOALS half
+		    if(liveMatch != null && liveMatch.getLiveData() != null && liveMatch.getLiveData().getMatchDetails()!=null &&
+			    	liveMatch.getLiveData().getMatchDetails().getScores()!=null && liveMatch.getLiveData().getMatchDetails().getScores().getHt()!=null) {
+			    	
+			    	match.getApi_LiveMatch().getHomeTeam().setHtgoals(liveMatch.getLiveData().getMatchDetails().getScores().getHt().getHome());
+			    	match.getApi_LiveMatch().getAwayTeam().setHtgoals(liveMatch.getLiveData().getMatchDetails().getScores().getHt().getAway());
+			    }
+		  //GOALS full
+		    if(liveMatch != null && liveMatch.getLiveData() != null && liveMatch.getLiveData().getMatchDetails()!=null &&
+			    	liveMatch.getLiveData().getMatchDetails().getScores()!=null && liveMatch.getLiveData().getMatchDetails().getScores().getFt()!=null) {
+			    	
+			    	match.getApi_LiveMatch().getHomeTeam().setFtgoals(liveMatch.getLiveData().getMatchDetails().getScores().getFt().getHome());
+			    	match.getApi_LiveMatch().getAwayTeam().setFtgoals(liveMatch.getLiveData().getMatchDetails().getScores().getFt().getAway());
+			    }
 		    for (int teamIndex = 0; teamIndex <= 1; teamIndex++) {
 		        ApiTeamstats team = (teamIndex == 0) ? match.getApi_LiveMatch().getHomeTeam() : match.getApi_LiveMatch().getAwayTeam();
 		       
 		        if (liveMatch != null && liveMatch.getLiveData() != null &&  liveMatch.getLiveData().getLineUp() != null && liveMatch.getLiveData().getLineUp().get(teamIndex) != null &&
 		        	    liveMatch.getLiveData().getLineUp().get(teamIndex).getStat() != null) {
+		        	
 		        	for (TeamStat stat : liveMatch.getLiveData().getLineUp().get(teamIndex).getStat()) {
 			            String value = stat.getValue().trim() != null ? stat.getValue().trim() : "0";
+			            String FH = stat.getFh() != null ? stat.getFh().trim() : "0";
+			            String SH = stat.getSh() != null ? stat.getSh().trim() : "0";
 			            switch (stat.getType()) {
 			                case "cornerTaken":
 			                    team.setCornerTaken(Integer.parseInt(value));
+			                    team.setHtCornerTaken(Integer.parseInt(FH));
+			                    team.setFtCornerTaken(Integer.parseInt(SH));
 			                    break;
 			                case "fkFoulWon":
+			                	team.setHtFoulsWon(Integer.parseInt(FH));
+			                    team.setFtFoulsWon(Integer.parseInt(SH));
 			                    team.setFoulsWon(Integer.parseInt(value));
 			                    break;
 			                case "ontargetScoringAtt":
+			                	team.setHtShotOnTarget(Integer.parseInt(FH));
+			                    team.setFtShotOnTarget(Integer.parseInt(SH));
 			                    team.setShotOnTarget(Integer.parseInt(value));
 			                    break;
 			                case "totalScoringAtt":
+			                    team.setHtShots(Integer.parseInt(FH));
+			                    team.setFtShots(Integer.parseInt(SH));
 			                    team.setShots(Integer.parseInt(value));
 			                    break;
 			                case "saves":
+			                	team.setHtSaves(Integer.parseInt(FH));
+			                    team.setFtSaves(Integer.parseInt(SH));
 			                    team.setSaves(Integer.parseInt(value));
 			                    break;
 			                case "totalCross":
+			                	team.setHtCrosses(Integer.parseInt(FH));
+			                    team.setFtCrosses(Integer.parseInt(SH));
 			                    team.setCrosses(Integer.parseInt(value));
 			                    break;
 			                case "totalPass":
+			                	team.setHtPasses(Integer.parseInt(FH));
+			                	team.setFtPasses(Integer.parseInt(SH));
 			                    team.setPasses(Integer.parseInt(value));
 			                    break;
 			                case "accuratePass":
+			                	team.setHtAccuratePass(Integer.parseInt(FH));
+			                    team.setFtAccuratePass(Integer.parseInt(SH));
 			                    team.setAccuratePass(Integer.parseInt(value));
 			                    break;
 			                case "touches":
+			                	team.setHtTouches(Integer.parseInt(FH));
+			                    team.setFtTouches(Integer.parseInt(SH));
 			                    team.setTouches(Integer.parseInt(value));
 			                    break;
 			                case "totalTackle":
+			                	team.setHtTackles(Integer.parseInt(FH));
+			                    team.setFtTackles(Integer.parseInt(SH));
 			                    team.setTackles(Integer.parseInt(value));
 			                    break;
 			                case "totalContest":
+			                	team.setHtDribbles(Integer.parseInt(FH));
+			                    team.setFtDribbles(Integer.parseInt(SH));
 			                    team.setDribbles(Integer.parseInt(value));
 			                    break;
 			                case "interception":
+			                	team.setHtInterceptions(Integer.parseInt(FH));
+			                    team.setFtInterceptions(Integer.parseInt(SH));
 			                    team.setInterceptions(Integer.parseInt(value));
 			                    break;
 			                case "possessionPercentage":
-			                	 team.setPossession( Double.valueOf(value));
+			                	team.setHtPossession(Double.valueOf(FH));
+			                    team.setFtPossession(Double.valueOf(SH));
+			                    team.setPossession( Double.valueOf(value));
 			                    break;
 			                case "bigChanceCreated":
+			                	team.setHtChancesCreated(Integer.parseInt(FH));
+			                    team.setFtChancesCreated(Integer.parseInt(SH));
 			                	team.setChancesCreated(Integer.parseInt(value));
 			                	break;
-			                case "goals":
-			                	team.setGoals(Integer.parseInt(value));
-			                	break;
+//			                case "goals":
+//			                	team.setGoals(Integer.parseInt(value));
+//			                	break;
 			                case "totalOffside":
+			                    team.setHtOffside(Integer.parseInt(FH));
+			                    team.setFtOffside(Integer.parseInt(SH));
 			                	team.setOffside(Integer.parseInt(value));
 			                	break;
 			                case "wonContest":
+			                	team.setHtSuccessfulDribble(Integer.parseInt(FH));
+			                    team.setFtSuccessfulDribble(Integer.parseInt(SH));
 			                	team.setSuccessfulDribble(Integer.parseInt(value));
 		                        break;
 			                case "duelWon":
+			                	team.setHtDuelWon(Integer.parseInt(FH));
+			                    team.setFtDuelWon(Integer.parseInt(SH));
 			                	team.setDuelWon(Integer.parseInt(value));
 		                        break;
 			                case "fkFoulLost":
+			                	team.setHtFoulLost(Integer.parseInt(FH));
+			                    team.setFtFoulLost(Integer.parseInt(SH));
 			                	team.setFoulLost(Integer.parseInt(stat.getValue()));
 			                	break;
 			                case "totalClearance":
+			                    team.setHtTotalClearance(Integer.parseInt(FH));
+			                    team.setFtTotalClearance(Integer.parseInt(SH));
 			                	team.setTotalClearance(Integer.parseInt(stat.getValue()));
 		                    	break;
 		                    case "effectiveClearance":
+		                    	team.setHtEffectiveClearance(Integer.parseInt(FH));
+		                        team.setFtEffectiveClearance(Integer.parseInt(SH));
 		                    	team.setEffectiveClearance(Integer.parseInt(stat.getValue()));
 		                    	break;
 		                    case "interceptionWon":
+		                    	team.setHtInterceptionWon(Integer.parseInt(FH));
+		                    	team.setFtInterceptionWon(Integer.parseInt(SH));
 		                    	team.setInterceptionWon(Integer.parseInt(stat.getValue()));
 		                        break;
 		                    case "ballRecovery":
+		                    	team.setHtBallRecovery(Integer.parseInt(FH));
+		                        team.setFtBallRecovery(Integer.parseInt(SH));
 		                    	team.setBallRecovery(Integer.parseInt(stat.getValue()));
 		                        break;
 		                    case "unsuccessfulTouch":
+		                    	team.setHtUnsuccessfulTouch(Integer.parseInt(FH));
+		                        team.setFtUnsuccessfulTouch(Integer.parseInt(SH));
 		                    	team.setUnsuccessfulTouch(Integer.parseInt(stat.getValue()));
 		                        break;
 		                    case "turnover":
+		                    	team.setHtTurnover(Integer.parseInt(FH));
+		                        team.setFtTurnover(Integer.parseInt(SH));
 		                    	team.setTurnover(Integer.parseInt(stat.getValue()));
 		                        break;
 		                    case "wonTackle":
-		                       team.setWonTackle(Integer.parseInt(stat.getValue()));
+		                    	team.setHtWonTackle(Integer.parseInt(FH));
+		                    	team.setFtWonTackle(Integer.parseInt(SH));
+		                    	team.setWonTackle(Integer.parseInt(stat.getValue()));
 		                        break;
 		                    case "totalFinalThirdPasses":
-		                       team.setTotalFinalThirdPasses(Integer.parseInt(stat.getValue()));
+		                    	team.setHtTotalFinalThirdPasses(Integer.parseInt(FH));
+		                        team.setFtTotalFinalThirdPasses(Integer.parseInt(SH));
+		                        team.setTotalFinalThirdPasses(Integer.parseInt(stat.getValue()));
 		                        break;
 		                    case "successfulFinalThirdPasses":
-		                    	team.setSuccessfulFinalThirdPasses(Integer.parseInt(stat.getValue()));
+		                        team.setHtSuccessfulFinalThirdPasses(Integer.parseInt(FH));
+		                        team.setFtSuccessfulFinalThirdPasses(Integer.parseInt(SH));
+		                        team.setSuccessfulFinalThirdPasses(Integer.parseInt(stat.getValue()));
 		                    	break;
 		                    case "possWonAtt3rd":
-		                       team.setPossWonAtt3rd(Integer.parseInt(stat.getValue()));
+		                    	team.setHtPossWonAtt3rd(Integer.parseInt(FH));
+		                        team.setFtPossWonAtt3rd(Integer.parseInt(SH));
+		                        team.setPossWonAtt3rd(Integer.parseInt(stat.getValue()));
 		                        break;
 		                    case "possWonDef3rd":
-		                       team.setPossWonDef3rd(Integer.parseInt(stat.getValue()));
+		                    	team.setHtPossWonDef3rd(Integer.parseInt(FH));
+		                        team.setFtPossWonDef3rd(Integer.parseInt(SH));
+		                        team.setPossWonDef3rd(Integer.parseInt(stat.getValue()));
 		                        break;
 		                    case "touchesInOppBox":
-		                       team.setTouchesInOppBox(Integer.parseInt(stat.getValue()));
+		                    	team.setHtTouchesInOppBox(Integer.parseInt(FH));
+		                        team.setFtTouchesInOppBox(Integer.parseInt(SH));
+		                        team.setTouchesInOppBox(Integer.parseInt(stat.getValue()));
 		                    	break;
 		                    case "wonCorners":
-		                       team.setWonCorners(Integer.parseInt(stat.getValue()));
+		                    	team.setHtWonCorners(Integer.parseInt(FH));
+		                        team.setFtWonCorners(Integer.parseInt(SH));
+		                        team.setWonCorners(Integer.parseInt(stat.getValue()));
 		                        break;
 		                    case "lostCorners":
-		                       team.setLostCorners(Integer.parseInt(stat.getValue()));
+		                    	team.setHtLostCorners(Integer.parseInt(FH));
+		                        team.setFtLostCorners(Integer.parseInt(SH));
+		                        team.setLostCorners(Integer.parseInt(stat.getValue()));
 		                        break;
 		                    case "duelLost":
-		                       team.setDuelLost(Integer.parseInt(stat.getValue()));
+		                    	team.setHtDuelLost(Integer.parseInt(FH));
+		                        team.setFtDuelLost(Integer.parseInt(SH));
+		                        team.setDuelLost(Integer.parseInt(stat.getValue()));
 		                        break;
 		                    case "blockedScoringAtt":
+		                    	team.setHtBlockedScoringAtt(Integer.parseInt(FH));
+		                        team.setFtBlockedScoringAtt(Integer.parseInt(SH));
 		                    	team.setBlockedScoringAtt(Integer.parseInt(stat.getValue()));
 		                        break;
 		                    case "ShotOffTarget":
+		                    	team.setHtShotOffTarget(Integer.parseInt(FH));
+		                        team.setFtShotOffTarget(Integer.parseInt(SH));
 		                    	team.setShotOffTarget(Integer.parseInt(stat.getValue()));
 		                        break;
 		                    case "goalsConceded":
+		                    	team.setHtGoalsConceded(Integer.parseInt(FH));
+		                        team.setFtGoalsConceded(Integer.parseInt(SH));
 		                    	team.setGoalsConceded(Integer.parseInt(stat.getValue()));
 		                    	break;
 		                    case "totalThrows":
-		                    	team.setTotalThrows(Integer.parseInt(stat.getValue()));
+		                    	team.setHtTotalThrows(Integer.parseInt(FH));
+		                        team.setFtTotalThrows(Integer.parseInt(SH));
+		                        team.setTotalThrows(Integer.parseInt(stat.getValue()));
 		                    	break;
 		                    case "aerialWon":
-		                    	team.setAerialWon(Integer.parseInt(stat.getValue()));
+		                    	team.setHtAerialWon(Integer.parseInt(FH));
+		                        team.setFtAerialWon(Integer.parseInt(SH));
+		                        team.setAerialWon(Integer.parseInt(stat.getValue()));
 		                        break;
 		                    case "aerialLost":
-		                    	team.setAerialLost(Integer.parseInt(stat.getValue()));
+		                    	team.setHtAerialLost(Integer.parseInt(FH));
+		                        team.setFtAerialLost(Integer.parseInt(SH));
+		                        team.setAerialLost(Integer.parseInt(stat.getValue()));
 		                        break;
 		                    case "finalThirdEntries":
+		                        team.setHtFinalThirdEntries(Integer.parseInt(FH));
+		                        team.setFtFinalThirdEntries(Integer.parseInt(SH));
 		                    	team.setFinalThirdEntries(Integer.parseInt(stat.getValue()));
 		                    	break;
 		                    
@@ -1453,7 +1561,6 @@ public class FootballFunctions {
 								 switch (stat.getType()) {
 								 case "totalPass":
 									 PlayerStats ply = new PlayerStats("");
-									 ply.setFirst_name(py.getMatchName());
 									 ply.setLast_name(py.getPlayerId());
 									 if(teamIndex==0) {
 										 ply.setFirst_name(HtmlUtils.htmlEscape(py.getMatchName())+" <sub>"+liveMatch.getMatchInfo().getContestant().get(0).getCode().trim()+"<sub>");
@@ -1478,6 +1585,18 @@ public class FootballFunctions {
 	            team.setDuelwonPercent((team.getDuelWon() + team.getDuelLost() > 0) ? (int) Math.round((team.getDuelWon() * 100.0) / (team.getDuelWon() + team.getDuelLost())) : 0);
 	            team.setArielwonPercent((team.getAerialWon() + team.getAerialLost() > 0) ? (int) Math.round((team.getAerialWon() * 100.0) / (team.getAerialWon() + team.getAerialLost())) : 0);
 	            team.setFinalThirdPassingAccuracy(team.getTotalFinalThirdPasses() > 0 ? (int) Math.round((team.getSuccessfulFinalThirdPasses() * 100.0) / team.getTotalFinalThirdPasses()) : 0);
+	            
+	            team.setFtPassingAccuracy(AccuracyPercentage(team.getFtPasses(), team.getFtAccuratePass()));
+	            team.setFtSuccessfulDribblePercent(team.getFtDribbles() > 0 ? (int) Math.round((team.getFtSuccessfulDribble() * 100.0) / team.getFtDribbles()) : 0);
+	            team.setFtDuelwonPercent((team.getFtDuelWon() + team.getFtDuelLost() > 0) ? (int) Math.round((team.getFtDuelWon() * 100.0) / (team.getFtDuelWon() + team.getFtDuelLost())) : 0);
+	            team.setFtArielwonPercent((team.getFtAerialWon() + team.getFtAerialLost() > 0) ? (int) Math.round((team.getFtAerialWon() * 100.0) / (team.getFtAerialWon() + team.getFtAerialLost())) : 0);
+	            team.setFtFinalThirdPassingAccuracy(team.getFtTotalFinalThirdPasses() > 0 ? (int) Math.round((team.getFtSuccessfulFinalThirdPasses() * 100.0) / team.getFtTotalFinalThirdPasses()) : 0);
+	            
+	            team.setHtPassingAccuracy(AccuracyPercentage(team.getHtPasses(), team.getHtAccuratePass()));
+	            team.setHtSuccessfulDribblePercent(team.getHtDribbles() > 0 ? (int) Math.round((team.getHtSuccessfulDribble() * 100.0) / team.getHtDribbles()) : 0);
+	            team.setHtDuelwonPercent((team.getHtDuelWon() + team.getHtDuelLost() > 0) ? (int) Math.round((team.getHtDuelWon() * 100.0) / (team.getHtDuelWon() + team.getHtDuelLost())) : 0);
+	            team.setHtArielwonPercent((team.getHtAerialWon() + team.getHtAerialLost() > 0) ? (int) Math.round((team.getHtAerialWon() * 100.0) / (team.getHtAerialWon() + team.getHtAerialLost())) : 0);
+	            team.setHtFinalThirdPassingAccuracy(team.getHtTotalFinalThirdPasses() > 0 ? (int) Math.round((team.getHtSuccessfulFinalThirdPasses() * 100.0) / team.getHtTotalFinalThirdPasses()) : 0);
 
 		    	} 
 		    }
@@ -1737,6 +1856,315 @@ public class FootballFunctions {
 		return dataList;
 		
 	}
+	public static List<String> MatchStatsSingle(ApiMatch api_match,String values,String time) {
+		int home_value=0,away_value=0;
+		String WhichStyle="";
+        List<String> dataList = new ArrayList<>();
+		
+		for(int i=0;i<values.split(",").length;i++) {
+			 WhichStyle = values.split(",")[i];
+			switch (values.split(",")[i]) {
+		    case "Possession":
+		    	String Value = "";
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		Value =FootballFunctions.RoundValues(api_match.getApi_LiveMatch().getHomeTeam().getHtPossession()+","
+			    		+ api_match.getApi_LiveMatch().getAwayTeam().getHtPossession());
+					home_value = Integer.valueOf(Value.split(",")[0]);
+			        away_value =Integer.valueOf(Value.split(",")[1]);
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		Value =FootballFunctions.RoundValues(api_match.getApi_LiveMatch().getHomeTeam().getFtPossession()+","
+			    		+ api_match.getApi_LiveMatch().getAwayTeam().getFtPossession());
+					home_value = Integer.valueOf(Value.split(",")[0]);
+			        away_value =Integer.valueOf(Value.split(",")[1]);	
+		    	}
+		        WhichStyle="Possession (%)";
+		        break;
+		    case "Shots":
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getHtShots();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getHtShots();
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getFtShots();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFtShots();
+		    	}
+		        break;
+		    case "Shots_on_Target":
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getHtShotOnTarget();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getHtShotOnTarget();	
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getFtShotOnTarget();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFtShotOnTarget();	
+		    	}
+		        WhichStyle="Shots on Target";
+		        break;
+		    case "Corners":
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getHtCornerTaken();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getHtCornerTaken();
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getFtCornerTaken();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFtCornerTaken();
+		    	}
+		        break;
+		    case "Corners_Won":
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getHtWonCorners();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getHtWonCorners();
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getFtWonCorners();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFtWonCorners();
+		    	}
+		        break;
+		    case "Saves":
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getHtSaves();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getHtSaves();
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getFtSaves();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFtSaves();
+		    	}
+		        break;
+		    case "Crosses":
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getHtCrosses();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getHtCrosses();	
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getFtCrosses();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFtCrosses();
+		    	}
+		        break;
+		    case "Passes":
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getHtPasses();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getHtPasses();
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getFtPasses();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFtPasses();
+		    	}
+		        break;
+		    case "Passing_Accuracy":
+		    	if(time.equalsIgnoreCase("First Half")) {
+			    	 Value = RoundValues(api_match.getApi_LiveMatch().getHomeTeam().getHtPassingAccuracy()+","
+			    			+api_match.getApi_LiveMatch().getAwayTeam().getHtPassingAccuracy());
+			    	 home_value = Integer.valueOf(Value.split(",")[0]);
+				     away_value =Integer.valueOf(Value.split(",")[1]);
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+			    	 Value = RoundValues(api_match.getApi_LiveMatch().getHomeTeam().getFtPassingAccuracy()+","
+			    			+api_match.getApi_LiveMatch().getAwayTeam().getFtPassingAccuracy());
+			    	 home_value = Integer.valueOf(Value.split(",")[0]);
+				     away_value =Integer.valueOf(Value.split(",")[1]);
+		    	}
+		        WhichStyle = "Passing Accuracy(%)";
+		        break;
+		    case "Touches":
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getHtTouches();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getHtTouches();
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getFtTouches();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFtTouches();
+		    	}
+		        break;
+		    case "Tackles":
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getHtTackles();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getHtTackles();
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getFtTackles();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFtTackles();
+		    	}
+		        break;
+		    case "Offside":
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getHtOffside();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getHtOffside();
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getFtOffside();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFtOffside();	
+		    	}
+		        break;
+		    case "Fouls_Won":
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getHtFoulsWon();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getHtFoulsWon();
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getFtFoulsWon();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFtFoulsWon();
+		    	}
+		        break;
+		    case "Fouls":
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getHtFoulLost();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getHtFoulLost();
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getFtFoulLost();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFtFoulLost();
+		    	}
+		        break;
+		    case "Dribbles":
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getHtDribbles();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getHtDribbles();
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getFtDribbles();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFtDribbles();
+		    	}
+		        break;
+		    case "Interceptions":
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getHtInterceptions();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getHtInterceptions();
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getFtInterceptions();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFtInterceptions();
+		    	}
+		        break;
+		    case "InterceptionsWon":
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getHtInterceptionWon();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getHtInterceptionWon();	
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getFtInterceptionWon();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFtInterceptionWon();
+		    	}
+		    	break;
+		    case "Chance_Created":
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getHtChancesCreated();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getHtChancesCreated();
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getFtChancesCreated();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFtChancesCreated();
+		    	}
+		    	break;
+		    case "goalsConceded":
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getHtGoalsConceded();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getHtGoalsConceded();
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getFtGoalsConceded();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFtGoalsConceded();
+		    	}
+		    	break;
+		    case "dribbleWon":
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getHtSuccessfulDribble();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getHtSuccessfulDribble();
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getFtSuccessfulDribble();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFtSuccessfulDribble();
+		    	}
+		    	break;
+		    case "duelWon":
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getHtDuelWon();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getHtDuelWon();
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getFtDuelWon();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFtDuelWon();
+		    	}
+		    	break;
+		    case "Aerial":
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		home_value = (api_match.getApi_LiveMatch().getHomeTeam().getHtAerialWon()+api_match.getApi_LiveMatch().getHomeTeam().getHtAerialLost());
+			        away_value = (api_match.getApi_LiveMatch().getAwayTeam().getHtAerialWon()+api_match.getApi_LiveMatch().getAwayTeam().getHtAerialLost());
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		home_value = (api_match.getApi_LiveMatch().getHomeTeam().getFtAerialWon()+api_match.getApi_LiveMatch().getHomeTeam().getFtAerialLost());
+			        away_value = (api_match.getApi_LiveMatch().getAwayTeam().getFtAerialWon()+api_match.getApi_LiveMatch().getAwayTeam().getFtAerialLost());
+		    	}
+                break;
+            case "Successful_Dribbles":
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getHtSuccessfulDribblePercent();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getHtSuccessfulDribblePercent();
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getFtSuccessfulDribblePercent();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFtSuccessfulDribblePercent();
+		    	}
+		        WhichStyle="Successful Dribbles(%)";
+                break;
+            case "Duel_won":
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getHtDuelwonPercent();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getHtDuelwonPercent();
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getFtDuelwonPercent();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFtDuelwonPercent();
+		    	}
+		        WhichStyle= "Duel won (%)";
+                break;
+            case "Duel":
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		home_value = (api_match.getApi_LiveMatch().getHomeTeam().getHtDuelWon()+api_match.getApi_LiveMatch().getHomeTeam().getHtDuelLost());
+			        away_value = (api_match.getApi_LiveMatch().getAwayTeam().getHtDuelWon()+api_match.getApi_LiveMatch().getAwayTeam().getHtDuelLost());
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		home_value = (api_match.getApi_LiveMatch().getHomeTeam().getFtDuelWon()+api_match.getApi_LiveMatch().getHomeTeam().getFtDuelLost());
+			        away_value = (api_match.getApi_LiveMatch().getAwayTeam().getFtDuelWon()+api_match.getApi_LiveMatch().getAwayTeam().getFtDuelLost());
+		    	}
+               break;
+            case "passes_final_3rd_Accuracy":
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getHtFinalThirdPassingAccuracy();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getHtFinalThirdPassingAccuracy();
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getFtFinalThirdPassingAccuracy();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFtFinalThirdPassingAccuracy();	
+		    	}
+                break;
+            case "Final_3rd_Entries":
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getHtFinalThirdEntries();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getHtFinalThirdEntries();
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getFtFinalThirdEntries();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFtFinalThirdEntries();
+		    	}
+                break;
+            case "Touches_In_OppBox":
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getHtTouchesInOppBox();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getHtTouchesInOppBox();
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getFtTouchesInOppBox();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFtTouchesInOppBox();
+		    	}
+               break;
+            case "Final_Third_Passes":
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getHtTotalFinalThirdPasses();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getHtTotalFinalThirdPasses();
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getFtTotalFinalThirdPasses();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFtTotalFinalThirdPasses();
+		    	}
+                break;
+            case "Accurate_Pass":
+		    	if(time.equalsIgnoreCase("First Half")) {
+	            	home_value = api_match.getApi_LiveMatch().getHomeTeam().getHtAccuratePass();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getHtAccuratePass();
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+	            	home_value = api_match.getApi_LiveMatch().getHomeTeam().getFtAccuratePass();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFtAccuratePass();
+		    	}
+            	break;
+            case "Tackles_won":
+		    	if(time.equalsIgnoreCase("First Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getHtWonTackle();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getHtWonTackle();
+		    	}else if(time.equalsIgnoreCase("Second Half")) {
+		    		home_value = api_match.getApi_LiveMatch().getHomeTeam().getFtWonTackle();
+			        away_value = api_match.getApi_LiveMatch().getAwayTeam().getFtWonTackle();
+		    	}
+		        break;
+			}
+			dataList.add(home_value + "," + WhichStyle.replace("_", " ") + "," + away_value);
+		}
+
+		return dataList;
+		
+	}
+	
 	public static List<String> MatchStatsPlayer(ApiPlayerStats apiPlayerStats,String values) {
         List<String> dataList = new ArrayList<>();
         String Stat1="",Stat2="",Stat3="";
@@ -1934,3 +2362,5 @@ public class FootballFunctions {
 
 	}
 }
+
+

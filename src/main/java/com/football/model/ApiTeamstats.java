@@ -26,7 +26,7 @@ public class ApiTeamstats {
     private int chancesCreated;
     private int foulsWon;
     private int dribbles;
-    private int goals;
+    private int goals,htgoals,ftgoals;
     private int Offside;
     private int interceptions;
     private int successfulDribble,finalThirdEntries,successfulDribblePercent,duelwonPercent,arielwonPercent;
@@ -36,6 +36,26 @@ public class ApiTeamstats {
     			ballRecovery, unsuccessfulTouch, turnover,wonTackle,totalFinalThirdPasses,successfulFinalThirdPasses,
     			possWonAtt3rd,possWonDef3rd,touchesInOppBox,duelLost,blockedScoringAtt,ShotOffTarget,goalsConceded,
     			totalThrows,aerialWon,aerialLost;
+    private int ftCornerTaken, ftFoulsWon, ftShotOnTarget, ftShots, ftGoalsConceded;
+    private int htCornerTaken, htFoulsWon, htShotOnTarget, htShots, htGoalsConceded;
+    private int ftSaves, ftCrosses, ftPasses, ftAccuratePass, ftTouches;
+    private int htSaves, htCrosses, htPasses, htAccuratePass, htTouches;
+    private int  ftChancesCreated, htChancesCreated, ftOffside, htOffside;
+    private double ftPossession, htPossession,ftPassingAccuracy, htPassingAccuracy;
+    private int ftSuccessfulDribblePercent, htSuccessfulDribblePercent;
+    private int ftDuelWonPercent, htDuelWonPercent,HtTackles,FtTackles;
+    private int htDribbles, ftDribbles, htInterceptions, ftInterceptions,
+	    htSuccessfulDribble, ftSuccessfulDribble, htDuelWon, ftDuelWon, htFoulLost, ftFoulLost, 
+	    htTotalClearance, ftTotalClearance, htEffectiveClearance, ftEffectiveClearance,
+	    htInterceptionWon, ftInterceptionWon, htBallRecovery, ftBallRecovery, htUnsuccessfulTouch, 
+	    ftUnsuccessfulTouch, htTurnover, ftTurnover, htWonTackle, ftWonTackle,
+	    htTotalFinalThirdPasses, ftTotalFinalThirdPasses, htSuccessfulFinalThirdPasses, ftSuccessfulFinalThirdPasses,
+	    htPossWonAtt3rd, ftPossWonAtt3rd, htPossWonDef3rd, ftPossWonDef3rd, htTouchesInOppBox, ftTouchesInOppBox,
+	    htWonCorners, ftWonCorners, htLostCorners, ftLostCorners, htDuelLost, ftDuelLost, htBlockedScoringAtt, 
+	    ftBlockedScoringAtt, htShotOffTarget, ftShotOffTarget,HtDuelwonPercent,FtDuelwonPercent,FtArielwonPercent,
+	    HtArielwonPercent,htTotalThrows, ftTotalThrows, htAerialWon, ftAerialWon, htAerialLost, ftAerialLost, 
+	    htFinalThirdEntries, ftFinalThirdEntries,ftAerialWonPercent,htAerialWonPercent;
+    private int ftFinalThirdPassingAccuracy, htFinalThirdPassingAccuracy;
 
     List<ApiPlayerStats> Player= new ArrayList<ApiPlayerStats>();
 
@@ -390,6 +410,587 @@ public class ApiTeamstats {
 	public void setArielwonPercent(int arielwonPercent) {
 		this.arielwonPercent = arielwonPercent;
 	}
+	
+	public int getFtCornerTaken() {
+		return ftCornerTaken;
+	}
+	public void setFtCornerTaken(int ftCornerTaken) {
+		this.ftCornerTaken = ftCornerTaken;
+	}
+	public int getFtFoulsWon() {
+		return ftFoulsWon;
+	}
+	public void setFtFoulsWon(int ftFoulsWon) {
+		this.ftFoulsWon = ftFoulsWon;
+	}
+	public int getFtShotOnTarget() {
+		return ftShotOnTarget;
+	}
+	public void setFtShotOnTarget(int ftShotOnTarget) {
+		this.ftShotOnTarget = ftShotOnTarget;
+	}
+	public int getFtShots() {
+		return ftShots;
+	}
+	public void setFtShots(int ftShots) {
+		this.ftShots = ftShots;
+	}
+	public int getFtGoalsConceded() {
+		return ftGoalsConceded;
+	}
+	public void setFtGoalsConceded(int ftGoalsConceded) {
+		this.ftGoalsConceded = ftGoalsConceded;
+	}
+	public int getHtCornerTaken() {
+		return htCornerTaken;
+	}
+	public void setHtCornerTaken(int htCornerTaken) {
+		this.htCornerTaken = htCornerTaken;
+	}
+	public int getHtFoulsWon() {
+		return htFoulsWon;
+	}
+	public void setHtFoulsWon(int htFoulsWon) {
+		this.htFoulsWon = htFoulsWon;
+	}
+	public int getHtShotOnTarget() {
+		return htShotOnTarget;
+	}
+	public void setHtShotOnTarget(int htShotOnTarget) {
+		this.htShotOnTarget = htShotOnTarget;
+	}
+	public int getHtShots() {
+		return htShots;
+	}
+	public void setHtShots(int htShots) {
+		this.htShots = htShots;
+	}
+	public int getHtGoalsConceded() {
+		return htGoalsConceded;
+	}
+	public void setHtGoalsConceded(int htGoalsConceded) {
+		this.htGoalsConceded = htGoalsConceded;
+	}
+	public int getFtSaves() {
+		return ftSaves;
+	}
+	public void setFtSaves(int ftSaves) {
+		this.ftSaves = ftSaves;
+	}
+	public int getFtCrosses() {
+		return ftCrosses;
+	}
+	public void setFtCrosses(int ftCrosses) {
+		this.ftCrosses = ftCrosses;
+	}
+	public int getFtPasses() {
+		return ftPasses;
+	}
+	public void setFtPasses(int ftPasses) {
+		this.ftPasses = ftPasses;
+	}
+	public int getFtAccuratePass() {
+		return ftAccuratePass;
+	}
+	public void setFtAccuratePass(int ftAccuratePass) {
+		this.ftAccuratePass = ftAccuratePass;
+	}
+	public int getFtTouches() {
+		return ftTouches;
+	}
+	public void setFtTouches(int ftTouches) {
+		this.ftTouches = ftTouches;
+	}
+	public int getHtSaves() {
+		return htSaves;
+	}
+	public void setHtSaves(int htSaves) {
+		this.htSaves = htSaves;
+	}
+	public int getHtCrosses() {
+		return htCrosses;
+	}
+	public void setHtCrosses(int htCrosses) {
+		this.htCrosses = htCrosses;
+	}
+	public int getHtPasses() {
+		return htPasses;
+	}
+	public void setHtPasses(int htPasses) {
+		this.htPasses = htPasses;
+	}
+	public int getHtAccuratePass() {
+		return htAccuratePass;
+	}
+	public void setHtAccuratePass(int htAccuratePass) {
+		this.htAccuratePass = htAccuratePass;
+	}
+	public int getHtTouches() {
+		return htTouches;
+	}
+	public void setHtTouches(int htTouches) {
+		this.htTouches = htTouches;
+	}
+	public double getFtPossession() {
+		return ftPossession;
+	}
+	public void setFtPossession(double ftPossession) {
+		this.ftPossession = ftPossession;
+	}
+	public double getHtPossession() {
+		return htPossession;
+	}
+	public void setHtPossession(double htPossession) {
+		this.htPossession = htPossession;
+	}
+	public int getFtChancesCreated() {
+		return ftChancesCreated;
+	}
+	public void setFtChancesCreated(int ftChancesCreated) {
+		this.ftChancesCreated = ftChancesCreated;
+	}
+	public int getHtChancesCreated() {
+		return htChancesCreated;
+	}
+	public void setHtChancesCreated(int htChancesCreated) {
+		this.htChancesCreated = htChancesCreated;
+	}
+	public int getFtOffside() {
+		return ftOffside;
+	}
+	public void setFtOffside(int ftOffside) {
+		this.ftOffside = ftOffside;
+	}
+	public int getHtOffside() {
+		return htOffside;
+	}
+	public void setHtOffside(int htOffside) {
+		this.htOffside = htOffside;
+	}
+	public double getFtPassingAccuracy() {
+		return ftPassingAccuracy;
+	}
+	public void setFtPassingAccuracy(double ftPassingAccuracy) {
+		this.ftPassingAccuracy = ftPassingAccuracy;
+	}
+	public double getHtPassingAccuracy() {
+		return htPassingAccuracy;
+	}
+	public void setHtPassingAccuracy(double htPassingAccuracy) {
+		this.htPassingAccuracy = htPassingAccuracy;
+	}
+	public int getFtSuccessfulDribblePercent() {
+		return ftSuccessfulDribblePercent;
+	}
+	public void setFtSuccessfulDribblePercent(int ftSuccessfulDribblePercent) {
+		this.ftSuccessfulDribblePercent = ftSuccessfulDribblePercent;
+	}
+	public int getHtSuccessfulDribblePercent() {
+		return htSuccessfulDribblePercent;
+	}
+	public void setHtSuccessfulDribblePercent(int htSuccessfulDribblePercent) {
+		this.htSuccessfulDribblePercent = htSuccessfulDribblePercent;
+	}
+	public int getFtDuelWonPercent() {
+		return ftDuelWonPercent;
+	}
+	public void setFtDuelWonPercent(int ftDuelWonPercent) {
+		this.ftDuelWonPercent = ftDuelWonPercent;
+	}
+	public int getHtDuelWonPercent() {
+		return htDuelWonPercent;
+	}
+	public void setHtDuelWonPercent(int htDuelWonPercent) {
+		this.htDuelWonPercent = htDuelWonPercent;
+	}
+	public int getFtAerialWonPercent() {
+		return ftAerialWonPercent;
+	}
+	public void setFtAerialWonPercent(int ftAerialWonPercent) {
+		this.ftAerialWonPercent = ftAerialWonPercent;
+	}
+	public int getHtAerialWonPercent() {
+		return htAerialWonPercent;
+	}
+	public void setHtAerialWonPercent(int htAerialWonPercent) {
+		this.htAerialWonPercent = htAerialWonPercent;
+	}
+	public int getFtFinalThirdPassingAccuracy() {
+		return ftFinalThirdPassingAccuracy;
+	}
+	public void setFtFinalThirdPassingAccuracy(int ftFinalThirdPassingAccuracy) {
+		this.ftFinalThirdPassingAccuracy = ftFinalThirdPassingAccuracy;
+	}
+	public int getHtFinalThirdPassingAccuracy() {
+		return htFinalThirdPassingAccuracy;
+	}
+	public void setHtFinalThirdPassingAccuracy(int htFinalThirdPassingAccuracy) {
+		this.htFinalThirdPassingAccuracy = htFinalThirdPassingAccuracy;
+	}
+	
+	public int getHtTackles() {
+		return HtTackles;
+	}
+	public void setHtTackles(int htTackles) {
+		HtTackles = htTackles;
+	}
+	public int getFtTackles() {
+		return FtTackles;
+	}
+	public void setFtTackles(int ftTackles) {
+		FtTackles = ftTackles;
+	}
+	
+	public int getHtDribbles() {
+		return htDribbles;
+	}
+	public void setHtDribbles(int htDribbles) {
+		this.htDribbles = htDribbles;
+	}
+	public int getFtDribbles() {
+		return ftDribbles;
+	}
+	public void setFtDribbles(int ftDribbles) {
+		this.ftDribbles = ftDribbles;
+	}
+	public int getHtInterceptions() {
+		return htInterceptions;
+	}
+	public void setHtInterceptions(int htInterceptions) {
+		this.htInterceptions = htInterceptions;
+	}
+	public int getFtInterceptions() {
+		return ftInterceptions;
+	}
+	public void setFtInterceptions(int ftInterceptions) {
+		this.ftInterceptions = ftInterceptions;
+	}
+	public int getHtSuccessfulDribble() {
+		return htSuccessfulDribble;
+	}
+	public void setHtSuccessfulDribble(int htSuccessfulDribble) {
+		this.htSuccessfulDribble = htSuccessfulDribble;
+	}
+	public int getFtSuccessfulDribble() {
+		return ftSuccessfulDribble;
+	}
+	public void setFtSuccessfulDribble(int ftSuccessfulDribble) {
+		this.ftSuccessfulDribble = ftSuccessfulDribble;
+	}
+	public int getHtDuelWon() {
+		return htDuelWon;
+	}
+	public void setHtDuelWon(int htDuelWon) {
+		this.htDuelWon = htDuelWon;
+	}
+	public int getFtDuelWon() {
+		return ftDuelWon;
+	}
+	public void setFtDuelWon(int ftDuelWon) {
+		this.ftDuelWon = ftDuelWon;
+	}
+	public int getHtFoulLost() {
+		return htFoulLost;
+	}
+	public void setHtFoulLost(int htFoulLost) {
+		this.htFoulLost = htFoulLost;
+	}
+	public int getFtFoulLost() {
+		return ftFoulLost;
+	}
+	public void setFtFoulLost(int ftFoulLost) {
+		this.ftFoulLost = ftFoulLost;
+	}
+	public int getHtTotalClearance() {
+		return htTotalClearance;
+	}
+	public void setHtTotalClearance(int htTotalClearance) {
+		this.htTotalClearance = htTotalClearance;
+	}
+	public int getFtTotalClearance() {
+		return ftTotalClearance;
+	}
+	public void setFtTotalClearance(int ftTotalClearance) {
+		this.ftTotalClearance = ftTotalClearance;
+	}
+	public int getHtEffectiveClearance() {
+		return htEffectiveClearance;
+	}
+	public void setHtEffectiveClearance(int htEffectiveClearance) {
+		this.htEffectiveClearance = htEffectiveClearance;
+	}
+	public int getFtEffectiveClearance() {
+		return ftEffectiveClearance;
+	}
+	public void setFtEffectiveClearance(int ftEffectiveClearance) {
+		this.ftEffectiveClearance = ftEffectiveClearance;
+	}
+	public int getHtInterceptionWon() {
+		return htInterceptionWon;
+	}
+	public void setHtInterceptionWon(int htInterceptionWon) {
+		this.htInterceptionWon = htInterceptionWon;
+	}
+	public int getFtInterceptionWon() {
+		return ftInterceptionWon;
+	}
+	public void setFtInterceptionWon(int ftInterceptionWon) {
+		this.ftInterceptionWon = ftInterceptionWon;
+	}
+	public int getHtBallRecovery() {
+		return htBallRecovery;
+	}
+	public void setHtBallRecovery(int htBallRecovery) {
+		this.htBallRecovery = htBallRecovery;
+	}
+	public int getFtBallRecovery() {
+		return ftBallRecovery;
+	}
+	public void setFtBallRecovery(int ftBallRecovery) {
+		this.ftBallRecovery = ftBallRecovery;
+	}
+	public int getHtUnsuccessfulTouch() {
+		return htUnsuccessfulTouch;
+	}
+	public void setHtUnsuccessfulTouch(int htUnsuccessfulTouch) {
+		this.htUnsuccessfulTouch = htUnsuccessfulTouch;
+	}
+	public int getFtUnsuccessfulTouch() {
+		return ftUnsuccessfulTouch;
+	}
+	public void setFtUnsuccessfulTouch(int ftUnsuccessfulTouch) {
+		this.ftUnsuccessfulTouch = ftUnsuccessfulTouch;
+	}
+	public int getHtTurnover() {
+		return htTurnover;
+	}
+	public void setHtTurnover(int htTurnover) {
+		this.htTurnover = htTurnover;
+	}
+	public int getFtTurnover() {
+		return ftTurnover;
+	}
+	public void setFtTurnover(int ftTurnover) {
+		this.ftTurnover = ftTurnover;
+	}
+	public int getHtWonTackle() {
+		return htWonTackle;
+	}
+	public void setHtWonTackle(int htWonTackle) {
+		this.htWonTackle = htWonTackle;
+	}
+	public int getFtWonTackle() {
+		return ftWonTackle;
+	}
+	public void setFtWonTackle(int ftWonTackle) {
+		this.ftWonTackle = ftWonTackle;
+	}
+	public int getHtTotalFinalThirdPasses() {
+		return htTotalFinalThirdPasses;
+	}
+	public void setHtTotalFinalThirdPasses(int htTotalFinalThirdPasses) {
+		this.htTotalFinalThirdPasses = htTotalFinalThirdPasses;
+	}
+	public int getFtTotalFinalThirdPasses() {
+		return ftTotalFinalThirdPasses;
+	}
+	public void setFtTotalFinalThirdPasses(int ftTotalFinalThirdPasses) {
+		this.ftTotalFinalThirdPasses = ftTotalFinalThirdPasses;
+	}
+	public int getHtSuccessfulFinalThirdPasses() {
+		return htSuccessfulFinalThirdPasses;
+	}
+	public void setHtSuccessfulFinalThirdPasses(int htSuccessfulFinalThirdPasses) {
+		this.htSuccessfulFinalThirdPasses = htSuccessfulFinalThirdPasses;
+	}
+	public int getFtSuccessfulFinalThirdPasses() {
+		return ftSuccessfulFinalThirdPasses;
+	}
+	public void setFtSuccessfulFinalThirdPasses(int ftSuccessfulFinalThirdPasses) {
+		this.ftSuccessfulFinalThirdPasses = ftSuccessfulFinalThirdPasses;
+	}
+	public int getHtPossWonAtt3rd() {
+		return htPossWonAtt3rd;
+	}
+	public void setHtPossWonAtt3rd(int htPossWonAtt3rd) {
+		this.htPossWonAtt3rd = htPossWonAtt3rd;
+	}
+	public int getFtPossWonAtt3rd() {
+		return ftPossWonAtt3rd;
+	}
+	public void setFtPossWonAtt3rd(int ftPossWonAtt3rd) {
+		this.ftPossWonAtt3rd = ftPossWonAtt3rd;
+	}
+	public int getHtPossWonDef3rd() {
+		return htPossWonDef3rd;
+	}
+	public void setHtPossWonDef3rd(int htPossWonDef3rd) {
+		this.htPossWonDef3rd = htPossWonDef3rd;
+	}
+	public int getFtPossWonDef3rd() {
+		return ftPossWonDef3rd;
+	}
+	public void setFtPossWonDef3rd(int ftPossWonDef3rd) {
+		this.ftPossWonDef3rd = ftPossWonDef3rd;
+	}
+	public int getHtTouchesInOppBox() {
+		return htTouchesInOppBox;
+	}
+	public void setHtTouchesInOppBox(int htTouchesInOppBox) {
+		this.htTouchesInOppBox = htTouchesInOppBox;
+	}
+	public int getFtTouchesInOppBox() {
+		return ftTouchesInOppBox;
+	}
+	public void setFtTouchesInOppBox(int ftTouchesInOppBox) {
+		this.ftTouchesInOppBox = ftTouchesInOppBox;
+	}
+	public int getHtWonCorners() {
+		return htWonCorners;
+	}
+	public void setHtWonCorners(int htWonCorners) {
+		this.htWonCorners = htWonCorners;
+	}
+	public int getFtWonCorners() {
+		return ftWonCorners;
+	}
+	public void setFtWonCorners(int ftWonCorners) {
+		this.ftWonCorners = ftWonCorners;
+	}
+	public int getHtLostCorners() {
+		return htLostCorners;
+	}
+	public void setHtLostCorners(int htLostCorners) {
+		this.htLostCorners = htLostCorners;
+	}
+	public int getFtLostCorners() {
+		return ftLostCorners;
+	}
+	public void setFtLostCorners(int ftLostCorners) {
+		this.ftLostCorners = ftLostCorners;
+	}
+	public int getHtDuelLost() {
+		return htDuelLost;
+	}
+	public void setHtDuelLost(int htDuelLost) {
+		this.htDuelLost = htDuelLost;
+	}
+	public int getFtDuelLost() {
+		return ftDuelLost;
+	}
+	public void setFtDuelLost(int ftDuelLost) {
+		this.ftDuelLost = ftDuelLost;
+	}
+	public int getHtBlockedScoringAtt() {
+		return htBlockedScoringAtt;
+	}
+	public void setHtBlockedScoringAtt(int htBlockedScoringAtt) {
+		this.htBlockedScoringAtt = htBlockedScoringAtt;
+	}
+	public int getFtBlockedScoringAtt() {
+		return ftBlockedScoringAtt;
+	}
+	public void setFtBlockedScoringAtt(int ftBlockedScoringAtt) {
+		this.ftBlockedScoringAtt = ftBlockedScoringAtt;
+	}
+	public int getHtShotOffTarget() {
+		return htShotOffTarget;
+	}
+	public void setHtShotOffTarget(int htShotOffTarget) {
+		this.htShotOffTarget = htShotOffTarget;
+	}
+	public int getFtShotOffTarget() {
+		return ftShotOffTarget;
+	}
+	public void setFtShotOffTarget(int ftShotOffTarget) {
+		this.ftShotOffTarget = ftShotOffTarget;
+	}
+	public int getHtTotalThrows() {
+		return htTotalThrows;
+	}
+	public void setHtTotalThrows(int htTotalThrows) {
+		this.htTotalThrows = htTotalThrows;
+	}
+	public int getFtTotalThrows() {
+		return ftTotalThrows;
+	}
+	public void setFtTotalThrows(int ftTotalThrows) {
+		this.ftTotalThrows = ftTotalThrows;
+	}
+	public int getHtAerialWon() {
+		return htAerialWon;
+	}
+	public void setHtAerialWon(int htAerialWon) {
+		this.htAerialWon = htAerialWon;
+	}
+	public int getFtAerialWon() {
+		return ftAerialWon;
+	}
+	public void setFtAerialWon(int ftAerialWon) {
+		this.ftAerialWon = ftAerialWon;
+	}
+	public int getHtAerialLost() {
+		return htAerialLost;
+	}
+	public void setHtAerialLost(int htAerialLost) {
+		this.htAerialLost = htAerialLost;
+	}
+	public int getFtAerialLost() {
+		return ftAerialLost;
+	}
+	public void setFtAerialLost(int ftAerialLost) {
+		this.ftAerialLost = ftAerialLost;
+	}
+	public int getHtFinalThirdEntries() {
+		return htFinalThirdEntries;
+	}
+	public void setHtFinalThirdEntries(int htFinalThirdEntries) {
+		this.htFinalThirdEntries = htFinalThirdEntries;
+	}
+	public int getFtFinalThirdEntries() {
+		return ftFinalThirdEntries;
+	}
+	public void setFtFinalThirdEntries(int ftFinalThirdEntries) {
+		this.ftFinalThirdEntries = ftFinalThirdEntries;
+	}
+	
+	public int getHtDuelwonPercent() {
+		return HtDuelwonPercent;
+	}
+	public void setHtDuelwonPercent(int htDuelwonPercent) {
+		HtDuelwonPercent = htDuelwonPercent;
+	}
+	public int getFtDuelwonPercent() {
+		return FtDuelwonPercent;
+	}
+	public void setFtDuelwonPercent(int ftDuelwonPercent) {
+		FtDuelwonPercent = ftDuelwonPercent;
+	}
+	public int getFtArielwonPercent() {
+		return FtArielwonPercent;
+	}
+	public void setFtArielwonPercent(int ftArielwonPercent) {
+		FtArielwonPercent = ftArielwonPercent;
+	}
+	public int getHtArielwonPercent() {
+		return HtArielwonPercent;
+	}
+	public void setHtArielwonPercent(int htArielwonPercent) {
+		HtArielwonPercent = htArielwonPercent;
+	}
+	
+	public int getHtgoals() {
+		return htgoals;
+	}
+	public void setHtgoals(int htgoals) {
+		this.htgoals = htgoals;
+	}
+	public int getFtgoals() {
+		return ftgoals;
+	}
+	public void setFtgoals(int ftgoals) {
+		this.ftgoals = ftgoals;
+	}
 	public void reset() {
 	    name = code = id = "";  
 	    shotOnTarget = wonCorners = lostCorners = cornerTaken = yellowCards = redCards = 0;
@@ -405,6 +1006,29 @@ public class ApiTeamstats {
 	    possWonAtt3rd = possWonDef3rd = touchesInOppBox = duelLost = 0;
 	    blockedScoringAtt = ShotOffTarget = goalsConceded = totalThrows = 0;
 	    aerialWon = aerialLost = 0;
+	    ftCornerTaken= ftFoulsWon= ftShotOnTarget= ftShots= ftGoalsConceded= 0;
+	    htCornerTaken= htFoulsWon= htShotOnTarget= htShots= htGoalsConceded= 0;
+	    ftSaves= ftCrosses= ftPasses= ftAccuratePass= ftTouches= 0;
+	    htSaves= htCrosses= htPasses= htAccuratePass= htTouches= 0;
+	    ftPossession= htPossession= ftChancesCreated= htChancesCreated= ftOffside= htOffside= 0;
+	    ftPassingAccuracy= htPassingAccuracy= 0;
+	    HtTackles = FtTackles = ftSuccessfulDribblePercent= htSuccessfulDribblePercent= 0;
+	    ftDuelWonPercent= htDuelWonPercent= 0;
+	    ftAerialWonPercent= htAerialWonPercent= 0;
+	    
+	    ftFinalThirdPassingAccuracy= htFinalThirdPassingAccuracy= 0;
+	    HtDuelwonPercent = FtDuelwonPercent = FtArielwonPercent =
+	    HtArielwonPercent  = htDribbles= ftDribbles= htInterceptions= ftInterceptions=
+	    htSuccessfulDribble= ftSuccessfulDribble= htDuelWon= ftDuelWon= htFoulLost= ftFoulLost= 
+	    htTotalClearance= ftTotalClearance= htEffectiveClearance= ftEffectiveClearance=
+	    htInterceptionWon= ftInterceptionWon= htBallRecovery= ftBallRecovery= htUnsuccessfulTouch= 
+	    ftUnsuccessfulTouch= htTurnover= ftTurnover= htWonTackle= ftWonTackle=
+	    htTotalFinalThirdPasses= ftTotalFinalThirdPasses= htSuccessfulFinalThirdPasses= ftSuccessfulFinalThirdPasses=
+	    htPossWonAtt3rd= ftPossWonAtt3rd= htPossWonDef3rd= ftPossWonDef3rd= htTouchesInOppBox= ftTouchesInOppBox=
+	    htWonCorners= ftWonCorners= htLostCorners= ftLostCorners= htDuelLost= ftDuelLost= htBlockedScoringAtt= 
+	    ftBlockedScoringAtt= htShotOffTarget= ftShotOffTarget=
+	    htTotalThrows= htgoals= ftgoals = ftTotalThrows= htAerialWon= ftAerialWon= htAerialLost= ftAerialLost= htFinalThirdEntries= 
+	    ftFinalThirdEntries=0;
 	}
 
 	@Override
