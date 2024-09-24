@@ -582,21 +582,15 @@ public class FootballFunctions {
 		         if (team == null) continue;
 		         
 		        if(((event.getTypeId() == 44 && event.getOutcome() == 0) || (event.getTypeId() == 59 && event.getOutcome() == 0)) && event.getX() >= 50) {
-		        	for (Qualifier quali : event.getQualifier()) {
-			            if (quali.getQualifierId() == 56) {
-			                switch (quali.getValue().toUpperCase()) {
-			                    case "LEFT":
-			                        team.setLeft(team.getLeft() + 1);
-			                        break;
-			                    case "CENTER":
-			                        team.setCenter(team.getCenter() + 1);
-			                        break;
-			                    case "RIGHT":
-			                        team.setRight(team.getRight() + 1);
-			                        break;
-			                }
-			            }
-			        }
+		        	if(Double.valueOf(event.getX()) >= 50) {
+		        		if(Double.valueOf(event.getY()) >= 66.7) {
+		        			team.setLeft(team.getLeft() + 1);
+		        		}else if(Double.valueOf(event.getY()) > 33.3 && Double.valueOf(event.getY()) < 66.7) {
+		        			team.setCenter(team.getCenter() + 1);
+		        		}else if(Double.valueOf(event.getY()) <= 33.3) {
+		        			team.setRight(team.getRight() + 1);
+		        		}
+		        	}
 		        	
 		        }else if(((event.getTypeId() >= 1 && event.getTypeId() <= 4) || (event.getTypeId() >= 6 && event.getTypeId() <= 8)
 	        			|| (event.getTypeId() >= 10 && event.getTypeId() <= 16) || (event.getTypeId() == 41) || (event.getTypeId() == 42)
@@ -604,21 +598,15 @@ public class FootballFunctions {
 	        			|| (event.getTypeId() == 61) || (event.getTypeId() == 69) || (event.getTypeId() == 72) || (event.getTypeId() == 74)) 
 		        		&& event.getX() >= 50) {
 		        	
-		        	for (Qualifier quali : event.getQualifier()) {
-			            if (quali.getQualifierId() == 56) {
-			                switch (quali.getValue().toUpperCase()) {
-			                    case "LEFT":
-			                        team.setLeft(team.getLeft() + 1);
-			                        break;
-			                    case "CENTER":
-			                        team.setCenter(team.getCenter() + 1);
-			                        break;
-			                    case "RIGHT":
-			                        team.setRight(team.getRight() + 1);
-			                        break;
-			                }
-			            }
-			        }
+		        	if(Double.valueOf(event.getX()) >= 50) {
+		        		if(Double.valueOf(event.getY()) >= 66.7) {
+		        			team.setLeft(team.getLeft() + 1);
+		        		}else if(Double.valueOf(event.getY()) > 33.3 && Double.valueOf(event.getY()) < 66.7) {
+		        			team.setCenter(team.getCenter() + 1);
+		        		}else if(Double.valueOf(event.getY()) <= 33.3) {
+		        			team.setRight(team.getRight() + 1);
+		        		}
+		        	}
 		        }
 		    }
 	    }
