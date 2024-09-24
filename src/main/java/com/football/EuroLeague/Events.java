@@ -41,10 +41,10 @@ public class Events {
 	private int outcome;
 	
 	@JsonProperty("x")
-	private int x;
+	private Double x;
 	
 	@JsonProperty("y")
-	private int y;
+	private Double y;
 	
 	@JsonProperty("timeStamp")
 	private String timeStamp;
@@ -136,19 +136,19 @@ public class Events {
 		this.outcome = outcome;
 	}
 
-	public int getX() {
+	public Double getX() {
 		return x;
 	}
 
-	public void setX(int x) {
+	public void setX(Double x) {
 		this.x = x;
 	}
 
-	public int getY() {
+	public Double getY() {
 		return y;
 	}
 
-	public void setY(int y) {
+	public void setY(Double y) {
 		this.y = y;
 	}
 
