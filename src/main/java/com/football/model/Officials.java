@@ -14,6 +14,9 @@ public class Officials
   @Column(name = "OfficialsId")
   private int officialsId;
 
+  @Column(name = "MatchName")
+  private String matchName;
+  
   @Column(name = "Referee")
   private String referee;
 
@@ -95,6 +98,14 @@ public String getRefereeAssessor() {
 
 public void setRefereeAssessor(String refereeAssessor) {
 	this.refereeAssessor = refereeAssessor;
+}
+
+public String getMatchName() {
+	return matchName;
+}
+
+public void setMatchName(String matchName) {
+	this.matchName = matchName;
 }
 
 }

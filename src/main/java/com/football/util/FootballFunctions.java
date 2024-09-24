@@ -1,6 +1,5 @@
 package com.football.util;
 
-import java.awt.image.BufferedImage;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -27,7 +26,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.imageio.ImageIO;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
@@ -35,7 +33,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
-import org.hibernate.mapping.Collection;
 import org.json.JSONObject;
 import org.springframework.web.util.HtmlUtils;
 import org.w3c.dom.Document;
@@ -51,13 +48,11 @@ import com.football.EuroLeague.SeasonalStats;
 import com.football.EuroLeague.Stat;
 import com.football.EuroLeague.Substitute;
 import com.football.EuroLeague.TeamStat;
-import com.football.EuroLeague.TeamsStanding;
 import com.football.EuroLeague.TopPerformerPlayers;
 import com.football.EuroLeague.TopPerformers;
 import com.football.EuroLeague.rankings;
 import com.football.EuroLeague.PassMatrix;
 import com.football.EuroLeague.Players;
-import com.football.EuroLeague.Qualifier;
 import com.football.EuroLeague.MatchPreview;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
@@ -86,6 +81,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.w3c.dom.Element;
+
 public class FootballFunctions {
 	public static LiveMatch LiveMatch;	
 	public static SeasonalStats SeasonalStats;
@@ -253,6 +249,41 @@ public class FootballFunctions {
 		
 		return null;
 	}
+	
+	public static int[] roundToSum(double[] values, int targetSum) {
+        int n = values.length;
+        int[] result = new int[n];
+        double[] differences = new double[n];
+        int sum = 0;
+
+        // Step 1: Round each value and calculate the sum and differences
+        for (int i = 0; i < n; i++) {
+            result[i] = (int) Math.floor(values[i]);  // Initial rounding down
+            sum += result[i];
+            differences[i] = values[i] - result[i];   // Store the difference between actual and rounded
+        }
+
+        // Step 2: Adjust the values upwards to reach the target sum
+        while (sum < targetSum) {
+            int index = 0;
+            double maxDiff = -1;
+
+            // Find the value with the largest difference that hasn't been adjusted up yet
+            for (int i = 0; i < n; i++) {
+                if (differences[i] > maxDiff) {
+                    maxDiff = differences[i];
+                    index = i;
+                }
+            }
+
+            // Adjust the value and update sum
+            result[index]++;
+            sum++;
+            differences[index] = 0;  // Set to zero so it won't be adjusted again
+        }
+
+        return result;
+    }
 	
 	public static String FTPImageDownload(int port,int match_number,String user,String pass,String player_map_type,Configurations config) {
 		
