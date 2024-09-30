@@ -1636,6 +1636,10 @@ public class FootballFunctions {
 				match.getApi_LiveMatch().setDraws(mp.getPreviousMeetingsAnyComp().getDraws());
 			}
 		}
+		
+		match.getTopAssists().clear();
+		match.getTopGoals().clear();
+		
 		if(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\TopPerformers.json").exists()) {
 			TopPerformers playerTopPerformers = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\TopPerformers.json"), TopPerformers.class);
 	        
