@@ -2195,7 +2195,7 @@ public class FootballFunctions {
 	
 	public static List<String> MatchStatsBothHalfs(ApiMatch api_match,String values,String time) {
 		int homeHtPossession = 0,homeFtPossession =  0,awayHtPossession = 0,awayFtPossession = 0;
-		String WhichStyle="",HomeScore="",AwayScore="";
+		String WhichStyle="";
         List<String> dataList = new ArrayList<>();
         
 		System.out.println("values:- "+values);	
@@ -2206,345 +2206,213 @@ public class FootballFunctions {
 		    	Value =FootballFunctions.RoundValues(api_match.getApi_LiveMatch().getHomeTeam().getHtPossession()+","
 			    		+ api_match.getApi_LiveMatch().getAwayTeam().getHtPossession());
 	    		homeHtPossession =  Integer.valueOf(Value.split(",")[0]);
-               homeFtPossession =  Integer.valueOf(Value.split(",")[1]);
+                homeFtPossession =  Integer.valueOf(Value.split(",")[1]);
 	    		Value =FootballFunctions.RoundValues(api_match.getApi_LiveMatch().getHomeTeam().getFtPossession()+","
 			    		+ api_match.getApi_LiveMatch().getAwayTeam().getPossession());		    		
                 awayHtPossession =  Integer.valueOf(Value.split(",")[0]);
-               awayFtPossession = Integer.valueOf(Value.split(",")[1]);
-
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                   
-                 AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
-		        WhichStyle = "Passing Accuracy(%)";
+                awayFtPossession = Integer.valueOf(Value.split(",")[1]);
 		        WhichStyle="Possession (%)";
 		        break;
 		    case "Shots":
 		    	homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtShots();
-	           homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtShots();
+	            homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtShots();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtShots();
-	           awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtShots();
+  	            awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtShots();
 
-	            HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-	               
-	             AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
-	    		
 		        break;
 		    case "Shots_on_Target":
 		    	homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtShotOnTarget();
-               homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtShotOnTarget();
+                homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtShotOnTarget();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtShotOnTarget();
-               awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtShotOnTarget();
-
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                   
-                 AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
-	    		
+                awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtShotOnTarget();
 		        WhichStyle="Shots on Target";
 		        break;
 		    case "Corners":
 		    	homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtCornerTaken();
-               homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtCornerTaken();
+                homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtCornerTaken();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtCornerTaken();
-               awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtCornerTaken();
+                awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtCornerTaken();
 
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                   
-                 AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
-	    		
 		        break;
 		    case "Corners_Won":
 		    	homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtWonCorners();
-               homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtWonCorners();
+                homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtWonCorners();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtWonCorners();
-               awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtWonCorners();
-
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                   
-                 AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
-	    		
+                awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtWonCorners();
 		        break;
 		    case "Saves":
 		    	homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtSaves();
-               homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtSaves();
+                homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtSaves();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtSaves();
-               awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtSaves();
-
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                   
-                 AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
-	    		
+                awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtSaves();
 		        break;
 		    case "Crosses":
 		    	homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtCrosses();
-               homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtCrosses();
+                homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtCrosses();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtCrosses();
-               awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtCrosses();
-
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                   
-                 AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
-	    		
+                awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtCrosses();
 		        break;
 		    case "Passes":
 		    	homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtPasses();
-               homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtPasses();
+                homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtPasses();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtPasses();
-               awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtPasses();
-
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                   
-                 AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
-	    		
+                awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtPasses();
 		        break;
 		    case "Passing_Accuracy":
 		    	Value =FootballFunctions.RoundValues(api_match.getApi_LiveMatch().getHomeTeam().getHtPassingAccuracy()+","
 			    		+ api_match.getApi_LiveMatch().getAwayTeam().getHtPassingAccuracy());
 	    		homeHtPossession =  Integer.valueOf(Value.split(",")[0]);
-               homeFtPossession =  Integer.valueOf(Value.split(",")[1]);
+                homeFtPossession =  Integer.valueOf(Value.split(",")[1]);
 	    		Value =FootballFunctions.RoundValues(api_match.getApi_LiveMatch().getHomeTeam().getFtPassingAccuracy()+","
 			    		+ api_match.getApi_LiveMatch().getAwayTeam().getFtPassingAccuracy());		    		
                 awayHtPossession =  Integer.valueOf(Value.split(",")[0]);
-               awayFtPossession = Integer.valueOf(Value.split(",")[1]);
-
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                   
-                 AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
+                awayFtPossession = Integer.valueOf(Value.split(",")[1]);
 		        WhichStyle = "Passing Accuracy(%)";
 		        break;
 		    case "Touches":
 		    	homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtTouches();
-               homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtTouches();
+                homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtTouches();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtTouches();
-               awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtTouches();
-
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                   
-                 AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
-	    		
+                awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtTouches();
 		        break;
 		    case "Tackles":
 		    	homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtTackles();
-               homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtTackles();
+                homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtTackles();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtTackles();
-               awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtTackles();
-
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                   
-                 AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
-	    		
+                awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtTackles();
 		        break;
 		    case "Offside":
 		    	homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtOffside();
-               homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtOffside();
+                homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtOffside();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtOffside();
-               awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtOffside();
-
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                   
-                 AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
-	    		
+                awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtOffside();
 		        break;
 		    case "Fouls_Won":
 		    	homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtFoulsWon();
-               homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtFoulsWon();
+                homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtFoulsWon();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtFoulsWon();
-               awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtFoulsWon();
-
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                   
-                 AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
-	    		
+                awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtFoulsWon();
 		        break;
 		    case "Fouls":
 		    	homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtFoulLost();
-               homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtFoulLost();
+                homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtFoulLost();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtFoulLost();
-               awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtFoulLost();
-
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                   
-                AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
-	    		
+                awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtFoulLost();
 		        break;
 		    case "Dribbles":
 		    	homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtDribbles();
-               homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtDribbles();
+                homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtDribbles();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtDribbles();
-               awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtDribbles();
-
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                   
-                 AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
-	    		
+                awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtDribbles();
 		        break;
 		    case "Interceptions":
 	    		homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtInterceptions();
-               homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtInterceptions();
+                homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtInterceptions();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtInterceptions();
-               awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtInterceptions();
-
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                   
-                 AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
-	    		
+                awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtInterceptions();
 		        break;
 		    case "InterceptionsWon":
 		    	homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtInterceptionWon();
-               homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtInterceptionWon();
+		    	homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtInterceptionWon();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtInterceptionWon();
-               awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtInterceptionWon();
-
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                   
-                 AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
-	    		
+	    		awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtInterceptionWon();
 		    	break;
 		    case "Chance_Created":
 		    	homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtChancesCreated();
-               homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtChancesCreated();
+		    	homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtChancesCreated();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtChancesCreated();
-               awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtChancesCreated();
+	    		awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtChancesCreated();
 
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                   
-                 AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
-	    		
 		    	break;
 		    case "goalsConceded":
 		    	homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtGoalsConceded();
-               homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtGoalsConceded();
+                homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtGoalsConceded();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtGoalsConceded();
-               awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtGoalsConceded();
-
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                   
-                 AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
-	    		
+                awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtGoalsConceded();
 		    	break;
 		    case "dribbleWon":
 		    	homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtSuccessfulDribble();
-               homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtSuccessfulDribble();
+                homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtSuccessfulDribble();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtSuccessfulDribble();
-               awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtSuccessfulDribble();
-
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                   
-                 AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
-	    		
+                awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtSuccessfulDribble();
 		    	break;
 		    case "duelWon":
 		    	homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtDuelWon();
-               homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtDuelWon();
+                homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtDuelWon();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtDuelWon();
-               awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtDuelWon();
+                awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtDuelWon();
 
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                   
-                 AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
-	    		
 		    	break;
 		    case "Aerial":
 		    	homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtAerialLost();
-               homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtAerialLost();
+		    	homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtAerialLost();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtAerialLost();
-               awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtAerialLost();
+	    		awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtAerialLost();
 
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                   
-                 AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
-	    		
                 break;
             case "Successful_Dribbles":
             	homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtSuccessfulDribblePercent();
-               homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtSuccessfulDribblePercent();
+            	homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtSuccessfulDribblePercent();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtSuccessfulDribblePercent();
-               awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtSuccessfulDribblePercent();
+	    		awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtSuccessfulDribblePercent();
 
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                   
-                 AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
-		        WhichStyle="Successful Dribbles(%)";
                 break;
             case "Duel_won":
             	homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtDuelwonPercent();
-               homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtDuelwonPercent();
+            	homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtDuelwonPercent();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtDuelwonPercent();
-               awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtDuelwonPercent();
-
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                   
-                 AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
-	    		
-		        WhichStyle= "Duel won (%)";
-                break;
+	    		awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtDuelwonPercent();
+               break;
             case "Duel":
             	homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtDuelLost();
-               homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtDuelLost();
+                homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtDuelLost();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtDuelLost();
-               awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtDuelLost();
+                awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtDuelLost();
 
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                   
-                 AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
                break;
             case "passes_final_3rd_Accuracy":
             	homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtFinalThirdPassingAccuracy();
-               homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtFinalThirdPassingAccuracy();
+            	homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtFinalThirdPassingAccuracy();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtFinalThirdPassingAccuracy();
-               awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtFinalThirdPassingAccuracy();
-
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                   
-                 AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
-                break;
+	    		awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtFinalThirdPassingAccuracy();
+               break;
             case "Final_3rd_Entries":
             	homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtFinalThirdEntries();
-               homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtFinalThirdEntries();
+                homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtFinalThirdEntries();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtFinalThirdEntries();
-               awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtFinalThirdEntries();
+                awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtFinalThirdEntries();
 
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
                 break;
             case "Touches_In_OppBox":
             	homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtTouchesInOppBox();
-               homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtTouchesInOppBox();
+            	homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtTouchesInOppBox();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtTouchesInOppBox();
-               awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtTouchesInOppBox();
-
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
+	    		awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtTouchesInOppBox();
 	    		
                break;
             case "Final_Third_Passes":
             	homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtTotalFinalThirdPasses();
-               homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtTotalFinalThirdPasses();
+            	homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtTotalFinalThirdPasses();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtTotalFinalThirdPasses();
-               awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtTotalFinalThirdPasses();
+	    		awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtTotalFinalThirdPasses();
 
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
-	    		
                 break;
             case "Accurate_Pass":
             	homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtAccuratePass();
-               homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtAccuratePass();
+            	homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtAccuratePass();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtAccuratePass();
-               awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtAccuratePass();
+	    		awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtAccuratePass();
 
-                HomeScore = homeHtPossession + " (H1)	 " + awayHtPossession + " (H2) ";
-                AwayScore = homeFtPossession + " (H1)	 " + awayFtPossession + " (H2)";
-	    		
             	break;
             case "Tackles_won":
             	homeHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getHtWonTackle();
                 homeFtPossession =  api_match.getApi_LiveMatch().getAwayTeam().getHtWonTackle();
 	    		awayHtPossession =  api_match.getApi_LiveMatch().getHomeTeam().getFtWonTackle();
-               awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtWonTackle();              
+	    		awayFtPossession = api_match.getApi_LiveMatch().getAwayTeam().getFtWonTackle();              
 		        break;
 			}
-			dataList.add(homeHtPossession + "," + "FIRST" + "," + awayHtPossession);
-			dataList.add(homeFtPossession + "," +"SECOND" + "," + homeFtPossession);
+			dataList.add(homeHtPossession + "," + "FIRST" + "," + homeFtPossession);
+			dataList.add(awayHtPossession + "," +"SECOND" + "," + awayFtPossession);
 		return dataList;
 		
 	}
