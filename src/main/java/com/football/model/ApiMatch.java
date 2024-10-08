@@ -29,6 +29,8 @@ public class ApiMatch {
   private List<PlayerStats> goalConceded = new ArrayList<PlayerStats>();
   
   private Clock clock;
+  private int tournamentGoals ;
+  
   
 	public ApiData getApi_LiveMatch() {
 		return Api_LiveMatch;
@@ -119,6 +121,14 @@ public class ApiMatch {
 
 	public void setMatchIdent(String matchIdent) {
 		this.matchIdent = matchIdent;
+	}
+
+	public int getTournamentGoals() {
+		return tournamentGoals;
+	}
+
+	public void setTournamentGoals(int tournamentGoals) {
+		this.tournamentGoals = tournamentGoals;
 	}
 
 	@Override

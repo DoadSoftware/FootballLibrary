@@ -19,7 +19,7 @@ public class ApiPlayerStats {
 	private int goal;
 	private int totalShots,TotalPass;
 	private int duelWon;
-	private int duelLost;
+	private int duelLost,possLostAll;
 	private int dribbles;
 	private int accuratePasses;
 	private double expectedGoals;
@@ -43,8 +43,8 @@ public class ApiPlayerStats {
 	private int saves,shotOffTarget,totalOffside;
 	private int chanceCreated,cornerTaken,goalsConceded;
 	private int assists,blockedScoringAtt,ontargetScoringAtt;
-	private int aerialWon;
-	private int aerialLost;
+	private int aerialWon,longPassOwnToOpp,longPassOwnToOppSuccess;
+	private int aerialLost,possWonMid3rd,PossWonDef3rd,attemptsIbox;
 	public String getId() {
 		return Id;
 	}
@@ -386,6 +386,43 @@ public class ApiPlayerStats {
 	}
 	public void setAerialLost(int aerialLost) {
 		this.aerialLost = aerialLost;
+	}
+	
+	public int getLongPassOwnToOpp() {
+		return longPassOwnToOpp;
+	}
+	public void setLongPassOwnToOpp(int longPassOwnToOpp) {
+		this.longPassOwnToOpp = longPassOwnToOpp;
+	}
+	public int getLongPassOwnToOppSuccess() {
+		return longPassOwnToOppSuccess;
+	}
+	public void setLongPassOwnToOppSuccess(int longPassOwnToOppSuccess) {
+		this.longPassOwnToOppSuccess = longPassOwnToOppSuccess;
+	}
+	public int getPossLostAll() {
+		return possLostAll;
+	}
+	public void setPossLostAll(int possLostAll) {
+		this.possLostAll = possLostAll;
+	}
+	public int getPossWonMid3rd() {
+		return possWonMid3rd;
+	}
+	public void setPossWonMid3rd(int possWonMid3rd) {
+		this.possWonMid3rd = possWonMid3rd;
+	}
+	public int getPossWonDef3rd() {
+		return PossWonDef3rd;
+	}
+	public void setPossWonDef3rd(int possWonDef3rd) {
+		PossWonDef3rd = possWonDef3rd;
+	}
+	public int getAttemptsIbox() {
+		return attemptsIbox;
+	}
+	public void setAttemptsIbox(int attemptsIbox) {
+		this.attemptsIbox = attemptsIbox;
 	}
 	public ApiPlayerStats(String id, String name, int shirtNumber, String position) {
 		super();

@@ -48,7 +48,8 @@ public class ApiTeamstats {
 	    htSuccessfulDribble, ftSuccessfulDribble, htDuelWon, ftDuelWon, htFoulLost, ftFoulLost, 
 	    htTotalClearance, ftTotalClearance, htEffectiveClearance, ftEffectiveClearance,
 	    htInterceptionWon, ftInterceptionWon, htBallRecovery, ftBallRecovery, htUnsuccessfulTouch, 
-	    ftUnsuccessfulTouch, htTurnover, ftTurnover, htWonTackle, ftWonTackle,
+	    ftUnsuccessfulTouch, htTurnover, ftTurnover, htWonTackle, ftWonTackle,longPassOwnToOpp,htlongPassOwnToOpp,ftlongPassOwnToOpp,
+	    longPassOwnToOppSuccess,htlongPassOwnToOppSuccess,ftlongPassOwnToOppSuccess,
 	    htTotalFinalThirdPasses, ftTotalFinalThirdPasses, htSuccessfulFinalThirdPasses, ftSuccessfulFinalThirdPasses,
 	    htPossWonAtt3rd, ftPossWonAtt3rd, htPossWonDef3rd, ftPossWonDef3rd, htTouchesInOppBox, ftTouchesInOppBox,
 	    htWonCorners, ftWonCorners, htLostCorners, ftLostCorners, htDuelLost, ftDuelLost, htBlockedScoringAtt, 
@@ -56,6 +57,7 @@ public class ApiTeamstats {
 	    HtArielwonPercent,htTotalThrows, ftTotalThrows, htAerialWon, ftAerialWon, htAerialLost, ftAerialLost, 
 	    htFinalThirdEntries, ftFinalThirdEntries,ftAerialWonPercent,htAerialWonPercent;
     private int ftFinalThirdPassingAccuracy, htFinalThirdPassingAccuracy;
+    private int shotsInsideBox,ftshotsInsideBox,htshotsInsideBox, htPossWonMid3rd, ftPossWonMid3rd, PossWonMid3rd;
 
     List<ApiPlayerStats> Player= new ArrayList<ApiPlayerStats>();
 
@@ -991,6 +993,78 @@ public class ApiTeamstats {
 	public void setFtgoals(int ftgoals) {
 		this.ftgoals = ftgoals;
 	}
+	public int getLongPassOwnToOpp() {
+		return longPassOwnToOpp;
+	}
+	public void setLongPassOwnToOpp(int longPassOwnToOpp) {
+		this.longPassOwnToOpp = longPassOwnToOpp;
+	}
+	public int getHtlongPassOwnToOpp() {
+		return htlongPassOwnToOpp;
+	}
+	public void setHtlongPassOwnToOpp(int htlongPassOwnToOpp) {
+		this.htlongPassOwnToOpp = htlongPassOwnToOpp;
+	}
+	public int getFtlongPassOwnToOpp() {
+		return ftlongPassOwnToOpp;
+	}
+	public void setFtlongPassOwnToOpp(int ftlongPassOwnToOpp) {
+		this.ftlongPassOwnToOpp = ftlongPassOwnToOpp;
+	}
+	public int getLongPassOwnToOppSuccess() {
+		return longPassOwnToOppSuccess;
+	}
+	public void setLongPassOwnToOppSuccess(int longPassOwnToOppSuccess) {
+		this.longPassOwnToOppSuccess = longPassOwnToOppSuccess;
+	}
+	public int getHtlongPassOwnToOppSuccess() {
+		return htlongPassOwnToOppSuccess;
+	}
+	public void setHtlongPassOwnToOppSuccess(int htlongPassOwnToOppSuccess) {
+		this.htlongPassOwnToOppSuccess = htlongPassOwnToOppSuccess;
+	}
+	public int getFtlongPassOwnToOppSuccess() {
+		return ftlongPassOwnToOppSuccess;
+	}
+	public void setFtlongPassOwnToOppSuccess(int ftlongPassOwnToOppSuccess) {
+		this.ftlongPassOwnToOppSuccess = ftlongPassOwnToOppSuccess;
+	}
+	public int getShotsInsideBox() {
+		return shotsInsideBox;
+	}
+	public void setShotsInsideBox(int shotsInsideBox) {
+		this.shotsInsideBox = shotsInsideBox;
+	}
+	public int getFtshotsInsideBox() {
+		return ftshotsInsideBox;
+	}
+	public void setFtshotsInsideBox(int ftshotsInsideBox) {
+		this.ftshotsInsideBox = ftshotsInsideBox;
+	}
+	public int getHtshotsInsideBox() {
+		return htshotsInsideBox;
+	}
+	public void setHtshotsInsideBox(int htshotsInsideBox) {
+		this.htshotsInsideBox = htshotsInsideBox;
+	}
+	public int getHtPossWonMid3rd() {
+		return htPossWonMid3rd;
+	}
+	public void setHtPossWonMid3rd(int htPossWonMid3rd) {
+		this.htPossWonMid3rd = htPossWonMid3rd;
+	}
+	public int getFtPossWonMid3rd() {
+		return ftPossWonMid3rd;
+	}
+	public void setFtPossWonMid3rd(int ftPossWonMid3rd) {
+		this.ftPossWonMid3rd = ftPossWonMid3rd;
+	}
+	public int getPossWonMid3rd() {
+		return PossWonMid3rd;
+	}
+	public void setPossWonMid3rd(int possWonMid3rd) {
+		PossWonMid3rd = possWonMid3rd;
+	}
 	public void reset() {
 	    name = code = id = "";  
 	    shotOnTarget = wonCorners = lostCorners = cornerTaken = yellowCards = redCards = 0;
@@ -1014,8 +1088,9 @@ public class ApiTeamstats {
 	    ftPassingAccuracy= htPassingAccuracy= 0;
 	    HtTackles = FtTackles = ftSuccessfulDribblePercent= htSuccessfulDribblePercent= 0;
 	    ftDuelWonPercent= htDuelWonPercent= 0;
-	    ftAerialWonPercent= htAerialWonPercent= 0;
-	    
+	    ftAerialWonPercent = htAerialWonPercent = longPassOwnToOpp = htlongPassOwnToOpp = ftlongPassOwnToOpp =
+	    	    longPassOwnToOppSuccess = htlongPassOwnToOppSuccess = ftlongPassOwnToOppSuccess = 0;
+	    shotsInsideBox = ftshotsInsideBox = htshotsInsideBox =  htPossWonMid3rd =ftPossWonMid3rd = PossWonMid3rd =0;
 	    ftFinalThirdPassingAccuracy= htFinalThirdPassingAccuracy= 0;
 	    HtDuelwonPercent = FtDuelwonPercent = FtArielwonPercent =
 	    HtArielwonPercent  = htDribbles= ftDribbles= htInterceptions= ftInterceptions=
