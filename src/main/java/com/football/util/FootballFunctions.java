@@ -1720,6 +1720,7 @@ public class FootballFunctions {
 	            });
 	        }
 	    }
+		 match.getGoalConceded().clear();
 		 File jsonFile = new File("C:\\Sports\\Football\\Statistic\\Match_Data\\TeamStats.json");
 	        
 		 if (jsonFile.exists()) {
