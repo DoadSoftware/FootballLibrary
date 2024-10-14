@@ -21,7 +21,7 @@ public class LineUp {
 	private List<Players> player;
 	
 	@JsonProperty("teamOfficial")
-	private TeamOfficial teamOfficial;
+	private List<TeamOfficial> teamOfficial;
 	
 	@JsonProperty("stat")
 	private List<TeamStat> stat;
@@ -57,11 +57,11 @@ public class LineUp {
 		this.player = player;
 	}
 
-	public TeamOfficial getTeamOfficial() {
+	public List<TeamOfficial> getTeamOfficial() {
 		return teamOfficial;
 	}
 
-	public void setTeamOfficial(TeamOfficial teamOfficial) {
+	public void setTeamOfficial(List<TeamOfficial> teamOfficial) {
 		this.teamOfficial = teamOfficial;
 	}
 
