@@ -54,10 +54,6 @@ import com.football.EuroLeague.TopPerformers;
 import com.football.EuroLeague.rankings;
 import com.football.EuroLeague.teamData;
 import com.football.EuroLeague.PassMatrix;
-import com.football.EuroLeague.Penalty;
-import com.football.EuroLeague.PenaltyContestant;
-import com.football.EuroLeague.PenaltyPlayerData;
-import com.football.EuroLeague.PenaltyPreview;
 import com.football.EuroLeague.Players;
 import com.football.EuroLeague.MatchPreview;
 import com.fasterxml.jackson.core.exc.StreamReadException;
@@ -108,6 +104,15 @@ public class FootballFunctions {
 	        return i + "th";
 	    }
 	}
+	
+	public static boolean containsAllStats(String mainString, String[] stats) {
+        for (String stat : stats) {
+            if (mainString.contains(stat)) {
+                return true; 
+            }
+        }
+        return false;
+    }
 	
 	public static String[] getMonthNames(int monthNumber) {
         String[] monthNames = new String[2];
@@ -223,6 +228,74 @@ public class FootballFunctions {
 	    		return Integer.compare(pt2.getPoints(), pt1.getPoints());
 	    	}
 	    }
+	}
+	
+	public static List<ApiPlayerStats> PlayerStats(ApiMatch apiMatch, String which_data) {
+		List<ApiPlayerStats> apiPlayerStats = new ArrayList<ApiPlayerStats>();
+		 apiPlayerStats.addAll(apiMatch.getApi_LiveMatch().getHomeTeam().getPlayer());
+		 apiPlayerStats.addAll(apiMatch.getApi_LiveMatch().getAwayTeam().getPlayer());
+		switch (which_data.toUpperCase()) {
+		case "TOUCHES":
+			Collections.sort(apiPlayerStats, (p1, p2) -> Integer.compare(p2.getTouches(), p1.getTouches()));
+			break;
+		case "DUEL WON":
+			Collections.sort(apiPlayerStats, (p1, p2) -> Integer.compare(p2.getDuelWon(), p1.getDuelWon()));
+			break;
+		case "SUCCESSFUL DRIBBLES":
+			Collections.sort(apiPlayerStats, (p1, p2) -> Integer.compare(p2.getWonContest(), p1.getWonContest()));
+			break;
+		case "RECOVERIES":
+			Collections.sort(apiPlayerStats, (p1, p2) -> Integer.compare(p2.getBallRecovery(), p1.getBallRecovery()));
+			break;
+		case "AERIAL DUELS WON":
+			Collections.sort(apiPlayerStats, (p1, p2) -> Integer.compare(p2.getAerialWon(), p1.getAerialWon()));
+			break;
+		case "CHANCES CREATED":
+			Collections.sort(apiPlayerStats, (p1, p2) -> Integer.compare(p2.getChanceCreated(), p1.getChanceCreated()));
+	        break;
+	    case "PASSES":
+			Collections.sort(apiPlayerStats, (p1, p2) -> Integer.compare(p2.getTotalPass(), p1.getTotalPass()));
+	        break;
+	    case "FINAL 3RD PASSES":
+			Collections.sort(apiPlayerStats, (p1, p2) -> Integer.compare(p2.getTotalFinalThirdPasses(), p1.getTotalFinalThirdPasses()));
+	        break;
+	    case "CROSSES":
+			Collections.sort(apiPlayerStats, (p1, p2) -> Integer.compare(p2.getTotalCross(), p1.getTotalCross()));
+	        break;
+	    case "DUELS":
+	    	Collections.sort(apiPlayerStats, (p1, p2) -> {
+	    	    int totalDuels1 = p1.getDuelWon() + p1.getDuelLost();
+	    	    int totalDuels2 = p2.getDuelWon() + p2.getDuelLost();
+	    	    return Integer.compare(totalDuels2, totalDuels1); 
+	    	});
+	        break;
+	    case "DUELS WON":
+			Collections.sort(apiPlayerStats, (p1, p2) -> Integer.compare(p2.getDuelWon(), p1.getDuelWon()));
+	        break;
+	    case "POSSESSION WON":
+	    	Collections.sort(apiPlayerStats, (p1, p2) -> {
+	    	    int totalDuels1 = p1.getPossWonAtt3rd() + p1.getPossWonDef3rd() + p1.getPossWonMid3rd();
+	    	    int totalDuels2 = p2.getPossWonAtt3rd() + p2.getPossWonDef3rd() + p2.getPossWonMid3rd();
+	    	    return Integer.compare(totalDuels2, totalDuels1); 
+	    	});
+	        break;
+	    case "POSSESSION LOST":
+			Collections.sort(apiPlayerStats, (p1, p2) -> Integer.compare(p2.getPossLostAll(), p1.getPossLostAll()));
+	        break;
+	    case "TACKLES":
+			Collections.sort(apiPlayerStats, (p1, p2) -> Integer.compare(p2.getTotalTackle(), p1.getTotalTackle()));
+	        break;
+	    case "TACKLES WON":
+			Collections.sort(apiPlayerStats, (p1, p2) -> Integer.compare(p2.getWonTackle(), p1.getWonTackle()));
+	        break;
+	    case "SHOTS":
+			Collections.sort(apiPlayerStats, (p1, p2) -> Integer.compare(p2.getTotalShots(), p1.getTotalShots()));
+	        break;
+	    case "SHOTS ON TARGET":
+			Collections.sort(apiPlayerStats, (p1, p2) -> Integer.compare(p2.getShotOnTarget(), p1.getShotOnTarget()));
+	        break;
+		}
+	    return apiPlayerStats.size() > 5 ? apiPlayerStats.subList(0, 5) : apiPlayerStats;
 	}
 	
 	public static Tournament extracttournamentGoals(String typeOfExtraction, List<Fixture> fixtures, Match currentMatch, 
