@@ -69,7 +69,11 @@ public class Stat {
 	public void setRawIndexScore(List<Stat> rawIndexScore) {
 		this.rawIndexScore = rawIndexScore;
 	}
-
+	public Stat(String type, String value) {
+		super();
+		this.type = type;
+		this.value = value;
+	}
 	@Override
 	public String toString() {
 		return "Stat [name=" + name + ", type=" + type + ", value=" + value + ", indexScore=" + indexScore

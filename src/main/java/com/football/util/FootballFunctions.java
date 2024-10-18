@@ -1242,15 +1242,33 @@ public class FootballFunctions {
 			        for (Card card : liveMatch.getLiveData().getCard()) {
 			        	 match.getApi_LiveMatch().getEvents().add(new ApiEventStats(card.getContestantId(),card.getPlayerId(),HtmlUtils.htmlEscape(card.getPlayerName()),card.getTimeMin(),
 				            		card.getType(),card.getPeriodId(),card.getTimeMinSec()));
-			            if (card.getType().equalsIgnoreCase("YC")) {
+			            if (card.getType().equalsIgnoreCase("YC") || card.getType().equalsIgnoreCase("Y2C")) {
 			                if (card.getContestantId().equalsIgnoreCase(liveMatch.getMatchInfo().getContestant().get(0).getId())) {
-			                    match.getApi_LiveMatch().getHomeTeam().setYellowCards(
-			                        match.getApi_LiveMatch().getHomeTeam().getYellowCards() + 1
-			                    );
+			                    if(card.getType().equalsIgnoreCase("Y2C")) {
+			                    	match.getApi_LiveMatch().getHomeTeam().setYellowCards(
+					                        match.getApi_LiveMatch().getHomeTeam().getYellowCards() - 1
+					                    );
+			                    	 match.getApi_LiveMatch().getHomeTeam().setRedCards(
+						                        match.getApi_LiveMatch().getHomeTeam().getRedCards() + 1
+						                    );
+			                    }else {
+			                    	match.getApi_LiveMatch().getHomeTeam().setYellowCards(
+					                        match.getApi_LiveMatch().getHomeTeam().getYellowCards() + 1
+					                    );
+			                    }
 			                } else if (card.getContestantId().equalsIgnoreCase(liveMatch.getMatchInfo().getContestant().get(1).getId())) {
-			                    match.getApi_LiveMatch().getAwayTeam().setYellowCards(
-			                        match.getApi_LiveMatch().getAwayTeam().getYellowCards() + 1
-			                    );
+			                	if(card.getType().equalsIgnoreCase("Y2C")) {
+			                		match.getApi_LiveMatch().getAwayTeam().setYellowCards(
+					                        match.getApi_LiveMatch().getAwayTeam().getYellowCards() - 1
+					                    );
+			                		match.getApi_LiveMatch().getAwayTeam().setRedCards(
+					                        match.getApi_LiveMatch().getAwayTeam().getRedCards() + 1
+					                    );
+			                    }else {
+			                    	match.getApi_LiveMatch().getAwayTeam().setYellowCards(
+					                        match.getApi_LiveMatch().getAwayTeam().getYellowCards() + 1
+					                    );
+			                    }
 			                }
 			            }else  if (card.getType().equalsIgnoreCase("RC")) {
 			                if (card.getContestantId().equalsIgnoreCase(liveMatch.getMatchInfo().getContestant().get(0).getId())) {
@@ -2907,6 +2925,808 @@ public class FootballFunctions {
 	    }
 	    
 	    return String.join(",", updatedHeaders);
+	}
+	public static List<Stat> SeasonalDataTeam(String Stats ,String Type, String TeamId) throws Exception {
+		List<Stat> plyer = new ArrayList<Stat>();
+		if(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\seasonalRanking.json").exists()) {
+			rankings ranking = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\seasonalRanking.json"), rankings.class);
+			if (ranking != null && ranking.getTeam()!= null) {
+	        	for(teamData team :ranking.getTeam() ) {
+	        		if(team.getId().equalsIgnoreCase(TeamId)){
+	        			if(team.getStat()!=null) {
+	        				for(Stat st:team.getStat()) {
+	        					for(String stats : Stats.split(",")) {
+	        						switch(stats) {
+				        			case "Passes":
+				        				switch(Type) {
+				        				case "Total":
+				        					if (st.getType().equalsIgnoreCase("total pass")) {
+					        					plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				case "Rank":
+				        					 if(st.getType().equalsIgnoreCase("total pass ranking")) {
+				        						 plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				}
+				        				break;
+				        			case "Successful Passes":
+				        				switch(Type) {
+				        				case "Total":
+				        					if (st.getType().equalsIgnoreCase("total accurate pass")) {
+				        						plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				case "Rank":
+				        					 if(st.getType().equalsIgnoreCase("total accurate pass ranking")) {
+						        				plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				}
+				        				break;
+				        			case "Crosses":
+				        				switch(Type) {
+				        				case "Total":
+				        					if (st.getType().equalsIgnoreCase("total crosses")) {
+					        					plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				case "Rank":
+				        					 if(st.getType().equalsIgnoreCase("total crosses ranking")) {
+						        				plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				}
+				        				break;
+				        			case "Successful Crosses":
+				        				switch(Type) {
+				        				case "Total":
+				        					if (st.getType().equalsIgnoreCase("total accurate cross")) {
+					        					plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				case "Rank":
+				        					 if(st.getType().equalsIgnoreCase("total accurate cross ranking")) {
+						        				plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				}
+				        				break;
+				        			case "Duels Won":
+				        				switch(Type) {
+				        				case "Total":
+				        					if (st.getType().equalsIgnoreCase("total duels won")) {
+					        					plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				case "Rank":
+				        					 if(st.getType().equalsIgnoreCase("total duels won ranking")) {
+						        				plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				}
+				        				break;
+				        			case "Duels Lost":
+				        				switch(Type) {
+				        				case "Total":
+				        					if (st.getType().equalsIgnoreCase("total duels lost")) {
+					        					plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				case "Rank":
+				        					 if(st.getType().equalsIgnoreCase("total duels lost ranking")) {
+						        				plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				}
+				        				break;
+				        			case "Shots":
+				        				switch(Type) {
+				        				case "Total":
+				        					if (st.getType().equalsIgnoreCase("total scoring att")) {
+					        					plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				case "Rank":
+				        					 if(st.getType().equalsIgnoreCase("total scoring att ranking")) {
+						        				plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				}
+				        				break;
+				        			case "Shots on Target":
+				        				switch(Type) {
+				        				case "Total":
+				        					if (st.getType().equalsIgnoreCase("total ontarget scoring att")) {
+					        					plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				case "Rank":
+				        					 if(st.getType().equalsIgnoreCase("total ontarget scoring att ranking")) {
+						        				plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				}
+				        				break;
+				        			case "Tackles":
+				        				switch(Type) {
+				        				case "Total":
+				        					if (st.getType().equalsIgnoreCase("total tackle")) {
+					        					plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				case "Rank":
+				        					 if(st.getType().equalsIgnoreCase("total tackle ranking")) {
+						        				plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				}
+				        				break;
+				        			case "Tackles Won":
+				        				switch(Type) {
+				        				case "Total":
+				        					if (st.getType().equalsIgnoreCase("total won tackle")) {
+					        					plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				case "Rank":
+				        					 if(st.getType().equalsIgnoreCase("total won tackle ranking")) {
+						        				plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				}
+				        				break;
+				        			case "Dribble":
+				        				switch(Type) {
+				        				case "Total":
+				        					if (st.getType().equalsIgnoreCase("total contest")) {
+					        					plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				case "Rank":
+				        					 if(st.getType().equalsIgnoreCase("total contest ranking")) {
+						        				plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				}
+				        				break;
+				        			case "Dribble Won":
+				        				switch(Type) {
+				        				case "Total":
+				        					if (st.getType().equalsIgnoreCase("total won contest")) {
+					        					plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				case "Rank":
+				        					 if(st.getType().equalsIgnoreCase("total won contest ranking")) {
+						        				plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				}
+				        				break;
+				        			case "Red card":
+				        				switch(Type) {
+				        				case "Total":
+				        					if (st.getType().equalsIgnoreCase("total red card")) {
+					        					plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				case "Rank":
+				        					 if(st.getType().equalsIgnoreCase("total red card ranking")) {
+						        				plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				}
+				        				break;
+				        			case "Yellow card":
+				        				switch(Type) {
+				        				case "Total":
+				        					if (st.getType().equalsIgnoreCase("total yellow card")) {
+					        					plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				case "Rank":
+				        					 if(st.getType().equalsIgnoreCase("total yellow card ranking")) {
+						        				plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				}
+				        				break;
+				        			case "Clean Sheet":
+				        				switch(Type) {
+				        				case "Total":
+				        					if (st.getType().equalsIgnoreCase("total goals conceded")) {
+					        					plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				case "Rank":
+				        					 if(st.getType().equalsIgnoreCase("total goals conceded ranking")) {
+						        				plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				}
+				        				break;
+				        			case "Won Corners":
+				        				switch(Type) {
+				        				case "Total":
+				        					if (st.getType().equalsIgnoreCase("total won corners card")) {
+					        					plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				case "Rank":
+				        					 if(st.getType().equalsIgnoreCase("total won corners ranking")) {
+						        				plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				}
+				        				break;
+				        			case "Lost Corners":
+				        				switch(Type) {
+				        				case "Total":
+				        					if (st.getType().equalsIgnoreCase("total lost corners")) {
+					        					plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				case "Rank":
+				        					 if(st.getType().equalsIgnoreCase("total lost corners ranking")) {
+						        				plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				}
+				        				break;
+				        			case "Touches in Opp. Box":
+				        				switch(Type) {
+				        				case "Total":
+				        					if (st.getType().equalsIgnoreCase("total touches in opposition box")) {
+					        					plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				case "Rank":
+				        					 if(st.getType().equalsIgnoreCase("total touches in opposition box ranking")) {
+						        				plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				}
+				        				break;
+				        			case "Clearance":
+				        				switch(Type) {
+				        				case "Total":
+				        					if (st.getType().equalsIgnoreCase("total clearance")) {
+					        					plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				case "Rank":
+				        					 if(st.getType().equalsIgnoreCase("total clearance ranking")) {
+						        				plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				}
+				        				break;
+				        			case "Fouls":
+				        				switch(Type) {
+				        				case "Total":
+				        					if (st.getType().equalsIgnoreCase("total fouls")) {
+					        					plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				case "Rank":
+				        					 if(st.getType().equalsIgnoreCase("total fouls ranking")) {
+						        				plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				}
+				        				break;
+				        			case "Offsides":
+				        				switch(Type) {
+				        				case "Total":
+				        					if (st.getType().equalsIgnoreCase("total offside")) {
+					        					plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				case "Rank":
+				        					 if(st.getType().equalsIgnoreCase("total offside ranking")) {
+						        				plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				}
+				        				break;
+				        			case "Attempts InsideBox":
+				        				switch(Type) {
+				        				case "Total":
+				        					if (st.getType().equalsIgnoreCase("total attempts ibox")) {
+					        					plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				case "Rank":
+				        					 if(st.getType().equalsIgnoreCase("total attempts ibox ranking")) {
+						        				plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				}
+				        				break;
+				        			}
+	        					}
+		        			}
+	        			 }
+	        		  }	
+	        	   }
+	        	}
+	    	}
+		return plyer;		
+	}
+	public static List<Stat> SeasonalDataPlayer(String Stats ,String Type, String TeamId,String PlayerId) throws Exception {
+		List<Stat> plyer = new ArrayList<Stat>();
+		if(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\seasonalRanking.json").exists()) {
+			rankings ranking = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\seasonalRanking.json"), rankings.class);
+			if (ranking != null && ranking.getTeam()!= null) {
+	        	for(teamData team :ranking.getTeam() ) {
+	        		if(team.getId().equalsIgnoreCase(TeamId)){
+	        			for(TeamPlayerRanking ply : team.getPlayer()) {
+		        			if(ply.getStat()!= null && ply.getId().equalsIgnoreCase(PlayerId)) {
+			        			if(ply.getStat()!= null) {
+			        				for(Stat st:team.getStat()) {
+			        					for(String stats : Stats.split(",")) {
+			        						switch(stats) {
+						        			case "Passes":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total pass")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total pass ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				}
+						        				break;
+						        			case "Successful Passes":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total accurate pass")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total accurate pass ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				}
+						        				break;
+						        			case "Crosses":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total crosses")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total crosses ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				}
+						        				break;
+						        			case "Successful Crosses":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total accurate cross")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total accurate cross ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				}
+						        				break;
+						        			case "Duels Won":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total duels won")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total duels won ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				}
+						        				break;
+						        			case "Duels Lost":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total duels lost")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total duels lost ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				}
+						        				break;
+						        			case "Shots":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total scoring att")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total scoring att ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				}
+						        				break;
+						        			case "Shots on Target":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total ontarget scoring att")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total ontarget scoring att ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				}
+						        				break;
+						        			case "Tackles":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total tackle")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total tackle ranking")) {
+									        			plyer.add(new Stat(stats ,st.getValue()));
+						        					 }
+						        					break;
+						        				}
+						        				break;
+						        			case "Tackles Won":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total won tackle")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total won tackle ranking")) {
+									        			plyer.add(new Stat(stats ,st.getValue()));
+								        			}
+						        					break;
+						        				}
+						        				break;
+						        			case "Dribble":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total contest")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total contest ranking")) {
+									        			plyer.add(new Stat(stats ,st.getValue()));
+								        			 }
+						        					break;
+						        				}
+						        				break;
+						        			case "Dribble Won":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total won contest")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total won contest ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				}
+						        				break;
+						        			case "Red card":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total red card")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total red card ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				}
+						        				break;
+						        			case "Yellow card":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total yellow card")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total yellow card ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				}
+						        				break;
+						        			case "Clean Sheet":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total goals conceded")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total goals conceded ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				}
+						        				break;
+						        			case "Won Corners":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total won corners")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total won corners ranking")) {
+									        			plyer.add(new Stat(stats ,st.getValue()));
+								        			}
+						        					break;
+						        				}
+						        				break;
+						        			case "Lost Corners":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total lost corners")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total lost corners ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				 }
+						        					break;
+						        				}
+						        				break;
+						        			case "Touches in Opp. Box":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total touches in opposition box")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total touches in opposition box ranking")) {
+									        			plyer.add(new Stat(stats ,st.getValue()));
+								        			  }
+						        					break;
+						        				}
+						        				break;
+						        			case "Clearance":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total clearance")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total clearance ranking")) {
+									        			plyer.add(new Stat(stats ,st.getValue()));
+								        			  }
+						        					break;
+						        				}
+						        				break;
+						        			case "Fouls":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total fouls")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total fouls ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				 }
+						        					break;
+						        				}
+						        				break;
+						        			case "Offsides":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total offside")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total offside ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				}
+						        				break;
+						        			case "Attempts InsideBox":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total attempts ibox")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total attempts ibox ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				}
+						        				break;
+						        			case "Assists":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total assists")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total assists ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				}
+						        				break;
+						        			case "Interception":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total interception")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total interception ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				}
+						        				break;
+						        			case "Saves":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total saves")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total saves ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				}
+						        				break;
+						        			case "Aerial Won":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total aerial won")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total aerial won ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				}
+						        				break;
+						        			case "Aerial Lost":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total aerial lost")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total aerial lost ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				}
+						        				break;
+						        			case "Long Balls":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total long balls")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total long balls ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				}
+						        				break;
+						        			case "Effective Clearance":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total effective clearance")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total effective clearance ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				}
+						        				break;
+						        			case "Keeper Throws":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total keeper throws")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total keeper throws ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				}
+						        				break;
+						        			case "Accurate Keeper Throws":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total accurate keeper throws")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total accurate keeper throws ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				}
+						        				break;
+						        			case "Goals":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total goals")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total goals ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				}
+						        				break;
+						        			}
+			        					}
+				        			}
+			        			}
+		        		    }
+	        			 }
+	        		  }	
+	        	   }
+	        	}
+	    	}
+		return plyer;		
 	}
 	public static List<TopPerformerPlayers> SeasonalData(String Type) throws Exception {
 		List<TopPerformerPlayers>  Player = new ArrayList<TopPerformerPlayers>();
