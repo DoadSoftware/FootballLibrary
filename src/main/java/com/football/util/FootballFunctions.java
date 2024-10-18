@@ -1283,9 +1283,14 @@ public class FootballFunctions {
 			            }
 			        }
 			}
-
+			if( match.getApi_LiveMatch().getHomeTeam().getYellowCards()< 0) {
+				match.getApi_LiveMatch().getHomeTeam().setYellowCards(0);
+			}if( match.getApi_LiveMatch().getAwayTeam().getYellowCards()< 0) {
+				match.getApi_LiveMatch().getAwayTeam().setYellowCards(0);
+			}
+				
 		    //goals
-		    if(liveMatch != null && liveMatch.getLiveData() != null && liveMatch.getLiveData().getGoal()!=null) {
+		    if(liveMatch != null && liveMatch.getLiveData() != null && liveMatch.getLiveData().getGoal()!= null) {
 		    	for(Goal goal: liveMatch.getLiveData().getGoal()) {
 		    		match.getApi_LiveMatch().getEvents().add(new ApiEventStats(goal.getContestantId(),goal.getScorerId(),HtmlUtils.htmlEscape(goal.getScorerName()),goal.getTimeMin(),
 		    				 goal.getType(),goal.getPeriodId(),goal.getTimeMinSec()));
