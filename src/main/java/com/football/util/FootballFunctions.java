@@ -3250,6 +3250,48 @@ public class FootballFunctions {
 				        					break;
 				        				}
 				        				break;
+				        			case "Goals":
+				        				switch(Type) {
+				        				case "Total":
+				        					if (st.getType().equalsIgnoreCase("total goals")) {
+					        					plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				case "Rank":
+				        					 if(st.getType().equalsIgnoreCase("total goals ranking")) {
+						        				plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				}
+				        				break;
+				        			case "Yellow Card":
+				        				switch(Type) {
+				        				case "Total":
+				        					if (st.getType().equalsIgnoreCase("total yellow card")) {
+					        					plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				case "Rank":
+				        					 if(st.getType().equalsIgnoreCase("total yellow card ranking")) {
+						        				plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				}
+				        				break;
+				        			case "Red Card":
+				        				switch(Type) {
+				        				case "Total":
+				        					if (st.getType().equalsIgnoreCase("total red card")) {
+					        					plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				case "Rank":
+				        					 if(st.getType().equalsIgnoreCase("total red card ranking")) {
+						        				plyer.add(new Stat(stats ,st.getValue()));
+					        				}
+				        					break;
+				        				}
+				        				break;
 				        			}
 	        					}
 		        			}
@@ -3716,6 +3758,34 @@ public class FootballFunctions {
 						        					break;
 						        				case "Rank":
 						        					 if(st.getType().equalsIgnoreCase("total goals ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				}
+						        				break;
+						        			case "Yellow Card":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total yellow card")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total yellow card ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				}
+						        				break;
+						        			case "Red Card":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total red card")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total red card ranking")) {
 								        				plyer.add(new Stat(stats ,st.getValue()));
 							        				}
 						        					break;
