@@ -223,7 +223,11 @@ public class FootballFunctions {
 	    @Override
 	    public int compare(LeagueTeam pt1, LeagueTeam pt2) {
 	    	if(pt2.getPoints() == pt1.getPoints()) {
-	    		return Integer.compare(pt2.getGD(), pt1.getGD());
+	    		if(pt2.getGD() == pt1.getGD()) {
+	    			return Integer.compare(pt2.getGoal_For(), pt1.getGoal_For());
+	    		}else {
+	    			return Integer.compare(pt2.getGD(), pt1.getGD());
+	    		}
 	    	}else {
 	    		return Integer.compare(pt2.getPoints(), pt1.getPoints());
 	    	}
