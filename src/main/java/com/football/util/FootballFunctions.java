@@ -1244,37 +1244,34 @@ public class FootballFunctions {
 			match.getApi_LiveMatch().getEvents().clear();
 			if (liveMatch != null && liveMatch.getLiveData() != null && liveMatch.getLiveData().getCard() != null) {
 			        for (Card card : liveMatch.getLiveData().getCard()) {
-			        	 match.getApi_LiveMatch().getEvents().add(new ApiEventStats(card.getContestantId(),card.getPlayerId(),HtmlUtils.htmlEscape(card.getPlayerName()),card.getTimeMin(),
-				            		card.getType(),card.getPeriodId(),card.getTimeMinSec()));
-			            if (card.getType().equalsIgnoreCase("YC") || card.getType().equalsIgnoreCase("Y2C")) {
+			        	match.getApi_LiveMatch().getEvents().add(new ApiEventStats(card.getContestantId(),card.getPlayerId(),HtmlUtils.htmlEscape(card.getPlayerName()),card.getTimeMin(),
+			            		card.getType(),card.getPeriodId(),card.getTimeMinSec()));
+			        	if(card.getPlayerId()== null && card.getPlayerName()==null ) {
+			        		match.getApi_LiveMatch().getEvents().get(match.getApi_LiveMatch().getEvents().size()-1).setPlayerName(HtmlUtils.htmlEscape(card.getOfficialName()));
+			        	}
+			        	  if ((card.getType().equalsIgnoreCase("YC") || card.getType().equalsIgnoreCase("Y2C")) && card.getTeamOfficialId()==null) {
 			                if (card.getContestantId().equalsIgnoreCase(liveMatch.getMatchInfo().getContestant().get(0).getId())) {
 			                    if(card.getType().equalsIgnoreCase("Y2C")) {
 			                    	match.getApi_LiveMatch().getHomeTeam().setYellowCards(
-					                        match.getApi_LiveMatch().getHomeTeam().getYellowCards() - 1
-					                    );
+					                        match.getApi_LiveMatch().getHomeTeam().getYellowCards() - 1);
 			                    	 match.getApi_LiveMatch().getHomeTeam().setRedCards(
-						                        match.getApi_LiveMatch().getHomeTeam().getRedCards() + 1
-						                    );
+						                        match.getApi_LiveMatch().getHomeTeam().getRedCards() + 1);
 			                    }else {
 			                    	match.getApi_LiveMatch().getHomeTeam().setYellowCards(
-					                        match.getApi_LiveMatch().getHomeTeam().getYellowCards() + 1
-					                    );
+					                        match.getApi_LiveMatch().getHomeTeam().getYellowCards() + 1);
 			                    }
 			                } else if (card.getContestantId().equalsIgnoreCase(liveMatch.getMatchInfo().getContestant().get(1).getId())) {
 			                	if(card.getType().equalsIgnoreCase("Y2C")) {
 			                		match.getApi_LiveMatch().getAwayTeam().setYellowCards(
-					                        match.getApi_LiveMatch().getAwayTeam().getYellowCards() - 1
-					                    );
+					                        match.getApi_LiveMatch().getAwayTeam().getYellowCards() - 1);
 			                		match.getApi_LiveMatch().getAwayTeam().setRedCards(
-					                        match.getApi_LiveMatch().getAwayTeam().getRedCards() + 1
-					                    );
+					                        match.getApi_LiveMatch().getAwayTeam().getRedCards() + 1);
 			                    }else {
 			                    	match.getApi_LiveMatch().getAwayTeam().setYellowCards(
-					                        match.getApi_LiveMatch().getAwayTeam().getYellowCards() + 1
-					                    );
+					                        match.getApi_LiveMatch().getAwayTeam().getYellowCards() + 1);
 			                    }
 			                }
-			            }else  if (card.getType().equalsIgnoreCase("RC")) {
+			            }else  if (card.getType().equalsIgnoreCase("RC") && card.getTeamOfficialId()== null) {
 			                if (card.getContestantId().equalsIgnoreCase(liveMatch.getMatchInfo().getContestant().get(0).getId())) {
 			                    match.getApi_LiveMatch().getHomeTeam().setRedCards(
 			                        match.getApi_LiveMatch().getHomeTeam().getRedCards() + 1
@@ -1859,7 +1856,7 @@ public class FootballFunctions {
 	public static void setjerseyNumberInMatchApi(ApiMatch match, List<Player> allPlayer) {
 	    for (Player ply : allPlayer) {
 	        for (ApiEventStats event : match.getApi_LiveMatch().getEvents()) {
-	            if (event.getPlayerId().trim().equalsIgnoreCase(ply.getPlayerAPIId())) {
+	            if (event.getPlayerId()!= null && event.getPlayerId().trim().equalsIgnoreCase(ply.getPlayerAPIId())) {
 	                event.setJerseyNumber(ply.getJersey_number());
 	            } else if (event.getPlayerOffId() != null 
 	                    && event.getPlayerOffId().trim().equalsIgnoreCase(ply.getPlayerAPIId())) {
