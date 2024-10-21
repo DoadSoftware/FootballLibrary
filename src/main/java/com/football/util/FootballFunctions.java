@@ -72,6 +72,7 @@ import com.football.model.LeagueTeam;
 import com.football.model.Match;
 import com.football.model.MatchStats;
 import com.football.model.Player;
+import com.football.model.PlayerComparison;
 import com.football.model.PlayerStat;
 import com.football.model.PlayerStats;
 import com.football.model.Team;
@@ -802,6 +803,23 @@ public class FootballFunctions {
 				if(ps.getPlayerId() == plyr.getPlayerId()) {
 					ps.setPlayer(plyr);
 					ps.setTeam(footballService.getTeams().get(plyr.getTeamId()-1));
+				}
+			}
+		}
+		return playerstats;
+	}
+	public static List<PlayerComparison> processAllPlayerStatsComparion(FootballService footballService) {
+		
+		List<PlayerComparison> playerstats = footballService.getPlayerComparisons();
+	
+		for(Player plyr : footballService.getAllPlayer()) {
+			for(PlayerComparison ps : playerstats) {
+				if(ps.getPlayerId() == plyr.getPlayerId()) {
+					ps.setPlayer(plyr);
+					ps.setTeam(footballService.getTeams().get(plyr.getTeamId()-1));
+				}if(ps.getPlayerId1() == plyr.getPlayerId()) {
+					ps.setPlayer1(plyr);
+					ps.setTeam1(footballService.getTeams().get(plyr.getTeamId()-1));
 				}
 			}
 		}
