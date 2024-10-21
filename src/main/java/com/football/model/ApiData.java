@@ -3,9 +3,6 @@ package com.football.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.football.EuroLeague.Possession;
-
-
 public class ApiData {
 	
 	ApiTeamstats homeTeam = new ApiTeamstats();

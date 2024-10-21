@@ -3331,7 +3331,7 @@ public class FootballFunctions {
 	        			for(TeamPlayerRanking ply : team.getPlayer()) {
 		        			if(ply.getStat()!= null && ply.getId().equalsIgnoreCase(PlayerId)) {
 			        			if(ply.getStat()!= null) {
-			        				for(Stat st:team.getStat()) {
+			        				for(Stat st:ply.getStat()) {
 			        					for(String stats : Stats.split(",")) {
 			        						switch(stats) {
 						        			case "Passes":
