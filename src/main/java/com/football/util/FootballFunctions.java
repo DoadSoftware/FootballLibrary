@@ -3803,34 +3803,6 @@ public class FootballFunctions {
 						        					break;
 						        				}
 						        				break;
-						        			case "Yellow Card":
-						        				switch(Type) {
-						        				case "Total":
-						        					if (st.getType().equalsIgnoreCase("total yellow card")) {
-							        					plyer.add(new Stat(stats ,st.getValue()));
-							        				}
-						        					break;
-						        				case "Rank":
-						        					 if(st.getType().equalsIgnoreCase("total yellow card ranking")) {
-								        				plyer.add(new Stat(stats ,st.getValue()));
-							        				}
-						        					break;
-						        				}
-						        				break;
-						        			case "Red Card":
-						        				switch(Type) {
-						        				case "Total":
-						        					if (st.getType().equalsIgnoreCase("total red card")) {
-							        					plyer.add(new Stat(stats ,st.getValue()));
-							        				}
-						        					break;
-						        				case "Rank":
-						        					 if(st.getType().equalsIgnoreCase("total red card ranking")) {
-								        				plyer.add(new Stat(stats ,st.getValue()));
-							        				}
-						        					break;
-						        				}
-						        				break;
 						        			}
 			        					}
 				        			}
