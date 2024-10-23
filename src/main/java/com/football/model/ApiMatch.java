@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.football.EuroLeague.PlayerData;
 import com.football.EuroLeague.TopPerformerPlayers;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -14,9 +15,9 @@ public class ApiMatch {
   private ApiData Api_LiveMatch = new ApiData();
   
   private String tournament = "",matchIdent="";
-  private List<TopPerformerPlayers> topGoals = new ArrayList<TopPerformerPlayers>();
+  private List<PlayerData> topGoals = new ArrayList<PlayerData>();
   
-  private List<TopPerformerPlayers> TopAssists = new ArrayList<TopPerformerPlayers>();
+  private List<PlayerData> TopAssists = new ArrayList<PlayerData>();
   
   private List<PlayerStats> top_Sprints = new ArrayList<PlayerStats>();
   
@@ -26,7 +27,7 @@ public class ApiMatch {
   
   private List<PlayerStats> top_Passes = new ArrayList<PlayerStats>();
   
-  private List<PlayerStats> goalConceded = new ArrayList<PlayerStats>();
+  private List<PlayerData> goalConceded = new ArrayList<PlayerData>();
   
   private Clock clock;
   private int tournamentGoals ;
@@ -41,19 +42,19 @@ public class ApiMatch {
 	}
 	
 	
-	public List<TopPerformerPlayers> getTopGoals() {
+	public List<PlayerData> getTopGoals() {
 		return topGoals;
 	}
 	
-	public void setTopGoals(List<TopPerformerPlayers> topGoals) {
+	public void setTopGoals(List<PlayerData> topGoals) {
 		this.topGoals = topGoals;
 	}
 	
-	public List<TopPerformerPlayers> getTopAssists() {
+	public List<PlayerData> getTopAssists() {
 		return TopAssists;
 	}
 	
-	public void setTopAssists(List<TopPerformerPlayers> TopAssists) {
+	public void setTopAssists(List<PlayerData> TopAssists) {
 		this.TopAssists = TopAssists;
 	}
 	
@@ -89,11 +90,11 @@ public class ApiMatch {
 		this.top_Passes = top_Passes;
 	}
 	
-	public List<PlayerStats> getGoalConceded() {
+	public List<PlayerData> getGoalConceded() {
 		return goalConceded;
 	}
 	
-	public void setGoalConceded(List<PlayerStats> goalConceded) {
+	public void setGoalConceded(List<PlayerData> goalConceded) {
 		this.goalConceded = goalConceded;
 	}
 	
