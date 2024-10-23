@@ -23,7 +23,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -49,13 +48,13 @@ import com.football.EuroLeague.Stat;
 import com.football.EuroLeague.Substitute;
 import com.football.EuroLeague.TeamPlayerRanking;
 import com.football.EuroLeague.TeamStat;
-import com.football.EuroLeague.TopPerformerPlayers;
-import com.football.EuroLeague.TopPerformers;
+import com.football.EuroLeague.TeamsStanding;
 import com.football.EuroLeague.rankings;
 import com.football.EuroLeague.teamData;
 import com.football.EuroLeague.PassMatrix;
 import com.football.EuroLeague.PlayerData;
 import com.football.EuroLeague.Players;
+import com.football.EuroLeague.PointsTable;
 import com.football.EuroLeague.MatchPreview;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
@@ -229,6 +228,86 @@ public class FootballFunctions {
 	    			return Integer.compare(pt2.getGoal_For(), pt1.getGoal_For());
 	    		}else {
 	    			return Integer.compare(pt2.getGD(), pt1.getGD());
+	    		}
+	    	}else {
+	    		return Integer.compare(pt2.getPoints(), pt1.getPoints());
+	    	}
+	    }
+	}
+	
+	public static List<PointsTable> APIPointsTableAsStanding(TeamsStanding teamStandings , Match match) throws IOException {
+		
+		List<PointsTable> points_table = new ArrayList<PointsTable>();
+		points_table = teamStandings.getStage().get(0).getDivision().get(0).getRanking();
+		
+		if(match.getHomeTeamScore() > match.getAwayTeamScore() || match.getHomeTeamScore() < match.getAwayTeamScore()) {
+			for(PointsTable table : points_table) {
+				if(table.getContestantId().equalsIgnoreCase(match.getHomeTeam().getTeamApiId())) {
+					table.setMatchesPlayed(table.getMatchesPlayed() + 1);
+					table.setMatchesWon(table.getMatchesWon() + 1);
+					table.setGoalsFor(table.getGoalsFor() + match.getHomeTeamScore());
+					table.setGoalsAgainst(table.getGoalsAgainst() + match.getAwayTeamScore());
+					if((table.getGoalsFor() - table.getGoalsAgainst()) > 0) {
+						table.setGoaldifference("+" + (table.getGoalsFor() - table.getGoalsAgainst()));
+					}else {
+						table.setGoaldifference(String.valueOf((table.getGoalsFor() - table.getGoalsAgainst())));
+					}
+					table.setPoints(table.getPoints() + 3);
+				}
+				if(table.getContestantId().equalsIgnoreCase(match.getHomeTeam().getTeamApiId())) {
+					table.setMatchesPlayed(table.getMatchesPlayed() + 1);
+					table.setMatchesLost(table.getMatchesLost() + 1);
+					table.setGoalsFor(table.getGoalsFor() + match.getHomeTeamScore());
+					table.setGoalsAgainst(table.getGoalsAgainst() + match.getAwayTeamScore());
+					
+					if((table.getGoalsFor() - table.getGoalsAgainst()) > 0) {
+						table.setGoaldifference("+" + (table.getGoalsFor() - table.getGoalsAgainst()));
+					}else {
+						table.setGoaldifference(String.valueOf((table.getGoalsFor() - table.getGoalsAgainst())));
+					}
+				}
+			}
+		}else if(match.getHomeTeamScore() == match.getAwayTeamScore()) {
+			for(PointsTable table : points_table) {
+				if(table.getContestantId().equalsIgnoreCase(match.getHomeTeam().getTeamApiId())) {
+					table.setMatchesPlayed(table.getMatchesPlayed() + 1);
+					table.setMatchesDrawn(table.getMatchesDrawn() + 1);
+					table.setGoalsFor(table.getGoalsFor() + match.getHomeTeamScore());
+					table.setGoalsAgainst(table.getGoalsAgainst() + match.getAwayTeamScore());
+					if((table.getGoalsFor() - table.getGoalsAgainst()) > 0) {
+						table.setGoaldifference("+" + (table.getGoalsFor() - table.getGoalsAgainst()));
+					}else {
+						table.setGoaldifference(String.valueOf((table.getGoalsFor() - table.getGoalsAgainst())));
+					}
+					table.setPoints(table.getPoints() + 1);
+				}
+				if(table.getContestantId().equalsIgnoreCase(match.getHomeTeam().getTeamApiId())) {
+					table.setMatchesPlayed(table.getMatchesPlayed() + 1);
+					table.setMatchesDrawn(table.getMatchesDrawn() + 1);
+					table.setGoalsFor(table.getGoalsFor() + match.getHomeTeamScore());
+					table.setGoalsAgainst(table.getGoalsAgainst() + match.getAwayTeamScore());
+					if((table.getGoalsFor() - table.getGoalsAgainst()) > 0) {
+						table.setGoaldifference("+" + (table.getGoalsFor() - table.getGoalsAgainst()));
+					}else {
+						table.setGoaldifference(String.valueOf((table.getGoalsFor() - table.getGoalsAgainst())));
+					}
+					table.setPoints(table.getPoints() + 1);
+				}
+			}
+		}
+		Collections.sort(points_table,new FootballFunctions.PointsComparatorAPI());
+		
+		return points_table;
+	}
+	
+	public static class PointsComparatorAPI implements Comparator<PointsTable> {
+	    @Override
+	    public int compare(PointsTable pt1, PointsTable pt2) {
+	    	if(pt2.getPoints() == pt1.getPoints()) {
+	    		if(Integer.valueOf(pt2.getGoaldifference()) == Integer.valueOf(pt1.getGoaldifference())) {
+	    			return Integer.compare(pt2.getGoalsFor(), pt1.getGoalsFor());
+	    		}else {
+	    			return Integer.compare(Integer.valueOf(pt2.getGoaldifference()), Integer.valueOf(pt1.getGoaldifference()));
 	    		}
 	    	}else {
 	    		return Integer.compare(pt2.getPoints(), pt1.getPoints());
