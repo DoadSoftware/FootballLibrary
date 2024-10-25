@@ -49,6 +49,7 @@ public class FootballUtil {
 	public final static String EURO_LEAGUE = "EURO_LEAGUE";
 	public final static String SUPER_CUP_SCORE_BUG_SCENE_PATH = "/Default/ScoreBug";
 	public final static String SUPER_CUP_FF_SCENE_PATH = "/Default/FullFrames";
+	public final static String competitionId = "3oa9e03e7w9nr8kqwqc3tlqz9";
 	
 	public final static String API_PATH1 = 
 			"https://service.instatfootball.com/feed.php?id=1153675&key=G3Yr3PPd&tpl=207&match_id=";

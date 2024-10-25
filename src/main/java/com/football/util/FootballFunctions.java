@@ -1331,6 +1331,7 @@ public class FootballFunctions {
 	}
 
 	public static void setJsonDataInMatchApi(ApiMatch match) throws Exception {
+		try {
 		if(new File(FootballUtil.LIVE_DATA).exists()) {
 		    LiveMatch liveMatch = new ObjectMapper().readValue(new File(FootballUtil.LIVE_DATA), LiveMatch.class);
 		    
@@ -1856,6 +1857,9 @@ public class FootballFunctions {
 
 		    	} 
 		    }
+		}catch (Exception e) {
+            System.err.println("Error reading live match data: " + e.getMessage());
+        }
 	}
 	public static String RoundValues(String values) {
 	    String[] parts = values.split(","); 
