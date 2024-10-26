@@ -21,8 +21,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -314,11 +316,454 @@ public class FootballFunctions {
 	    	}
 	    }
 	}
+	public static void ApiPlayerStat(LiveMatch liveMatch,ApiMatch match) {
+		
+		match.getApi_LiveMatch().getAwayTeam().reset();
+		match.getApi_LiveMatch().getHomeTeam().reset(); 
+		match.getApi_LiveMatch().getHomeTeam().getPlayer().clear();
+		match.getApi_LiveMatch().getAwayTeam().getPlayer().clear();
+		
+		for (int i = 0; i < 2; i++) {
+		    match.getApi_LiveMatch().getHomeTeam().setName(liveMatch.getMatchInfo().getContestant().get(i).getName().trim());
+		    match.getApi_LiveMatch().getAwayTeam().setId(liveMatch.getMatchInfo().getContestant().get(i).getId().trim());
+		}
+	    for (int teamIndex = 0; teamIndex <= 1; teamIndex++) {
+	        ApiTeamstats team = (teamIndex == 0) ? match.getApi_LiveMatch().getHomeTeam() : match.getApi_LiveMatch().getAwayTeam();
+	        for (Players py : liveMatch.getLiveData().getLineUp().get(teamIndex).getPlayer()) {
+	            ApiPlayerStats playerStats1 = new ApiPlayerStats();
+	            playerStats1.setId(py.getPlayerId().trim());
+	            playerStats1.setName(HtmlUtils.htmlEscape(py.getMatchName().trim()));
+	            playerStats1.setShirtNumber(py.getShirtNumber());
+	            playerStats1.setPosition(py.getPosition());
+	            playerStats1.setSubPosition(py.getSubPosition());
+
+	            if (py.getCaptain() != null && py.getCaptain().equalsIgnoreCase(FootballUtil.YES)) {
+	                playerStats1.setCaptain(py.getCaptain());
+	            }
+
+	            if (py.getStat() != null) {
+	                for (Stat stat : py.getStat()) {
+	                    switch (stat.getType()) {
+	                        case "fouls":
+	                            playerStats1.setFoul(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "totalClearance":
+	                            playerStats1.setTotalClearance(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "effectiveClearance":
+	                            playerStats1.setEffectiveClearance(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "totalTackle":
+	                            playerStats1.setTotalTackle(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "accuratePass":
+	                            playerStats1.setTotalAccuratePass(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "totalFinalThirdPasses":
+	                            playerStats1.setTotalFinalThirdPasses(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "possWonAtt3rd":
+	                            playerStats1.setPossWonAtt3rd(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "touches":
+	                            playerStats1.setTouches(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "wonCorners":
+	                            playerStats1.setWonCorners(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "duelWon":
+	                            playerStats1.setDuelWon(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "totalContest":
+	                            playerStats1.setDribbles(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "interception":
+	                            playerStats1.setInterception(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "interceptionWon":
+	                            playerStats1.setInterception(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "ballRecovery":
+	                            playerStats1.setBallRecovery(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "unsuccessfulTouch":
+	                            playerStats1.setUnsuccessfulTouch(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "turnover":
+	                            playerStats1.setTurnover(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "minsPlayed":
+	                            playerStats1.setMinsPlayed(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "totalPass":
+	                            playerStats1.setTotalPass(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "totalCross":
+	                            playerStats1.setTotalCross(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "wonTackle":
+	                            playerStats1.setWonTackle(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "wonContest":
+	                            playerStats1.setWonContest(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "duelLost":
+	                            playerStats1.setDuelLost(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "possLostAll":
+	                            playerStats1.setPossLostAll(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "saves":
+	                            playerStats1.setSaves(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "goals":
+	                            playerStats1.setGoal(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "bigChanceCreated":
+	                            playerStats1.setChanceCreated(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "totalAttAssist":
+	                            playerStats1.setAssists(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "blockedScoringAtt":
+	                            playerStats1.setBlockedScoringAtt(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "ontargetScoringAtt":
+	                            playerStats1.setShotOnTarget(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "ShotOffTarget":
+	                            playerStats1.setShotOffTarget(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "cornerTaken":
+	                            playerStats1.setCornerTaken(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "goalsConceded":
+	                            playerStats1.setGoalsConceded(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "totalOffside":
+	                            playerStats1.setTotalOffside(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "totalThrows":
+	                            playerStats1.setTotalThrows(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "totalScoringAtt":
+	                            playerStats1.setTotalShots(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "aerialWon":
+	                            playerStats1.setAerialWon(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "aerialLost":
+	                            playerStats1.setAerialLost(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "longPassOwnToOpp":
+	                            playerStats1.setLongPassOwnToOpp(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "longPassOwnToOppSuccess":
+	                            playerStats1.setLongPassOwnToOppSuccess(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "possWonMid3rd":
+	                            playerStats1.setPossWonMid3rd(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "possWonDef3rd":
+	                            playerStats1.setPossWonDef3rd(Integer.parseInt(stat.getValue()));
+	                            break;
+	                        case "attemptsIbox":
+	                            playerStats1.setAttemptsIbox(Integer.parseInt(stat.getValue()));
+	                            break;
+	                    }
+	                }
+	            }
+	            team.getPlayer().add(playerStats1);
+	        }
+	    }
+	}
+	public static void TeamStatApi(LiveMatch liveMatch,ApiMatch match) {
+		 match.getApi_LiveMatch().getAwayTeam().reset();
+		 match.getApi_LiveMatch().getHomeTeam().reset(); 
+		 
+		 for (int i = 0; i < 2; i++) {
+			    match.getApi_LiveMatch().getHomeTeam().setName(liveMatch.getMatchInfo().getContestant().get(i).getName().trim());
+			    match.getApi_LiveMatch().getAwayTeam().setId(liveMatch.getMatchInfo().getContestant().get(i).getId().trim());
+			}
+
+			if (liveMatch != null && liveMatch.getLiveData() != null && liveMatch.getLiveData().getCard() != null) {
+			    for (Card card : liveMatch.getLiveData().getCard()) {
+			     
+			    	if (card.getTeamOfficialId() == null) {
+			            if ("YC".equalsIgnoreCase(card.getType()) || "Y2C".equalsIgnoreCase(card.getType())) {
+			                if (liveMatch.getMatchInfo().getContestant().get(0).getId().equalsIgnoreCase(card.getContestantId())) {
+			                    match.getApi_LiveMatch().getHomeTeam().setYellowCards(
+			                        match.getApi_LiveMatch().getHomeTeam().getYellowCards() + 
+			                        ("Y2C".equalsIgnoreCase(card.getType()) ? -1 : 1));
+			                    if ("Y2C".equalsIgnoreCase(card.getType())) {
+			                        match.getApi_LiveMatch().getHomeTeam().setRedCards(
+			                            match.getApi_LiveMatch().getHomeTeam().getRedCards() + 1);
+			                    }
+			                } else if (liveMatch.getMatchInfo().getContestant().get(1).getId().equalsIgnoreCase(card.getContestantId())) {
+			                    match.getApi_LiveMatch().getAwayTeam().setYellowCards(
+			                        match.getApi_LiveMatch().getAwayTeam().getYellowCards() + 
+			                        ("Y2C".equalsIgnoreCase(card.getType()) ? -1 : 1));
+			                    if ("Y2C".equalsIgnoreCase(card.getType())) {
+			                        match.getApi_LiveMatch().getAwayTeam().setRedCards(
+			                            match.getApi_LiveMatch().getAwayTeam().getRedCards() + 1);
+			                    }
+			                }
+			            } else if ("RC".equalsIgnoreCase(card.getType())) {
+			                if (liveMatch.getMatchInfo().getContestant().get(0).getId().equalsIgnoreCase(card.getContestantId())) {
+			                    match.getApi_LiveMatch().getHomeTeam().setRedCards(
+			                        match.getApi_LiveMatch().getHomeTeam().getRedCards() + 1);
+			                } else if (liveMatch.getMatchInfo().getContestant().get(1).getId().equalsIgnoreCase(card.getContestantId())) {
+			                    match.getApi_LiveMatch().getAwayTeam().setRedCards(
+			                        match.getApi_LiveMatch().getAwayTeam().getRedCards() + 1);
+			                }
+			            }
+			        }
+			    }
+			}
+
+			match.getApi_LiveMatch().getHomeTeam().setYellowCards(Math.max(0, match.getApi_LiveMatch().getHomeTeam().getYellowCards()));
+			match.getApi_LiveMatch().getAwayTeam().setYellowCards(Math.max(0, match.getApi_LiveMatch().getAwayTeam().getYellowCards()));
+      
+		  for (int teamIndex = 0; teamIndex <= 1; teamIndex++) {
+		        ApiTeamstats team = (teamIndex == 0) ? match.getApi_LiveMatch().getHomeTeam() : match.getApi_LiveMatch().getAwayTeam();
+		       
+		        if (liveMatch != null && liveMatch.getLiveData() != null &&  liveMatch.getLiveData().getLineUp() != null && liveMatch.getLiveData().getLineUp().get(teamIndex) != null &&
+		        	    liveMatch.getLiveData().getLineUp().get(teamIndex).getStat() != null) {
+		        	
+		        	for (TeamStat stat : liveMatch.getLiveData().getLineUp().get(teamIndex).getStat()) {
+			            String value = stat.getValue().trim() != null ? stat.getValue().trim() : "0";
+			            String FH = stat.getFh() != null ? stat.getFh().trim() : "0";
+			            String SH = stat.getSh() != null ? stat.getSh().trim() : "0";
+			            switch (stat.getType()) {
+			                case "cornerTaken":
+			                    team.setCornerTaken(Integer.parseInt(value));
+			                    team.setHtCornerTaken(Integer.parseInt(FH));
+			                    team.setFtCornerTaken(Integer.parseInt(SH));
+			                    break;
+			                case "fkFoulWon":
+			                	team.setHtFoulsWon(Integer.parseInt(FH));
+			                    team.setFtFoulsWon(Integer.parseInt(SH));
+			                    team.setFoulsWon(Integer.parseInt(value));
+			                    break;
+			                case "ontargetScoringAtt":
+			                	team.setHtShotOnTarget(Integer.parseInt(FH));
+			                    team.setFtShotOnTarget(Integer.parseInt(SH));
+			                    team.setShotOnTarget(Integer.parseInt(value));
+			                    break;
+			                case "totalScoringAtt":
+			                    team.setHtShots(Integer.parseInt(FH));
+			                    team.setFtShots(Integer.parseInt(SH));
+			                    team.setShots(Integer.parseInt(value));
+			                    break;
+			                case "saves":
+			                	team.setHtSaves(Integer.parseInt(FH));
+			                    team.setFtSaves(Integer.parseInt(SH));
+			                    team.setSaves(Integer.parseInt(value));
+			                    break;
+			                case "totalCross":
+			                	team.setHtCrosses(Integer.parseInt(FH));
+			                    team.setFtCrosses(Integer.parseInt(SH));
+			                    team.setCrosses(Integer.parseInt(value));
+			                    break;
+			                case "totalPass":
+			                	team.setHtPasses(Integer.parseInt(FH));
+			                	team.setFtPasses(Integer.parseInt(SH));
+			                    team.setPasses(Integer.parseInt(value));
+			                    break;
+			                case "accuratePass":
+			                	team.setHtAccuratePass(Integer.parseInt(FH));
+			                    team.setFtAccuratePass(Integer.parseInt(SH));
+			                    team.setAccuratePass(Integer.parseInt(value));
+			                    break;
+			                case "touches":
+			                	team.setHtTouches(Integer.parseInt(FH));
+			                    team.setFtTouches(Integer.parseInt(SH));
+			                    team.setTouches(Integer.parseInt(value));
+			                    break;
+			                case "totalTackle":
+			                	team.setHtTackles(Integer.parseInt(FH));
+			                    team.setFtTackles(Integer.parseInt(SH));
+			                    team.setTackles(Integer.parseInt(value));
+			                    break;
+			                case "totalContest":
+			                	team.setHtDribbles(Integer.parseInt(FH));
+			                    team.setFtDribbles(Integer.parseInt(SH));
+			                    team.setDribbles(Integer.parseInt(value));
+			                    break;
+			                case "interception":
+			                	team.setHtInterceptions(Integer.parseInt(FH));
+			                    team.setFtInterceptions(Integer.parseInt(SH));
+			                    team.setInterceptions(Integer.parseInt(value));
+			                    break;
+			                case "possessionPercentage":
+			                	team.setHtPossession(Double.valueOf(FH));
+			                    team.setFtPossession(Double.valueOf(SH));
+			                    team.setPossession( Double.valueOf(value));
+			                    break;
+			                case "bigChanceCreated":
+			                	team.setHtChancesCreated(Integer.parseInt(FH));
+			                    team.setFtChancesCreated(Integer.parseInt(SH));
+			                	team.setChancesCreated(Integer.parseInt(value));
+			                	break;
+			                case "totalOffside":
+			                    team.setHtOffside(Integer.parseInt(FH));
+			                    team.setFtOffside(Integer.parseInt(SH));
+			                	team.setOffside(Integer.parseInt(value));
+			                	break;
+			                case "wonContest":
+			                	team.setHtSuccessfulDribble(Integer.parseInt(FH));
+			                    team.setFtSuccessfulDribble(Integer.parseInt(SH));
+			                	team.setSuccessfulDribble(Integer.parseInt(value));
+		                        break;
+			                case "duelWon":
+			                	team.setHtDuelWon(Integer.parseInt(FH));
+			                    team.setFtDuelWon(Integer.parseInt(SH));
+			                	team.setDuelWon(Integer.parseInt(value));
+		                        break;
+			                case "fkFoulLost":
+			                	team.setHtFoulLost(Integer.parseInt(FH));
+			                    team.setFtFoulLost(Integer.parseInt(SH));
+			                	team.setFoulLost(Integer.parseInt(stat.getValue()));
+			                	break;
+			                case "totalClearance":
+			                    team.setHtTotalClearance(Integer.parseInt(FH));
+			                    team.setFtTotalClearance(Integer.parseInt(SH));
+			                	team.setTotalClearance(Integer.parseInt(stat.getValue()));
+		                    	break;
+		                    case "effectiveClearance":
+		                    	team.setHtEffectiveClearance(Integer.parseInt(FH));
+		                        team.setFtEffectiveClearance(Integer.parseInt(SH));
+		                    	team.setEffectiveClearance(Integer.parseInt(stat.getValue()));
+		                    	break;
+		                    case "interceptionWon":
+		                    	team.setHtInterceptionWon(Integer.parseInt(FH));
+		                    	team.setFtInterceptionWon(Integer.parseInt(SH));
+		                    	team.setInterceptionWon(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "ballRecovery":
+		                    	team.setHtBallRecovery(Integer.parseInt(FH));
+		                        team.setFtBallRecovery(Integer.parseInt(SH));
+		                    	team.setBallRecovery(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "unsuccessfulTouch":
+		                    	team.setHtUnsuccessfulTouch(Integer.parseInt(FH));
+		                        team.setFtUnsuccessfulTouch(Integer.parseInt(SH));
+		                    	team.setUnsuccessfulTouch(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "turnover":
+		                    	team.setHtTurnover(Integer.parseInt(FH));
+		                        team.setFtTurnover(Integer.parseInt(SH));
+		                    	team.setTurnover(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "wonTackle":
+		                    	team.setHtWonTackle(Integer.parseInt(FH));
+		                    	team.setFtWonTackle(Integer.parseInt(SH));
+								team.setWonTackle(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "longPassOwnToOpp":
+		                    	team.setHtlongPassOwnToOpp(Integer.parseInt(FH));
+		                    	team.setFtlongPassOwnToOpp(Integer.parseInt(SH));
+								team.setLongPassOwnToOpp(Integer.parseInt(stat.getValue()));
+		                    	break;
+		                    case "longPassOwnToOppSuccess":
+		                    	team.setHtlongPassOwnToOppSuccess(Integer.parseInt(FH));
+		                    	team.setFtlongPassOwnToOppSuccess(Integer.parseInt(SH));
+								team.setLongPassOwnToOppSuccess(Integer.parseInt(stat.getValue()));
+		                    	break;
+		                    case "totalFinalThirdPasses":
+		                    	team.setHtTotalFinalThirdPasses(Integer.parseInt(FH));
+		                        team.setFtTotalFinalThirdPasses(Integer.parseInt(SH));
+		                        team.setTotalFinalThirdPasses(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "successfulFinalThirdPasses":
+		                        team.setHtSuccessfulFinalThirdPasses(Integer.parseInt(FH));
+		                        team.setFtSuccessfulFinalThirdPasses(Integer.parseInt(SH));
+		                        team.setSuccessfulFinalThirdPasses(Integer.parseInt(stat.getValue()));
+		                    	break;
+		                    case "possWonAtt3rd":
+		                    	team.setHtPossWonAtt3rd(Integer.parseInt(FH));
+		                        team.setFtPossWonAtt3rd(Integer.parseInt(SH));
+		                        team.setPossWonAtt3rd(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "possWonDef3rd":
+		                    	team.setHtPossWonDef3rd(Integer.parseInt(FH));
+		                        team.setFtPossWonDef3rd(Integer.parseInt(SH));
+		                        team.setPossWonDef3rd(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "touchesInOppBox":
+		                    	team.setHtTouchesInOppBox(Integer.parseInt(FH));
+		                        team.setFtTouchesInOppBox(Integer.parseInt(SH));
+		                        team.setTouchesInOppBox(Integer.parseInt(stat.getValue()));
+		                    	break;
+		                    case "wonCorners":
+		                    	team.setHtWonCorners(Integer.parseInt(FH));
+		                        team.setFtWonCorners(Integer.parseInt(SH));
+		                        team.setWonCorners(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "lostCorners":
+		                    	team.setHtLostCorners(Integer.parseInt(FH));
+		                        team.setFtLostCorners(Integer.parseInt(SH));
+		                        team.setLostCorners(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "duelLost":
+		                    	team.setHtDuelLost(Integer.parseInt(FH));
+		                        team.setFtDuelLost(Integer.parseInt(SH));
+		                        team.setDuelLost(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "blockedScoringAtt":
+		                    	team.setHtBlockedScoringAtt(Integer.parseInt(FH));
+		                        team.setFtBlockedScoringAtt(Integer.parseInt(SH));
+		                    	team.setBlockedScoringAtt(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "ShotOffTarget":
+		                    	team.setHtShotOffTarget(Integer.parseInt(FH));
+		                        team.setFtShotOffTarget(Integer.parseInt(SH));
+		                    	team.setShotOffTarget(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "goalsConceded":
+		                    	team.setHtGoalsConceded(Integer.parseInt(FH));
+		                        team.setFtGoalsConceded(Integer.parseInt(SH));
+		                    	team.setGoalsConceded(Integer.parseInt(stat.getValue()));
+		                    	break;
+		                    case "totalThrows":
+		                    	team.setHtTotalThrows(Integer.parseInt(FH));
+		                        team.setFtTotalThrows(Integer.parseInt(SH));
+		                        team.setTotalThrows(Integer.parseInt(stat.getValue()));
+		                    	break;
+		                    case "attemptsIbox":
+		                    	team.setHtshotsInsideBox(Integer.parseInt(FH));
+		                        team.setFtshotsInsideBox(Integer.parseInt(SH));
+		                        team.setShotsInsideBox(Integer.parseInt(stat.getValue()));
+		                    	break;
+		                    case "aerialWon":
+		                    	team.setHtAerialWon(Integer.parseInt(FH));
+		                        team.setFtAerialWon(Integer.parseInt(SH));
+		                        team.setAerialWon(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "aerialLost":
+		                    	team.setHtAerialLost(Integer.parseInt(FH));
+		                        team.setFtAerialLost(Integer.parseInt(SH));
+		                        team.setAerialLost(Integer.parseInt(stat.getValue()));
+		                        break;
+		                    case "finalThirdEntries":
+		                        team.setHtFinalThirdEntries(Integer.parseInt(FH));
+		                        team.setFtFinalThirdEntries(Integer.parseInt(SH));
+		                    	team.setFinalThirdEntries(Integer.parseInt(stat.getValue()));
+		                    	break;
+		                    case "possWonMid3rd":
+		                    	team.setHtPossWonMid3rd(Integer.parseInt(FH));
+		                        team.setFtPossWonMid3rd(Integer.parseInt(SH));
+		                        team.setPossWonMid3rd(Integer.parseInt(stat.getValue()));
+		                    	break;
+		                    
+			            }
+			        }
+		        }
+		  }
+	 }
 	
-	public static List<ApiPlayerStats> PlayerStats(ApiMatch apiMatch, String which_data) {
-		List<ApiPlayerStats> apiPlayerStats = new ArrayList<ApiPlayerStats>();
-		 apiPlayerStats.addAll(apiMatch.getApi_LiveMatch().getHomeTeam().getPlayer());
-		 apiPlayerStats.addAll(apiMatch.getApi_LiveMatch().getAwayTeam().getPlayer());
+	public static List<ApiPlayerStats> PlayerStats(List<ApiPlayerStats> apiPlayerStats, String which_data) {
+		 
 		switch (which_data.toUpperCase()) {
 		case "TOUCHES":
 			Collections.sort(apiPlayerStats, (p1, p2) -> Integer.compare(p2.getTouches(), p1.getTouches()));
@@ -1329,7 +1774,13 @@ public class FootballFunctions {
 
         readXml(match);
 	}
-
+	public static List<String> setTeam(LiveMatch match) throws Exception {
+		for (int teamIndex = 0; teamIndex <= 1; teamIndex++) {
+			
+		}
+		return null;
+			
+	}
 	public static void setJsonDataInMatchApi(ApiMatch match) throws Exception {
 		try {
 		if(new File(FootballUtil.LIVE_DATA).exists()) {
