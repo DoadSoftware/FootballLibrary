@@ -20,6 +20,9 @@ public class Bugs {
 	  
 	  @Column(name = "TEXT2")
 	  private String text2;
+	  
+	  @Column(name = "TEXT3")
+	  private String text3;
 
 	  public Bugs() {
 			super();
@@ -61,4 +64,13 @@ public class Bugs {
 	public void setText2(String text2) {
 		this.text2 = text2;
 	}
+
+	public String getText3() {
+		return text3;
+	}
+
+	public void setText3(String text3) {
+		this.text3 = text3;
+	}
+	
 }
