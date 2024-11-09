@@ -1779,10 +1779,8 @@ public class FootballFunctions {
 		                            String distanceValue = resultElement.getElementsByTagName("Value").item(0).getFirstChild().getNodeValue().trim();
 		                            if(k==1) {
 			                        	match.getApi_LiveMatch().getHomeTeam().setDistanceCovered((int) Math.round(Double.valueOf(distanceValue)));
-			                        	//match.getApi_LiveMatch().getHomeTeam().setDistanceCovered(distanceValue);
 
 			                        }else if(k==2) {
-			                        	//match.getApi_LiveMatch().getAwayTeam().setDistanceCovered(distanceValue);
 				                        match.getApi_LiveMatch().getAwayTeam().setDistanceCovered((int) Math.round(Double.valueOf(distanceValue)));
 			                        }
 		                        } 
@@ -1795,7 +1793,7 @@ public class FootballFunctions {
 	            e.printStackTrace();
 	        }
 	}
-	public static void setXMLDataInMatchApi(ApiMatch match) throws Exception {
+	public static void setXMLDataInMatchApi(ApiMatch match, Match session_match) throws Exception {
 		List<TeamStats> topStatsData = getTopStatsDatafromXML(match);
 		
 		match.getTop_Distance().clear();match.getTop_Sprints().clear();match.getTop_Speed().clear();
@@ -1820,17 +1818,18 @@ public class FootballFunctions {
 	    }
 	    if (match.getTop_Speed() != null && !match.getTop_Speed().isEmpty()) {
 	        Collections.sort(match.getTop_Speed(), new FootballFunctions.PlayerStatsComparator());
+	        setTopStatsplayerName(session_match,match.getTop_Speed());
 	    }
 
 	    if (match.getTop_Distance() != null && !match.getTop_Distance().isEmpty()) {
 	        Collections.sort(match.getTop_Distance(), new FootballFunctions.PlayerStatsComparator());
+	        setTopStatsplayerName(session_match,match.getTop_Distance());
 	    }
 
 	    if (match.getTop_Sprints() != null && !match.getTop_Sprints().isEmpty()) {
 	        Collections.sort(match.getTop_Sprints(), new FootballFunctions.PlayerStatsComparator());
+	        setTopStatsplayerName(session_match,match.getTop_Sprints());
 	    }
-
-        readXml(match);
 	}
 	public static List<String> setTeam(LiveMatch match) throws Exception {
 		for (int teamIndex = 0; teamIndex <= 1; teamIndex++) {
@@ -2391,8 +2390,6 @@ public class FootballFunctions {
 		match.getTopGoals().addAll(SeasonalData("MOST GOALS"));
 		match.getTopAssists().addAll(SeasonalData("MOST ASSISTS"));
 		match.getGoalConceded().addAll(SeasonalData("Clean Sheets"));
-
-		 setXMLDataInMatchApi(match);
 	}
 	public static double AccuracyPercentage(int totalPassesAttempted, int accuratePasses) {
 	    if (totalPassesAttempted <= 0) {
@@ -4477,6 +4474,42 @@ public class FootballFunctions {
 
 		}
 	}
+
+	public static void setTopStatsDataplayerName(Match session_match, List<TeamStats> teamStats) {
+		for(TeamStats ts: teamStats) {
+			for(TopStats tp: ts.getTopStats()) {
+				for(PlayerStats plyr:tp.getPlayersStats()) {
+					if(plyr.getTeam_name().equalsIgnoreCase(session_match.getHomeTeam().getTeamName5())) {
+						plyr.setFirst_name(getPlayerName(plyr.getJerseyNumber(), session_match.getHomeSquad(), session_match.getHomeSubstitutes()));
+					}else if(plyr.getTeam_name().equalsIgnoreCase(session_match.getAwayTeam().getTeamName5())) {
+						plyr.setFirst_name(getPlayerName(plyr.getJerseyNumber(), session_match.getAwaySquad(), session_match.getAwaySubstitutes()));
+					}
+				}
+			}
+		}
+	}
+	public static void setTopStatsplayerName(Match session_match, List<PlayerStats> teamStats) {
+		for(PlayerStats plyr:teamStats) {
+			if(plyr.getTeam_name().equalsIgnoreCase(session_match.getHomeTeam().getTeamName5())) {
+				plyr.setFirst_name(getPlayerName(plyr.getJerseyNumber(), session_match.getHomeSquad(), session_match.getHomeSubstitutes()));
+			}else if(plyr.getTeam_name().equalsIgnoreCase(session_match.getAwayTeam().getTeamName5())) {
+				plyr.setFirst_name(getPlayerName(plyr.getJerseyNumber(), session_match.getAwaySquad(), session_match.getAwaySubstitutes()));
+			}
+		}
+	}
+	public static String getPlayerName(int playerId, List<Player> squad, List<Player> substitutes) {
+        for (Player player : squad) {
+            if (player.getJersey_number() == playerId) {
+                return player.getTicker_name();
+            }
+        }
+        for (Player player : substitutes) {
+            if (player.getJersey_number() == playerId) {
+                return player.getTicker_name();
+            }
+        }
+        return "";
+    }
 	
 }
 
