@@ -74,6 +74,14 @@ public class Stat {
 		this.type = type;
 		this.value = value;
 	}
+	
+	public Stat(String name, String type, String value) {
+		super();
+		this.name = name;
+		this.type = type;
+		this.value = value;
+	}
+
 	@Override
 	public String toString() {
 		return "Stat [name=" + name + ", type=" + type + ", value=" + value + ", indexScore=" + indexScore
