@@ -320,6 +320,7 @@ public class FootballFunctions {
 	    	}
 	    }
 	}
+	
 	public static void ApiPlayerStat(LiveMatch liveMatch,ApiMatch match) {
 		
 		match.getApi_LiveMatch().getAwayTeam().reset();
@@ -481,6 +482,7 @@ public class FootballFunctions {
 	        }
 	    }
 	}
+	
 	public static void ReverseFormation(Formation Formations,String which_pos) {
 		switch(which_pos.toUpperCase()) {
 		case "X":
@@ -517,6 +519,7 @@ public class FootballFunctions {
 			break;
 		}
 	}
+	
 	public static void TeamStatApi(LiveMatch liveMatch,ApiMatch match) {
 		 match.getApi_LiveMatch().getAwayTeam().reset();
 		 match.getApi_LiveMatch().getHomeTeam().reset(); 
@@ -1002,6 +1005,7 @@ public class FootballFunctions {
         }
 		return "";
 	}
+
 	public static String hashString(String input) {
 	    try {
 	        // Create a MessageDigest instance for SHA-512
@@ -1086,6 +1090,7 @@ public class FootballFunctions {
 		
 		return LiveMatch;
 	}
+	
 	public static LiveMatch getExpectedGoals(String token)throws IOException  {
 		String url=FootballUtil.FOOTBALL_API_PATH + "matchexpectedgoals" + FootballUtil.FOOTBALL_TOKEN + "?fx=" + FootballUtil.FOOTBALL_FIXTURE_ID + "&" + 
 				   FootballUtil.FOOTBALL_API_JSON +"&" + FootballUtil.FOOTBALL_API_MODE;
@@ -1103,6 +1108,7 @@ public class FootballFunctions {
 		
 	       return LiveMatch;
 		}
+	
 	public static LiveMatch getFootballMatchEventfromAPI(String token) throws SAXException, IOException, ParserConfigurationException, FactoryConfigurationError
 	{
 		String url=FootballUtil.FOOTBALL_API_PATH + "matchevent" + FootballUtil.FOOTBALL_TOKEN +"/"+ FootballUtil.FOOTBALL_FIXTURE_ID + "?" + 
@@ -1121,6 +1127,7 @@ public class FootballFunctions {
 		
 		return LiveMatch;
 	}
+	
 	public static List<SeasonalStats> getSeasonalStatsfromAPI(String token) throws IOException, SAXException, ParserConfigurationException, FactoryConfigurationError {
 		LiveMatch = getFootballLiveDatafromAPI(token);
 		List<SeasonalStats>  SeasonalStats = new ArrayList<SeasonalStats>();
@@ -1146,6 +1153,7 @@ public class FootballFunctions {
 
 	    return SeasonalStats;
 	}
+	
 	public static  rankings getTeamRankingfromAPI(String token) throws IOException {
 		String url = FootballUtil.FOOTBALL_API_PATH + "rankings" + FootballUtil.FOOTBALL_TOKEN + "?tmcl=" + FootballUtil.FOOTBALL_TOURNAMENT_CALENDER_ID + "&" + 
 				   FootballUtil.FOOTBALL_API_MODE +"&" + FootballUtil.FOOTBALL_API_JSON;
@@ -1163,6 +1171,7 @@ public class FootballFunctions {
 		
        return rankings;
 	}
+	
 	public static PassMatrix getMatchInsightsfromAPI( String token) throws IOException {
 		String url= FootballUtil.FOOTBALL_API_PATH + "matchinsights" + FootballUtil.FOOTBALL_TOKEN + "/" + FootballUtil.FOOTBALL_FIXTURE_ID + "?" + 
 				 "&" + FootballUtil.FOOTBALL_API_MODE + "&" + FootballUtil.FOOTBALL_API_JSON;
@@ -1180,6 +1189,7 @@ public class FootballFunctions {
 		
 	       return PassMatrix;
 	}
+	
 	public static PassMatrix getMatchInsights2fromAPI(String token) throws IOException {
 		String url =  FootballUtil.FOOTBALL_API_PATH + "matchplayerratings" + FootballUtil.FOOTBALL_TOKEN + "?fx=" + FootballUtil.FOOTBALL_FIXTURE_ID + "&" + 
 				   FootballUtil.FOOTBALL_API_JSON +"&" + FootballUtil.FOOTBALL_API_MODE;
@@ -1234,6 +1244,7 @@ public class FootballFunctions {
 		
        return PassMatrix;
 	}
+	
 	public static LiveMatch getFootballWinProbabilityfromAPI(String token) throws SAXException, IOException, ParserConfigurationException, FactoryConfigurationError
 	{
 		LiveMatch = getFootballLiveDatafromAPI(token);	    
@@ -1309,7 +1320,6 @@ public class FootballFunctions {
 		    }
 	    }
 	}
-
 	
 	public static void DoadWriteCommandToSelectedViz(int SelectedViz, String SendTextIn, List<PrintWriter> print_writers) 
 	{
@@ -1355,6 +1365,7 @@ public class FootballFunctions {
 	
 		return print_writer;
 	}
+	
 	public static class PlayerStatsComparator implements Comparator<PlayerStats> {
 	    @Override
 	    public int compare(PlayerStats bs1, PlayerStats bs2) {
@@ -1391,6 +1402,7 @@ public class FootballFunctions {
 		}
 		return playerstats;
 	}
+	
 	public static List<PlayerComparison> processAllPlayerStatsComparion(FootballService footballService) {
 		
 		List<PlayerComparison> playerstats = footballService.getPlayerComparisons();
@@ -1759,6 +1771,7 @@ public class FootballFunctions {
 		}
 		return players;
 	}	
+	
 	public static void readXml(ApiMatch match) {
 		int k=0;
 		 try {	            
@@ -1793,6 +1806,7 @@ public class FootballFunctions {
 	            e.printStackTrace();
 	        }
 	}
+
 	public static void setXMLDataInMatchApi(ApiMatch match, Match session_match) throws Exception {
 		List<TeamStats> topStatsData = getTopStatsDatafromXML(match);
 		
@@ -1831,6 +1845,7 @@ public class FootballFunctions {
 	        setTopStatsplayerName(session_match,match.getTop_Sprints());
 	    }
 	}
+
 	public static List<String> setTeam(LiveMatch match) throws Exception {
 		for (int teamIndex = 0; teamIndex <= 1; teamIndex++) {
 			
@@ -1838,6 +1853,7 @@ public class FootballFunctions {
 		return null;
 			
 	}
+
 	public static void setJsonDataInMatchApi(ApiMatch match) throws Exception {
 		try {
 		if(new File(FootballUtil.LIVE_DATA).exists()) {
@@ -2369,12 +2385,13 @@ public class FootballFunctions {
             System.err.println("Error reading live match data: " + e.getMessage());
         }
 	}
+
 	public static String RoundValues(String values) {
 	    String[] parts = values.split(","); 
 	    return (parts[0].endsWith(".5") && parts[1].endsWith(".5")) ? (Integer.parseInt(parts[0].split("\\.")[0]) + 1) + "," + parts[1].split("\\.")[0] 
 	        : Math.round(Double.parseDouble(parts[0])) + "," + Math.round(Double.parseDouble(parts[1]));
-	}
-	
+	}	
+
 	public static void setApiTournament(ApiMatch match)throws Exception{
 		match.getTopAssists().clear();
 		match.getTopGoals().clear();
@@ -2391,14 +2408,15 @@ public class FootballFunctions {
 		match.getTopAssists().addAll(SeasonalData("MOST ASSISTS"));
 		match.getGoalConceded().addAll(SeasonalData("Clean Sheets"));
 	}
+
 	public static double AccuracyPercentage(int totalPassesAttempted, int accuratePasses) {
 	    if (totalPassesAttempted <= 0) {
 	        return 0.00;
 	    }
 	    accuratePasses = Math.max(0, accuratePasses);
 	    return Double.parseDouble(new DecimalFormat("0.00").format((double) accuratePasses / totalPassesAttempted * 100));
-	}
-	
+	}	
+
 	public static void setjerseyNumberInMatchApi(ApiMatch match, List<Player> allPlayer) {
 	    for (Player ply : allPlayer) {
 	        for (ApiEventStats event : match.getApi_LiveMatch().getEvents()) {
@@ -2432,7 +2450,6 @@ public class FootballFunctions {
 	    }
 	}
 
-	
 	public static List<String> MatchStatsSingle(ApiMatch api_match,String values) {
 		int home_value=0,away_value=0;
 		String WhichStyle="";
@@ -2622,6 +2639,7 @@ public class FootballFunctions {
 		return dataList;
 		
 	}
+
 	public static List<String> MatchStatsSingle(ApiMatch api_match,String values,String time) {
 		int home_value=0,away_value=0;
 		String WhichStyle="";
@@ -2982,8 +3000,8 @@ public class FootballFunctions {
 
 		return dataList;
 		
-	}
-	
+	}	
+
 	public static List<String> MatchStatsBothHalfs(ApiMatch api_match,String values,String time) {
 		int homeHtPossession = 0,homeFtPossession =  0,awayHtPossession = 0,awayFtPossession = 0;
 		String WhichStyle="";
@@ -3244,8 +3262,8 @@ public class FootballFunctions {
 			dataList.add(awayHtPossession + "," +"SECOND" + "," + awayFtPossession);
 		return dataList;
 		
-	}
-	
+	}	
+
 	public static List<String> MatchStatsPlayer(ApiPlayerStats apiPlayerStats,String values) {
         List<String> dataList = new ArrayList<>();
         String Stat1="",Stat2="",Stat3="";
@@ -3462,6 +3480,7 @@ public class FootballFunctions {
 		return dataList;
 
 	}
+
 	public static String ChangedHeader(List<HeaderText> headerText, String header) {
 	    List<String> updatedHeaders = new ArrayList<>();
 	    
@@ -3481,6 +3500,7 @@ public class FootballFunctions {
 	    
 	    return String.join(",", updatedHeaders);
 	}
+
 	public static List<Stat> GoalTally() throws Exception{
 		List<Stat> plyer = new ArrayList<Stat>();
 		if(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\seasonalRanking.json").exists()) {
@@ -3499,6 +3519,7 @@ public class FootballFunctions {
 		}
 		return plyer;
 	}
+
 	public static List<Stat> SeasonalDataTeam(String Stats ,String Type, String TeamId) throws Exception {
 		List<Stat> plyer = new ArrayList<Stat>();
 		if(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\seasonalRanking.json").exists()) {
@@ -3842,6 +3863,7 @@ public class FootballFunctions {
 	    	}
 		return plyer;		
 	}
+
 	public static List<Stat> SeasonalDataPlayer(String Stats ,String Type, String TeamId,String PlayerId) throws Exception {
 		List<Stat> plyer = new ArrayList<Stat>();
 		if(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\seasonalRanking.json").exists()) {
@@ -4315,6 +4337,7 @@ public class FootballFunctions {
 	    	}
 		return plyer;		
 	}
+
 	public static List<PlayerData> SeasonalData(String Type) throws Exception {
 		List<PlayerData>  Player = new ArrayList<PlayerData>();
 		if(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\seasonalRanking.json").exists()) {
@@ -4454,6 +4477,7 @@ public class FootballFunctions {
         		.thenComparing(PlayerData::getMatch)
                 .thenComparing(PlayerData::getMinsPlayed)).limit(5).collect(Collectors.toList());
 	}
+
 	public static void setDBNames(List<PlayerData> players, List<Player> allPlayer) {
 		 for (Player ply : allPlayer) {
 			  for (PlayerData pl : players) {
@@ -4465,6 +4489,7 @@ public class FootballFunctions {
 			  }
 		 }
 	}
+
 	public static void SetTeam(ApiMatch mtch,Match match) {
 	   
 	    for(PlayerStats pl: mtch.getTop_Sprints()) {
@@ -4506,6 +4531,7 @@ public class FootballFunctions {
 			}
 		}
 	}
+
 	public static void setTopStatsplayerName(Match session_match, List<PlayerStats> teamStats) {
 		for(PlayerStats plyr:teamStats) {
 			if(plyr.getTeam_name().equalsIgnoreCase(session_match.getHomeTeam().getTeamName5())) {
@@ -4515,6 +4541,7 @@ public class FootballFunctions {
 			}
 		}
 	}
+
 	public static String getPlayerName(int playerId, List<Player> squad, List<Player> substitutes) {
         for (Player player : squad) {
             if (player.getJersey_number() == playerId) {
