@@ -87,6 +87,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 import org.w3c.dom.Element;
 
 public class FootballFunctions {
+	
 	public static LiveMatch LiveMatch;	
 	public static SeasonalStats SeasonalStats;
 	public static rankings rankings;
@@ -3517,6 +3518,7 @@ public class FootballFunctions {
 	        	}
 			}
 		}
+        plyer.sort((st1, st2) -> Integer.compare(Integer.valueOf(st2.getValue()), Integer.valueOf(st1.getValue())));
 		return plyer;
 	}
 
@@ -4555,7 +4557,4 @@ public class FootballFunctions {
         }
         return "";
     }
-	
 }
-
-
