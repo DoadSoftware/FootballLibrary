@@ -3502,7 +3502,7 @@ public class FootballFunctions {
 	    return String.join(",", updatedHeaders);
 	}
 
-	public static List<Stat> GoalTally() throws Exception{
+	public static List<Stat> GoalTally(Match match) throws Exception{
 		List<Stat> plyer = new ArrayList<Stat>();
 		if(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\seasonalRanking.json").exists()) {
 			rankings ranking = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\seasonalRanking.json"), rankings.class);
@@ -3518,6 +3518,10 @@ public class FootballFunctions {
 	        	}
 			}
 		}
+		plyer.forEach(s -> s.setValue(String.valueOf(Integer.valueOf(s.getValue()) + 
+				(s.getType().equalsIgnoreCase(match.getHomeTeam().getTeamApiId()) ? match.getHomeTeamScore() : 
+				(s.getType().equalsIgnoreCase(match.getAwayTeam().getTeamApiId()) ? match.getAwayTeamScore() : 0)))));
+
         plyer.sort((st1, st2) -> Integer.compare(Integer.valueOf(st2.getValue()), Integer.valueOf(st1.getValue())));
 		return plyer;
 	}
