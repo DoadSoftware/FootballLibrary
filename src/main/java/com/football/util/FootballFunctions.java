@@ -3502,8 +3502,9 @@ public class FootballFunctions {
 	    return String.join(",", updatedHeaders);
 	}
 
-	public static List<Stat> GoalTally(Match match) throws Exception{
+	public static List<Stat> GoalTally(Match match, List<Fixture> fixtures) throws Exception{
 		List<Stat> plyer = new ArrayList<Stat>();
+		
 		if(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\seasonalRanking.json").exists()) {
 			rankings ranking = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\seasonalRanking.json"), rankings.class);
 			if (ranking != null && ranking.getTeam()!= null) {
@@ -3518,6 +3519,18 @@ public class FootballFunctions {
 	        	}
 			}
 		}
+		
+		//Previous Match Score Add - If there is two match in a day
+		Fixture fixture = fixtures.stream().filter(fix -> fix.getMatchfilename().equalsIgnoreCase(match.getMatchFileName().replace(".json", ""))).findAny().orElse(null);
+		if(fixture.getDate().equalsIgnoreCase(fixtures.get(fixture.getMatchnumber()-2).getDate()) && fixtures.get(fixture.getMatchnumber()-2).getMargin() != null) {
+			plyer.forEach(s -> s.setValue(String.valueOf(Integer.valueOf(s.getValue()) + 
+					(s.getType().equalsIgnoreCase(fixtures.get(fixture.getMatchnumber()-2).getHome_Team().getTeamApiId()) ? 
+							Integer.valueOf(fixtures.get(fixture.getMatchnumber()-2).getMargin().split("-")[0]) : 
+					(s.getType().equalsIgnoreCase(fixtures.get(fixture.getMatchnumber()-2).getAway_Team().getTeamApiId()) ? 
+							Integer.valueOf(fixtures.get(fixture.getMatchnumber()-2).getMargin().split("-")[1]) : 0)))));
+		}
+		
+		//Current Match Score Add
 		plyer.forEach(s -> s.setValue(String.valueOf(Integer.valueOf(s.getValue()) + 
 				(s.getType().equalsIgnoreCase(match.getHomeTeam().getTeamApiId()) ? match.getHomeTeamScore() : 
 				(s.getType().equalsIgnoreCase(match.getAwayTeam().getTeamApiId()) ? match.getAwayTeamScore() : 0)))));
