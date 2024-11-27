@@ -21,8 +21,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -3537,7 +3539,7 @@ public class FootballFunctions {
 
         plyer.sort((st1, st2) -> Integer.compare(Integer.valueOf(st2.getValue()), Integer.valueOf(st1.getValue())));
 		return plyer;
-	}
+	}	
 
 	public static List<Stat> SeasonalDataTeam(String Stats ,String Type, String TeamId) throws Exception {
 		List<Stat> plyer = new ArrayList<Stat>();
@@ -4356,7 +4358,25 @@ public class FootballFunctions {
 	    	}
 		return plyer;		
 	}
-
+	public static List<Stat> SeasonalTeamData() throws Exception {
+		List<Stat>  Team = new ArrayList<Stat>();
+		if(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\seasonalRanking.json").exists()) {
+			rankings ranking = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\seasonalRanking.json"), rankings.class);
+			if (ranking != null && ranking.getTeam()!= null) {
+				for(teamData team :ranking.getTeam() ) {
+					if(team.getStat()!=null) {
+						for(Stat st:team.getStat()) {
+        					if (st.getType().equalsIgnoreCase("total goals conceded")) {
+        						Team.add(new Stat(HtmlUtils.htmlEscape(team.getName()),team.getId(),st.getValue()));
+	        				}
+        				}
+					}
+				}
+			}
+		}
+		Team.sort((st1, st2) -> Integer.compare(Integer.valueOf(st2.getValue()), Integer.valueOf(st1.getValue())));
+		return Team;
+	}
 	public static List<PlayerData> SeasonalData(String Type) throws Exception {
 		List<PlayerData>  Player = new ArrayList<PlayerData>();
 		if(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\seasonalRanking.json").exists()) {
