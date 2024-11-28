@@ -2,6 +2,7 @@ package com.football.EuroLeague;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -25,6 +26,11 @@ public class Stat {
 	
 	@JsonProperty("rawIndexScore")
 	private List<Stat> rawIndexScore;
+	
+	@JsonIgnore
+	private int match;
+	@JsonIgnore
+	private int goal;
 	
 	public Stat() {
 		super();
@@ -80,6 +86,22 @@ public class Stat {
 		this.name = name;
 		this.type = type;
 		this.value = value;
+	}
+
+	public int getMatch() {
+		return match;
+	}
+
+	public void setMatch(int match) {
+		this.match = match;
+	}
+
+	public int getGoal() {
+		return goal;
+	}
+
+	public void setGoal(int goal) {
+		this.goal = goal;
 	}
 
 	@Override

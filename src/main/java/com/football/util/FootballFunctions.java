@@ -76,6 +76,7 @@ import com.football.model.Match;
 import com.football.model.MatchStats;
 import com.football.model.Player;
 import com.football.model.PlayerComparison;
+import com.football.model.PlayerProfile;
 import com.football.model.PlayerStat;
 import com.football.model.PlayerStats;
 import com.football.model.Team;
@@ -86,6 +87,9 @@ import com.football.service.FootballService;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+
+import javassist.expr.NewArray;
+
 import org.w3c.dom.Element;
 
 public class FootballFunctions {
@@ -1418,6 +1422,20 @@ public class FootballFunctions {
 				}if(ps.getPlayerId1() == plyr.getPlayerId()) {
 					ps.setPlayer1(plyr);
 					ps.setTeam1(footballService.getTeams().get(plyr.getTeamId()-1));
+				}
+			}
+		}
+		return playerstats;
+	}
+	public static List<PlayerProfile> processAllPlayerProfile(FootballService footballService) {
+		
+		List<PlayerProfile> playerstats = footballService.getPlayerProfiles();
+	
+		for(Player plyr : footballService.getAllPlayer()) {
+			for(PlayerProfile ps : playerstats) {
+				if(ps.getPlayerId() == plyr.getPlayerId()) {
+					ps.setPlayer(plyr);
+					ps.setTeam(footballService.getTeams().get(plyr.getTeamId()-1));
 				}
 			}
 		}
@@ -3504,43 +3522,77 @@ public class FootballFunctions {
 	    return String.join(",", updatedHeaders);
 	}
 
-	public static List<Stat> GoalTally(Match match, List<Fixture> fixtures) throws Exception{
-		List<Stat> plyer = new ArrayList<Stat>();
-		
-		if(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\seasonalRanking.json").exists()) {
-			rankings ranking = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\seasonalRanking.json"), rankings.class);
-			if (ranking != null && ranking.getTeam()!= null) {
-	        	for(teamData team :ranking.getTeam() ) {
-	        		if(team.getStat()!= null) {
-        				for(Stat st:team.getStat()) {
-        					if (st.getType().equalsIgnoreCase("total goals")) {
-	        					plyer.add(new Stat(HtmlUtils.htmlEscape(team.getName()),team.getId(),st.getValue()));
-	        				}
-        				}
-	        		}
-	        	}
-			}
-		}
-		
-		//Previous Match Score Add - If there is two match in a day
-		Fixture fixture = fixtures.stream().filter(fix -> fix.getMatchfilename().equalsIgnoreCase(match.getMatchFileName().replace(".json", ""))).findAny().orElse(null);
-		if(fixture.getDate().equalsIgnoreCase(fixtures.get(fixture.getMatchnumber()-2).getDate()) && fixtures.get(fixture.getMatchnumber()-2).getMargin() != null) {
-			plyer.forEach(s -> s.setValue(String.valueOf(Integer.valueOf(s.getValue()) + 
-					(s.getType().equalsIgnoreCase(fixtures.get(fixture.getMatchnumber()-2).getHome_Team().getTeamApiId()) ? 
-							Integer.valueOf(fixtures.get(fixture.getMatchnumber()-2).getMargin().split("-")[0]) : 
-					(s.getType().equalsIgnoreCase(fixtures.get(fixture.getMatchnumber()-2).getAway_Team().getTeamApiId()) ? 
-							Integer.valueOf(fixtures.get(fixture.getMatchnumber()-2).getMargin().split("-")[1]) : 0)))));
-		}
-		
-		//Current Match Score Add
-		plyer.forEach(s -> s.setValue(String.valueOf(Integer.valueOf(s.getValue()) + 
-				(s.getType().equalsIgnoreCase(match.getHomeTeam().getTeamApiId()) ? match.getHomeTeamScore() : 
-				(s.getType().equalsIgnoreCase(match.getAwayTeam().getTeamApiId()) ? match.getAwayTeamScore() : 0)))));
+	public static List<Stat> GoalTally(Match match, List<Fixture> fixtures) throws Exception {
+	    List<Stat> plyer = new ArrayList<Stat>();
+	    
+	    // Load rankings from the seasonalRanking.json file if it exists
+	    if (new File("C:\\Sports\\Football\\Statistic\\Match_Data\\seasonalRanking.json").exists()) {
+	        rankings ranking = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\seasonalRanking.json"), rankings.class);
+	        if (ranking != null && ranking.getTeam() != null) {
+	            for (teamData team : ranking.getTeam()) {
+	                Stat sts = new Stat();
+	                sts.setName(HtmlUtils.htmlEscape(team.getName()));
+	                sts.setType(team.getId());
+	                
+	                if (team.getStat() != null) {
+	                    for (Stat st : team.getStat()) {
+	                        if (st.getType().equalsIgnoreCase("total goals")) {
+	                            sts.setValue(st.getValue());
+	                        }
+	                        if (st.getType().equalsIgnoreCase("total games")) {
+	                            sts.setMatch(Integer.valueOf(st.getValue()));
+	                        }
+	                    }
+	                    plyer.add(sts);
+	                }
+	            }
+	        }
+	    }
+	    
+	    // Get the fixture for the current match
+	    Fixture fixture = fixtures.stream()
+	            .filter(fix -> fix.getMatchfilename().equalsIgnoreCase(match.getMatchFileName().replace(".json", "")))
+	            .findAny()
+	            .orElse(null);
 
-        plyer.sort((st1, st2) -> Integer.compare(Integer.valueOf(st2.getValue()), Integer.valueOf(st1.getValue())));
-		return plyer;
-	}	
+	    // Check if the previous match is the same day and update stats for the previous match
+	    if (fixture != null  && fixture.getMatchnumber() > 1 && fixture.getDate().equalsIgnoreCase(fixtures.get(fixture.getMatchnumber() - 2).getDate()) 
+	            && fixtures.get(fixture.getMatchnumber() - 2).getMargin() != null) {
 
+	        plyer.forEach(s -> {
+	            if (s.getType().equalsIgnoreCase(fixtures.get(fixture.getMatchnumber() - 2).getHome_Team().getTeamApiId())) {
+	                s.setMatch(s.getMatch() + 1);
+	                s.setValue(String.valueOf(Integer.valueOf(s.getValue()) + Integer.valueOf(fixtures.get(fixture.getMatchnumber() 
+	                		- 2).getMargin().split("-")[0])));
+	            }
+	            if (s.getType().equalsIgnoreCase(fixtures.get(fixture.getMatchnumber() - 2).getAway_Team().getTeamApiId())) {
+	                s.setMatch(s.getMatch() + 1); 
+	                s.setValue(String.valueOf(Integer.valueOf(s.getValue()) + Integer.valueOf(fixtures.get(fixture.getMatchnumber() 
+	                		- 2).getMargin().split("-")[1])));
+	            }
+	        });
+	    }
+	    
+	    // Update the match count and score for the current match
+	    plyer.forEach(s -> {
+	        if (s.getType().equalsIgnoreCase(match.getHomeTeam().getTeamApiId())) {
+	            s.setMatch(s.getMatch() + 1);
+	            s.setValue(String.valueOf(Integer.valueOf(s.getValue()) + match.getHomeTeamScore()));
+	        }
+	        if (s.getType().equalsIgnoreCase(match.getAwayTeam().getTeamApiId())) {
+	            s.setMatch(s.getMatch() + 1); 
+	            s.setValue(String.valueOf(Integer.valueOf(s.getValue()) + match.getAwayTeamScore()));
+	        }
+	    });
+
+	    // Sort players based on the total goals scored then matches
+	    plyer.sort((st1, st2) -> Integer.compare(Integer.valueOf(st2.getValue()), Integer.valueOf(st1.getValue())) != 0 
+	            ? Integer.compare(Integer.valueOf(st2.getValue()), Integer.valueOf(st1.getValue())) 
+	            : Integer.compare(st1.getMatch(), st2.getMatch()));
+	    
+	    return plyer;
+	}
+	
 	public static List<Stat> SeasonalDataTeam(String Stats ,String Type, String TeamId) throws Exception {
 		List<Stat> plyer = new ArrayList<Stat>();
 		if(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\seasonalRanking.json").exists()) {
@@ -3884,7 +3936,262 @@ public class FootballFunctions {
 	    	}
 		return plyer;		
 	}
+	public static List<Stat> Seasonal2Player(String Stats, String TeamId1, String TeamId2, String PlayerId1, String PlayerId2) throws Exception {
+	    List<Stat> players = new ArrayList<>();
+	    
+	    File seasonalFile = new File("C:\\Sports\\Football\\Statistic\\Match_Data\\seasonalRanking.json");
+	    if (seasonalFile.exists()) {
+	        rankings ranking = new ObjectMapper().readValue(seasonalFile, rankings.class);
+	        if (ranking != null && ranking.getTeam() != null) {
+	            for (teamData team : ranking.getTeam()) {
+	                if (team.getId().equalsIgnoreCase(TeamId1) || team.getId().equalsIgnoreCase(TeamId2)) {
+	                    for (TeamPlayerRanking player : team.getPlayer()) {
+	                        if (player.getId().equalsIgnoreCase(PlayerId1) || player.getId().equalsIgnoreCase(PlayerId2)) {
+	                            Stat playerStat = createPlayerStat(player, Stats);
+	                            players.add(playerStat);
+	                        }
+	                    }
+	                }
+	            }
+	        }
+	    }
+	    return players;
+	}
 
+	private static Stat createPlayerStat(TeamPlayerRanking player, String Type) {
+	    Stat playerStat = new Stat();
+	    playerStat.setName(player.getName());
+	    playerStat.setType(player.getId());
+	    if (playerStat.getRawIndexScore() == null) {
+	        playerStat.setRawIndexScore(new ArrayList<>());
+	    }
+	    if (player.getStat() != null) {
+            for (String statType : Type.split(",")) {
+            	 boolean statFound = false;
+            	for (Stat stat : player.getStat()) {
+            		statFound = addStatToPlayer(playerStat, stat.getType(),statType, stat.getValue());
+            		if(statFound) {
+            			break;
+            		}
+	            }
+            	if(!statFound) {
+		            playerStat.getRawIndexScore().add(new Stat(statType , "0"));
+        		}
+	        }
+	    }
+	    return playerStat;
+	}
+
+	private static boolean addStatToPlayer(Stat playerStat, String Type,String statType, String value) {
+		switch (statType) {
+	        case "Passes":
+	        	if(Type.equalsIgnoreCase("total pass")) {
+		            playerStat.getRawIndexScore().add(new Stat("passes", value));
+		            return true;
+	        	}
+	            break;
+	        case "Successful Passes":
+	        	if(Type.equalsIgnoreCase("total accurate pass")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Successful passes", value));
+	        		return true;
+	        	}
+	            break;
+	        case "Crosses":
+	        	if(Type.equalsIgnoreCase("total crosses")) {
+		            playerStat.getRawIndexScore().add(new Stat("Crosses", value));
+		            return true;
+	        	}
+	            break;
+	        case "Successful crosses":
+	        	if(Type.equalsIgnoreCase("total accurate cross")) {
+	        		playerStat.getRawIndexScore().add(new Stat("total accurate cross", value));
+	        		return true;
+	        	}
+	            break;
+	        case "Duels Won":
+	        	if (Type.equalsIgnoreCase("total duels won")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Duels Won", value));
+	        		return true;
+				}
+				break;
+			case "Duels Lost":
+				if (Type.equalsIgnoreCase("total duels lost")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Duels Lost", value));
+	        		return true;
+				}
+				break;
+			case "Shots":
+				if (Type.equalsIgnoreCase("total scoring att")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Shots", value));
+	        		return true;
+				}
+				break;
+			case "Shots on Target":
+				if (Type.equalsIgnoreCase("total ontarget scoring att")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Shots on Target", value));
+	        		return true;
+				}
+				break;
+			case "Tackles":
+				if (Type.equalsIgnoreCase("total tackle")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Tackles", value));
+	        		return true;
+				}
+				break;
+			case "Tackles Won":
+				if (Type.equalsIgnoreCase("total won tackle")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Tackles Won", value));
+	        		return true;
+				}
+				break;
+			case "Dribble":
+				if (Type.equalsIgnoreCase("total contest")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Dribble", value));
+	        		return true;
+				}
+				break;
+			case "Dribble Won":
+				if (Type.equalsIgnoreCase("total won contest")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Dribble Won", value));
+	        		return true;
+				}
+				break;
+			case "Red card":
+				if (Type.equalsIgnoreCase("total red card")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Red card", value));
+	        		return true;
+				}
+				break;
+			case "Yellow card":
+				if (Type.equalsIgnoreCase("total yellow card")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Yellow card", value));
+	        		return true;
+				}
+				break;
+			case "Clean Sheet":
+				if (Type.equalsIgnoreCase("total goals conceded")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Clean Sheet", value));
+	        		return true;
+				}
+				break;
+			case "Won Corners":
+				if (Type.equalsIgnoreCase("total won corners")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Won Corners", value));
+	        		return true;
+				}
+				break;
+			case "Lost Corners":
+				if (Type.equalsIgnoreCase("total lost corners")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Lost Corners", value));
+	        		return true;
+				}
+				break;
+			case "Touches in Opp. Box":
+				if (Type.equalsIgnoreCase("total touches in opposition box")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Touches in Opp. Box", value));
+	        		return true;
+				}
+				break;
+			case "Clearance":
+				if (Type.equalsIgnoreCase("total clearance")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Clearance", value));
+	        		return true;
+				}
+				break;
+			case "Fouls":
+				if (Type.equalsIgnoreCase("total fouls")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Fouls", value));
+	        		return true;
+				}
+				break;
+			case "Offsides":
+				if (Type.equalsIgnoreCase("total offside")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Offsides", value));
+	        		return true;
+				}
+				break;
+			case "Attempts InsideBox":
+				if (Type.equalsIgnoreCase("total attempts ibox")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Attempts InsideBox", value));
+	        		return true;
+				}
+				break;
+			case "Assists":
+				if (Type.equalsIgnoreCase("total assists")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Assists", value));
+	        		return true;
+				}
+				break;
+			case "Interception":
+				if (Type.equalsIgnoreCase("total interception")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Interception", value));
+	        		return true;
+				}
+				break;
+			case "Saves":
+				if (Type.equalsIgnoreCase("total saves")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Saves", value));
+	        		return true;
+				}
+				break;
+			case "Aerial Won":
+				if (Type.equalsIgnoreCase("total aerial won")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Aerial Won", value));
+	        		return true;
+				}
+				break;
+			case "Aerial Lost":
+				if (Type.equalsIgnoreCase("total aerial lost")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Aerial Lost", value));
+	        		return true;
+				}
+				break;
+			case "Long Balls":
+				if (Type.equalsIgnoreCase("total long balls")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Long Balls", value));
+	        		return true;
+				}
+				break;
+			case "Effective Clearance":
+				if (Type.equalsIgnoreCase("total effective clearance")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Effective Clearance", value));
+	        		return true;
+				}
+				break;
+			case "Keeper Throws":
+				if (Type.equalsIgnoreCase("total keeper throws")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Keeper Throws", value));
+	        		return true;
+				}
+				break;
+			case "Accurate Keeper Throws":
+				if (Type.equalsIgnoreCase("total accurate keeper throws")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Accurate Keeper Throws", value));
+	        		return true;
+				}
+				break;
+			case "Goals":
+				if (Type.equalsIgnoreCase("total goals")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Goals", value));
+	        		return true;
+				}
+				break;
+			case "Games":
+				if (Type.equalsIgnoreCase("total games")) {
+	        		playerStat.getRawIndexScore().add(new Stat("Games", value));
+	        		return true;
+				}
+				break;
+			case "MinutesPlayed":
+				if (Type.equalsIgnoreCase("total mins played")) {
+	        		playerStat.getRawIndexScore().add(new Stat("MinutesPlayed", value));
+	        		return true;
+				}
+				break;
+	    }
+		 return false;
+	}
+		     
 	public static List<Stat> SeasonalDataPlayer(String Stats ,String Type, String TeamId,String PlayerId) throws Exception {
 		List<Stat> plyer = new ArrayList<Stat>();
 		if(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\seasonalRanking.json").exists()) {
@@ -4346,6 +4653,34 @@ public class FootballFunctions {
 						        					break;
 						        				}
 						        				break;
+						        			case "Games":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total games")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total games ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				}
+						        				break;
+						        			case "MinutesPlayed":
+						        				switch(Type) {
+						        				case "Total":
+						        					if (st.getType().equalsIgnoreCase("total mins played")) {
+							        					plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				case "Rank":
+						        					 if(st.getType().equalsIgnoreCase("total mins played ranking")) {
+								        				plyer.add(new Stat(stats ,st.getValue()));
+							        				}
+						        					break;
+						        				}
+						        				break;
 						        			}
 			        					}
 				        			}
@@ -4364,17 +4699,33 @@ public class FootballFunctions {
 			rankings ranking = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\seasonalRanking.json"), rankings.class);
 			if (ranking != null && ranking.getTeam()!= null) {
 				for(teamData team :ranking.getTeam() ) {
+					Stat sts = new Stat();
+					sts.setName(HtmlUtils.htmlEscape(team.getName()));
+					sts.setType(team.getId());
 					if(team.getStat()!=null) {
 						for(Stat st:team.getStat()) {
         					if (st.getType().equalsIgnoreCase("total goals conceded")) {
-        						Team.add(new Stat(HtmlUtils.htmlEscape(team.getName()),team.getId(),st.getValue()));
+        						sts.setValue(st.getValue());
 	        				}
+        					if( st.getType().equalsIgnoreCase("total games")) {
+        						sts.setMatch(Integer.valueOf(st.getValue()));
+        					}
+        					if( st.getType().equalsIgnoreCase("total goals")) {
+        						sts.setGoal(Integer.valueOf(st.getValue()));
+        					}
         				}
+						Team.add(sts);
 					}
 				}
 			}
 		}
-		Team.sort((st1, st2) -> Integer.compare(Integer.valueOf(st2.getValue()), Integer.valueOf(st1.getValue())));
+		Team.sort((st1, st2) -> 
+		Integer.compare(Integer.valueOf(st1.getValue()), Integer.valueOf(st2.getValue())) != 0 
+	    ? Integer.compare(Integer.valueOf(st1.getValue()), Integer.valueOf(st2.getValue())) 
+	    : Integer.compare(st1.getGoal(), st2.getGoal()) != 0 
+        ? Integer.compare(st1.getGoal(), st2.getGoal()) 
+        : Integer.compare(st1.getMatch(), st2.getMatch()));
+		
 		return Team;
 	}
 	public static List<PlayerData> SeasonalData(String Type) throws Exception {

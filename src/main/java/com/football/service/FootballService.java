@@ -15,6 +15,7 @@ import com.football.model.InfobarStats;
 import com.football.model.LeaderBoard;
 import com.football.model.Player;
 import com.football.model.PlayerComparison;
+import com.football.model.PlayerProfile;
 import com.football.model.PlayerStat;
 import com.football.model.Playoff;
 import com.football.model.Staff;
@@ -50,4 +51,5 @@ public interface FootballService {
   List<InfobarStats> getInfobarStats();
   List<HeaderText> getHeaderText();
   List<PlayerComparison> getPlayerComparisons();
+  List<PlayerProfile> getPlayerProfiles();
 }

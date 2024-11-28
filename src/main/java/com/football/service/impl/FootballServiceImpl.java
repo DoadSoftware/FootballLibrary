@@ -19,6 +19,7 @@ import com.football.model.InfobarStats;
 import com.football.model.LeaderBoard;
 import com.football.model.Player;
 import com.football.model.PlayerComparison;
+import com.football.model.PlayerProfile;
 import com.football.model.PlayerStat;
 import com.football.model.Playoff;
 import com.football.model.Staff;
@@ -161,5 +162,8 @@ public List<HeaderText> getHeaderText() {
 public List<PlayerComparison> getPlayerComparisons() {
 	return footballDao.getPlayerComparisons();
 }
-
+@Override
+public List<PlayerProfile> getPlayerProfiles() {
+	return footballDao.getPlayerProfiles();
+}
 }
