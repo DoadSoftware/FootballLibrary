@@ -3038,7 +3038,7 @@ public class FootballFunctions {
 	    		homeHtPossession =  Integer.valueOf(Value.split(",")[0]);
                 homeFtPossession =  Integer.valueOf(Value.split(",")[1]);
 	    		Value =FootballFunctions.RoundValues(api_match.getApi_LiveMatch().getHomeTeam().getFtPossession()+","
-			    		+ api_match.getApi_LiveMatch().getAwayTeam().getPossession());		    		
+			    		+ api_match.getApi_LiveMatch().getAwayTeam().getFtPossession());		    		
                 awayHtPossession =  Integer.valueOf(Value.split(",")[0]);
                 awayFtPossession = Integer.valueOf(Value.split(",")[1]);
 		        WhichStyle="Possession (%)";
@@ -3591,6 +3591,76 @@ public class FootballFunctions {
 	            : Integer.compare(st1.getMatch(), st2.getMatch()));
 	    
 	    return plyer;
+	}
+	public static List<Stat> SeasonalTeamData(Match match, List<Fixture> fixtures) throws Exception {
+		List<Stat>  Team = new ArrayList<Stat>();
+		if(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\seasonalRanking.json").exists()) {
+			rankings ranking = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\seasonalRanking.json"), rankings.class);
+			if (ranking != null && ranking.getTeam()!= null) {
+				for(teamData team :ranking.getTeam() ) {
+					Stat sts = new Stat();
+					sts.setName(HtmlUtils.htmlEscape(team.getName()));
+					sts.setType(team.getId());
+					if(team.getStat()!=null) {
+						for(Stat st:team.getStat()) {
+        					if (st.getType().equalsIgnoreCase("total goals conceded")) {
+        						sts.setValue(st.getValue());
+	        				}
+        					if( st.getType().equalsIgnoreCase("total games")) {
+        						sts.setMatch(Integer.valueOf(st.getValue()));
+        					}
+        					if( st.getType().equalsIgnoreCase("total goals")) {
+        						sts.setGoal(Integer.valueOf(st.getValue()));
+        					}
+        				}
+						Team.add(sts);
+					}
+				}
+			}
+		}
+		
+		// Get the fixture for the current match
+	    Fixture fixture = fixtures.stream()
+	            .filter(fix -> fix.getMatchfilename().equalsIgnoreCase(match.getMatchFileName().replace(".json", "")))
+	            .findAny()
+	            .orElse(null);
+
+	    // Check if the previous match is the same day and update stats for the previous match
+	    if (fixture != null  && fixture.getMatchnumber() > 1 && fixture.getDate().equalsIgnoreCase(fixtures.get(fixture.getMatchnumber() - 2).getDate()) 
+	            && fixtures.get(fixture.getMatchnumber() - 2).getMargin() != null) {
+
+	    	Team.forEach(s -> {
+	            if (s.getType().equalsIgnoreCase(fixtures.get(fixture.getMatchnumber() - 2).getHome_Team().getTeamApiId())) {
+	                s.setMatch(s.getMatch() + 1);
+	                s.setValue(String.valueOf(Integer.valueOf(s.getValue()) + Integer.valueOf(fixtures.get(fixture.getMatchnumber() 
+	                		- 2).getMargin().split("-")[1])));
+	            }
+	            if (s.getType().equalsIgnoreCase(fixtures.get(fixture.getMatchnumber() - 2).getAway_Team().getTeamApiId())) {
+	                s.setMatch(s.getMatch() + 1); 
+	                s.setValue(String.valueOf(Integer.valueOf(s.getValue()) + Integer.valueOf(fixtures.get(fixture.getMatchnumber() 
+	                		- 2).getMargin().split("-")[0])));
+	            }
+	        });
+	    }
+	    
+	    // Update the match count and score for the current match
+	    Team.forEach(s -> {
+	        if (s.getType().equalsIgnoreCase(match.getHomeTeam().getTeamApiId())) {
+	            s.setMatch(s.getMatch() + 1);
+	            s.setValue(String.valueOf(Integer.valueOf(s.getValue()) + match.getAwayTeamScore()));
+	        }
+	        if (s.getType().equalsIgnoreCase(match.getAwayTeam().getTeamApiId())) {
+	            s.setMatch(s.getMatch() + 1); 
+	            s.setValue(String.valueOf(Integer.valueOf(s.getValue()) + match.getHomeTeamScore()));
+	        }
+	    });
+
+	    // Sort players based on the total goals scored then matches
+	    Team.sort((st1, st2) -> Integer.compare(Integer.valueOf(st1.getValue()), Integer.valueOf(st2.getValue())) != 0 
+	            ? Integer.compare(Integer.valueOf(st1.getValue()), Integer.valueOf(st2.getValue())) 
+	            : Integer.compare(st1.getMatch(), st2.getMatch()));
+		
+		return Team;
 	}
 	
 	public static List<Stat> SeasonalDataTeam(String Stats ,String Type, String TeamId) throws Exception {
@@ -4693,41 +4763,7 @@ public class FootballFunctions {
 	    	}
 		return plyer;		
 	}
-	public static List<Stat> SeasonalTeamData() throws Exception {
-		List<Stat>  Team = new ArrayList<Stat>();
-		if(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\seasonalRanking.json").exists()) {
-			rankings ranking = new ObjectMapper().readValue(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\seasonalRanking.json"), rankings.class);
-			if (ranking != null && ranking.getTeam()!= null) {
-				for(teamData team :ranking.getTeam() ) {
-					Stat sts = new Stat();
-					sts.setName(HtmlUtils.htmlEscape(team.getName()));
-					sts.setType(team.getId());
-					if(team.getStat()!=null) {
-						for(Stat st:team.getStat()) {
-        					if (st.getType().equalsIgnoreCase("total goals conceded")) {
-        						sts.setValue(st.getValue());
-	        				}
-        					if( st.getType().equalsIgnoreCase("total games")) {
-        						sts.setMatch(Integer.valueOf(st.getValue()));
-        					}
-        					if( st.getType().equalsIgnoreCase("total goals")) {
-        						sts.setGoal(Integer.valueOf(st.getValue()));
-        					}
-        				}
-						Team.add(sts);
-					}
-				}
-			}
-		}
-		Team.sort((st1, st2) -> 
-		Integer.compare(Integer.valueOf(st1.getValue()), Integer.valueOf(st2.getValue())) != 0 
-	    ? Integer.compare(Integer.valueOf(st1.getValue()), Integer.valueOf(st2.getValue())) 
-	    : Integer.compare(st1.getGoal(), st2.getGoal()) != 0 
-        ? Integer.compare(st1.getGoal(), st2.getGoal()) 
-        : Integer.compare(st1.getMatch(), st2.getMatch()));
-		
-		return Team;
-	}
+
 	public static List<PlayerData> SeasonalData(String Type) throws Exception {
 		List<PlayerData>  Player = new ArrayList<PlayerData>();
 		if(new File("C:\\Sports\\Football\\Statistic\\Match_Data\\seasonalRanking.json").exists()) {
