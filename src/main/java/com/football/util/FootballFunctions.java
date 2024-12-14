@@ -482,6 +482,12 @@ public class FootballFunctions {
 	                        case "attemptsIbox":
 	                            playerStats1.setAttemptsIbox(Integer.parseInt(stat.getValue()));
 	                            break;
+	                        case "finalThirdEntries":
+	                        	playerStats1.setFinalThirdEntries(Integer.parseInt(stat.getValue()));
+		                    	break;
+	                        case "touchesInOppBox":
+	                        	playerStats1.setTouchesInOppBox(Integer.parseInt(stat.getValue()));
+		                    	break;
 	                    }
 	                }
 	            }
@@ -3491,6 +3497,21 @@ public class FootballFunctions {
 		        else if (i == 1) Stat2 = String.valueOf(apiPlayerStats.getGoalsConceded());
 		        else if (i == 2) Stat3 = String.valueOf(apiPlayerStats.getGoalsConceded());
 		        break;
+		    case "touchesInOppbox":
+		        if (i == 0) Stat1 = String.valueOf(apiPlayerStats.getTouchesInOppBox());
+		        else if (i == 1) Stat2 = String.valueOf(apiPlayerStats.getTouchesInOppBox());
+		        else if (i == 2) Stat3 = String.valueOf(apiPlayerStats.getTouchesInOppBox());
+		        break;
+		    case "PassingAccuracy":
+	            if (i == 0) Stat1 = String.valueOf(AccuracyPercentage(apiPlayerStats.getTotalPass(), apiPlayerStats.getAccuratePasses()));
+		        else if (i == 1) Stat2 = String.valueOf(AccuracyPercentage(apiPlayerStats.getTotalPass(), apiPlayerStats.getAccuratePasses()));
+		        else if (i == 2) Stat3 = String.valueOf(AccuracyPercentage(apiPlayerStats.getTotalPass(), apiPlayerStats.getAccuratePasses()));
+		    	break;
+		    case "possessionWon":
+	            if (i == 0) Stat1 = String.valueOf(apiPlayerStats.getPossWonAtt3rd()+apiPlayerStats.getPossWonDef3rd()+apiPlayerStats.getPossWonMid3rd());
+		        else if (i == 1) Stat2 = String.valueOf(apiPlayerStats.getPossWonAtt3rd()+apiPlayerStats.getPossWonDef3rd()+apiPlayerStats.getPossWonMid3rd());
+		        else if (i == 2) Stat3 = String.valueOf(apiPlayerStats.getPossWonAtt3rd()+apiPlayerStats.getPossWonDef3rd()+apiPlayerStats.getPossWonMid3rd());
+		    	break;
 			}
 			
 		}

@@ -13,7 +13,7 @@ public class ApiPlayerStats {
 	private int totalFinalThirdPasses;
 	private int possWonAtt3rd;
 	private int touches;
-	private int setPiecesGoals;
+	private int setPiecesGoals,touchesInOppBox,finalThirdEntries;
 	private double shootingAccuracy;
 	private int wonCorners;
 	private int goal;
@@ -432,6 +432,18 @@ public class ApiPlayerStats {
 		this.position = position;
 	}
 	
+	public int getFinalThirdEntries() {
+		return finalThirdEntries;
+	}
+	public void setFinalThirdEntries(int finalThirdEntries) {
+		this.finalThirdEntries = finalThirdEntries;
+	}
+	public int getTouchesInOppBox() {
+		return touchesInOppBox;
+	}
+	public void setTouchesInOppBox(int touchesInOppBox) {
+		this.touchesInOppBox = touchesInOppBox;
+	}
 	public ApiPlayerStats() {
 		super();
 		// TODO Auto-generated constructor stub
