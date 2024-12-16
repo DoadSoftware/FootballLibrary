@@ -66,6 +66,7 @@ import com.football.model.ApiMatch;
 import com.football.model.ApiPlayerStats;
 import com.football.model.ApiTeamstats;
 import com.football.model.Configurations;
+import com.football.model.Event;
 import com.football.model.Fixture;
 import com.football.model.Formation;
 import com.football.model.HeadToHead;
@@ -164,7 +165,7 @@ public class FootballFunctions {
 		
 		return hundReds + "," + tens + "," + units;
 	}
-	
+	 
 	public static List<LeagueTeam> PointsTableAsStanding(List<LeagueTeam> points_table, Match match) throws IOException {
 		
 		if(match.getHomeTeamScore() > match.getAwayTeamScore()) {
@@ -5002,4 +5003,25 @@ public class FootballFunctions {
         }
         return "";
     }
+	
+	public static String getRedCardCount(int home_red, int away_red, Match match) {
+		home_red = 0 ; away_red = 0 ;
+	    List<Event> redCardEvents = match.getEvents().stream()
+	        .filter(et -> et.getEventType().equalsIgnoreCase(FootballUtil.RED))
+	        .collect(Collectors.toList());
+
+	    for (Event event : redCardEvents) {
+	        Player player = match.getHomeSquad().stream()
+	            .filter(p -> p.getPlayerId() == event.getEventPlayerId())
+	            .findFirst().orElse(null);
+	        if (player != null) home_red++;
+
+	        player = match.getAwaySquad().stream()
+	            .filter(p -> p.getPlayerId() == event.getEventPlayerId())
+	            .findFirst().orElse(null);
+	        if (player != null) away_red++;
+	    }
+		return home_red+","+away_red;
+	}
+
 }
