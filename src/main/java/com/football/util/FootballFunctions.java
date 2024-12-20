@@ -497,55 +497,25 @@ public class FootballFunctions {
 	    }
 	}
 	
-	public static void ReverseFormation(Formation Formations,String which_pos) {
-		switch(which_pos.toUpperCase()) {
-		case "X":
-			Formations.setFormOrds1X((100-Formations.getFormOrds1X()));
-			Formations.setFormOrds2X((100-Formations.getFormOrds2X()));
-			Formations.setFormOrds3X((100-Formations.getFormOrds3X()));
-			Formations.setFormOrds4X((100-Formations.getFormOrds4X()));
-			Formations.setFormOrds5X((100-Formations.getFormOrds5X()));
-			Formations.setFormOrds6X((100-Formations.getFormOrds6X()));
-			Formations.setFormOrds7X((100-Formations.getFormOrds7X()));
-			Formations.setFormOrds8X((100-Formations.getFormOrds8X()));
-			Formations.setFormOrds9X((100-Formations.getFormOrds9X()));
-			Formations.setFormOrds10X((100-Formations.getFormOrds10X()));
-			Formations.setFormOrds11X((100-Formations.getFormOrds11X()));
-			
-			break;
-		case "Y":
-			Formations.setFormOrds1Y((100-Formations.getFormOrds1Y()));
-			Formations.setFormOrds2Y((100-Formations.getFormOrds2Y()));
-			Formations.setFormOrds3Y((100-Formations.getFormOrds3Y()));
-			Formations.setFormOrds4Y((100-Formations.getFormOrds4Y()));
-			Formations.setFormOrds5Y((100-Formations.getFormOrds5Y()));
-			Formations.setFormOrds6Y((100-Formations.getFormOrds6Y()));
-			Formations.setFormOrds7Y((100-Formations.getFormOrds7Y()));
-			Formations.setFormOrds8Y((100-Formations.getFormOrds8Y()));
-			Formations.setFormOrds9Y((100-Formations.getFormOrds9Y()));
-			Formations.setFormOrds10Y((100-Formations.getFormOrds10Y()));
-			Formations.setFormOrds11Y((100-Formations.getFormOrds11Y()));
-			
-			break;
-		default:
-			 ReverseFormation(Formations,"X");
-			 ReverseFormation(Formations,"Y");
-			break;
-		}
-	}
-	
 	public static void TeamStatApi(LiveMatch liveMatch,ApiMatch match) {
 		 match.getApi_LiveMatch().getAwayTeam().reset();
 		 match.getApi_LiveMatch().getHomeTeam().reset(); 
+		 match.getApi_LiveMatch().getEvents().clear();
 		 
 		 for (int i = 0; i < 2; i++) {
 			    match.getApi_LiveMatch().getHomeTeam().setName(liveMatch.getMatchInfo().getContestant().get(i).getName().trim());
 			    match.getApi_LiveMatch().getAwayTeam().setId(liveMatch.getMatchInfo().getContestant().get(i).getId().trim());
-			}
+		  }
 
 			if (liveMatch != null && liveMatch.getLiveData() != null && liveMatch.getLiveData().getCard() != null) {
 			    for (Card card : liveMatch.getLiveData().getCard()) {
-			     
+			    	
+		        	if(card.getPlayerId()== null && card.getPlayerName()==null ) {
+		        		match.getApi_LiveMatch().getEvents().get(match.getApi_LiveMatch().getEvents().size()-1).setPlayerName(HtmlUtils.htmlEscape(card.getOfficialName()));
+		        	}else {
+		        		match.getApi_LiveMatch().getEvents().add(new ApiEventStats(card.getContestantId(),card.getPlayerId(),HtmlUtils.htmlEscape(card.getPlayerName()),card.getTimeMin(),
+			            		card.getType(),card.getPeriodId(),card.getTimeMinSec()));
+		        	}
 			    	if (card.getTeamOfficialId() == null) {
 			            if ("YC".equalsIgnoreCase(card.getType()) || "Y2C".equalsIgnoreCase(card.getType())) {
 			                if (liveMatch.getMatchInfo().getContestant().get(0).getId().equalsIgnoreCase(card.getContestantId())) {
@@ -581,6 +551,24 @@ public class FootballFunctions {
 			match.getApi_LiveMatch().getHomeTeam().setYellowCards(Math.max(0, match.getApi_LiveMatch().getHomeTeam().getYellowCards()));
 			match.getApi_LiveMatch().getAwayTeam().setYellowCards(Math.max(0, match.getApi_LiveMatch().getAwayTeam().getYellowCards()));
       
+			//goals
+		    if(liveMatch != null && liveMatch.getLiveData() != null && liveMatch.getLiveData().getGoal()!= null) {
+		    	for(Goal goal: liveMatch.getLiveData().getGoal()) {
+		    		match.getApi_LiveMatch().getEvents().add(new ApiEventStats(goal.getContestantId(),goal.getScorerId(),HtmlUtils.htmlEscape(goal.getScorerName()),goal.getTimeMin(),
+		    				 goal.getType(),goal.getPeriodId(),goal.getTimeMinSec()));
+		    	}
+		    }
+		    //substitutes
+		    if(liveMatch != null && liveMatch.getLiveData() != null && liveMatch.getLiveData().getSubstitute()!=null) {
+		    	for(Substitute subs: liveMatch.getLiveData().getSubstitute()) {		    		
+		    		match.getApi_LiveMatch().getEvents().add(new ApiEventStats(subs.getContestantId(),subs.getPlayerOnId(),subs.getPlayerOffId(),HtmlUtils.htmlEscape(subs.getPlayerOnName()),
+		    				HtmlUtils.htmlEscape(subs.getPlayerOffName()),subs.getTimeMin(),"SUB",subs.getPeriodId(),0,subs.getTimeMinSec()));
+		    	}
+		    }
+		    Collections.sort(match.getApi_LiveMatch().getEvents(), (p1, p2) -> Integer.compare(
+	    	    Integer.parseInt(p2.getTimeMinSec().split(":")[0]) * 60 + Integer.parseInt(p2.getTimeMinSec().split(":")[1]),
+	    	    Integer.parseInt(p1.getTimeMinSec().split(":")[0]) * 60 + Integer.parseInt(p1.getTimeMinSec().split(":")[1])
+		    ));
 		  for (int teamIndex = 0; teamIndex <= 1; teamIndex++) {
 		        ApiTeamstats team = (teamIndex == 0) ? match.getApi_LiveMatch().getHomeTeam() : match.getApi_LiveMatch().getAwayTeam();
 		       
@@ -1881,7 +1869,7 @@ public class FootballFunctions {
 		return null;
 			
 	}
-
+	
 	public static void setJsonDataInMatchApi(ApiMatch match) throws Exception {
 		try {
 		if(new File(FootballUtil.LIVE_DATA).exists()) {
