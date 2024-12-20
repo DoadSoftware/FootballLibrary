@@ -5021,7 +5021,32 @@ public class FootballFunctions {
 	            .findFirst().orElse(null);
 	        if (player != null) away_red++;
 	    }
-		return home_red+","+away_red;
+		return home_red + "," + away_red;
 	}
 
+	public static Map<String, Integer> processPlayerCards(List<Event> events, int playerId) {
+	    int yellowCardCount = 0;
+	    int redCardCount = 0;
+
+	    for (Event event : events) {
+	        if (event.getEventPlayerId()== playerId ) {
+	            switch (event.getEventType().toUpperCase()) {
+	                case "RED":
+	                    redCardCount++;
+	                    break;
+	                case "YELLOW":
+	                    yellowCardCount++; 
+	                    if (yellowCardCount == 2) {
+	                        yellowCardCount = 0; 
+	                        redCardCount++;
+	                    }
+	                    break;
+	            }
+	        }
+	    }
+	    Map<String, Integer> cardCounts = new HashMap<>();
+	    cardCounts.put("yellow", yellowCardCount);
+	    cardCounts.put("red", redCardCount);
+	    return cardCounts;
+	}
 }
