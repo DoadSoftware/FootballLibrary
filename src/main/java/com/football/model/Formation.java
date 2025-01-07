@@ -13,6 +13,9 @@ public class Formation {
   @Column(name = "FORMID")
   private int formId;
   
+  @Column(name = "FormType")
+  private String formType;
+  
   @Column(name = "FormDescription")
   private String formDescription;
   
@@ -95,6 +98,14 @@ public int getFormId() {
 
 public void setFormId(int formId) {
 	this.formId = formId;
+}
+
+public String getFormType() {
+	return formType;
+}
+
+public void setFormType(String formType) {
+	this.formType = formType;
 }
 
 public String getFormDescription() {
