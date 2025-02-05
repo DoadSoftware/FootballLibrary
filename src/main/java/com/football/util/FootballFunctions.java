@@ -4994,22 +4994,25 @@ public class FootballFunctions {
 	
 	public static String getRedCardCount(int home_red, int away_red, Match match) {
 		home_red = 0 ; away_red = 0 ;
-	    List<Event> redCardEvents = match.getEvents().stream()
-	        .filter(et -> et.getEventType().equalsIgnoreCase(FootballUtil.RED))
-	        .collect(Collectors.toList());
+		if( match.getEvents()!=null) {
+			List<Event> redCardEvents = match.getEvents().stream()
+			        .filter(et -> et.getEventType().equalsIgnoreCase(FootballUtil.RED))
+			        .collect(Collectors.toList());
 
-	    for (Event event : redCardEvents) {
-	        Player player = match.getHomeSquad().stream()
-	            .filter(p -> p.getPlayerId() == event.getEventPlayerId())
-	            .findFirst().orElse(null);
-	        if (player != null) home_red++;
+			    for (Event event : redCardEvents) {
+			        Player player = match.getHomeSquad().stream()
+			            .filter(p -> p.getPlayerId() == event.getEventPlayerId())
+			            .findFirst().orElse(null);
+			        if (player != null) home_red++;
 
-	        player = match.getAwaySquad().stream()
-	            .filter(p -> p.getPlayerId() == event.getEventPlayerId())
-	            .findFirst().orElse(null);
-	        if (player != null) away_red++;
-	    }
-		return home_red + "," + away_red;
+			        player = match.getAwaySquad().stream()
+			            .filter(p -> p.getPlayerId() == event.getEventPlayerId())
+			            .findFirst().orElse(null);
+			        if (player != null) away_red++;
+			    }
+				return home_red + "," + away_red;	
+		}
+		return "0,0"; 
 	}
 
 	public static Map<String, Integer> processPlayerCards(List<Event> events, int playerId) {
