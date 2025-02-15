@@ -196,4 +196,13 @@ public void setHashTag(String hashTag) {
 	this.hashTag = hashTag;
 }
 
+@Override
+public String toString() {
+	return "Fixture [matchnumber=" + matchnumber + ", matchfilename=" + matchfilename + ", date=" + date + ", time="
+			+ time + ", groupName=" + groupName + ", hometeamid=" + hometeamid + ", awayteamid=" + awayteamid
+			+ ", winnerteam=" + winnerteam + ", margin=" + margin + ", venue=" + venue + ", fixtureApiId="
+			+ fixtureApiId + ", homeScorer=" + homeScorer + ", awayScorer=" + awayScorer + ", hashTag=" + hashTag
+			+ ", home_Team=" + home_Team + ", away_Team=" + away_Team + "]";
+}
+
 }

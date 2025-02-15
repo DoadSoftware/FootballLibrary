@@ -68,6 +68,7 @@ import com.football.model.ApiTeamstats;
 import com.football.model.Configurations;
 import com.football.model.Event;
 import com.football.model.Fixture;
+import com.football.model.Football;
 import com.football.model.Formation;
 import com.football.model.HeadToHead;
 import com.football.model.HeaderText;
@@ -328,7 +329,6 @@ public class FootballFunctions {
 	    	}
 	    }
 	}
-	
 	public static void ApiPlayerStat(LiveMatch liveMatch,ApiMatch match) {
 		
 		match.getApi_LiveMatch().getAwayTeam().reset();
@@ -2465,6 +2465,129 @@ public class FootballFunctions {
 	        }
 	    }
 	}
+	public static List<String> MatchStatsSingle(Football api_match,String values) {
+		int home_value=0,away_value=0;
+		String WhichStyle="";
+        List<String> dataList = new ArrayList<>();
+		
+		for(int i=0;i<values.split(",").length;i++) {
+			 WhichStyle = values.split(",")[i];
+			switch (values.split(",")[i]) {
+		    case "Possession":
+		    	String Value = FootballFunctions.RoundValues(api_match.getTeams().get(0).getPossessionPercentage()+","
+		    		+ api_match.getTeams().get(1).getPossessionPercentage());
+				home_value = Integer.valueOf(Value.split(",")[0]);
+		        away_value =Integer.valueOf(Value.split(",")[1]);
+		        WhichStyle="Possession (%)";
+		        break;
+		    case "Shots":
+		    	home_value = api_match.getTeams().get(0).getShots();
+		        away_value = api_match.getTeams().get(1).getShots();
+		        break;
+		    case "Shots_on_Target":
+		    	home_value = api_match.getTeams().get(0).getOnTarget();
+		        away_value = api_match.getTeams().get(1).getOnTarget();
+		        WhichStyle="Shots on Target";
+		        break;
+		    case "Corners":
+		    	home_value = api_match.getTeams().get(0).getCorners();
+		        away_value = api_match.getTeams().get(1).getCorners();
+		        break;
+		    case "Saves":
+		    	home_value = api_match.getTeams().get(0).getSaves();
+		        away_value = api_match.getTeams().get(1).getSaves();
+		        break;
+		    case "Crosses":
+		    	home_value = api_match.getTeams().get(0).getCrosses();
+		        away_value = api_match.getTeams().get(1).getCrosses();
+		        break;
+		    case "Passes":
+		    	home_value = api_match.getTeams().get(0).getForwardPass();
+		        away_value = api_match.getTeams().get(1).getForwardPass();
+		        break;
+		    case "Passing_Accuracy":
+		    	 Value = RoundValues(api_match.getTeams().get(0).getPassingAccuracyPercentage()+","
+		    			+api_match.getTeams().get(1).getPassingAccuracyPercentage());
+				home_value = Integer.valueOf(Value.split(",")[0]);
+		        away_value =Integer.valueOf(Value.split(",")[1]);
+		        WhichStyle = "Passing Accuracy(%)";
+		        break;
+		    case "Touches":
+		    	home_value = api_match.getTeams().get(0).getTouches();
+		        away_value = api_match.getTeams().get(1).getTouches();
+		        break;
+		    case "Tackles":
+		    	home_value = api_match.getTeams().get(0).getTackles();
+		        away_value = api_match.getTeams().get(1).getTackles();
+		        break;
+		    case "Offside":
+		    	home_value = api_match.getTeams().get(0).getOffSide();
+		        away_value = api_match.getTeams().get(1).getOffSide();
+		        break;
+		    case "Fouls":
+		    	home_value = api_match.getTeams().get(0).getFouls();
+		        away_value = api_match.getTeams().get(1).getFouls();
+		        break;
+		    case "Interceptions":
+		    	home_value = api_match.getTeams().get(0).getInterceptions();
+		        away_value = api_match.getTeams().get(1).getInterceptions();
+		        break;
+		    case "Chance_Created":
+		    	home_value = api_match.getTeams().get(0).getChancesCreated();
+		        away_value = api_match.getTeams().get(1).getChancesCreated();
+		    	break;
+		    case "goalsConceded":
+		    	home_value = api_match.getTeams().get(0).getGoalsConceded();
+		        away_value = api_match.getTeams().get(1).getGoalsConceded();
+		    	break;
+		    case "duelWon":
+		    	home_value = api_match.getTeams().get(0).getDuelsWon();
+		        away_value = api_match.getTeams().get(1).getDuelsWon();
+		    	break;
+		    case "Red_Cards":
+		    	home_value = api_match.getTeams().get(0).getRedCard();
+		        away_value = api_match.getTeams().get(1).getRedCard();
+		    	break;
+		    case "Yellow_Cards":
+		    	home_value = api_match.getTeams().get(0).getRedCard();
+		        away_value = api_match.getTeams().get(1).getRedCard();
+		    	break;
+            case "Duel_won":
+            	home_value = (int) Math.round((api_match.getTeams().get(0).getDuels() * 100.0) / (api_match.getTeams().get(0).getDuelsWon()));
+		        away_value = (int) Math.round((api_match.getTeams().get(1).getDuels() * 100.0) / (api_match.getTeams().get(1).getDuelsWon()));
+		        WhichStyle= "Duel won (%)";
+                break;
+            case "Duel":
+            	home_value = api_match.getTeams().get(0).getDuels();
+		        away_value = api_match.getTeams().get(1).getDuels();
+               break;
+            case "passes_final_3rd_Accuracy":
+            	home_value = api_match.getTeams().get(0).getAccuracyPercentageInFinalThird();
+		        away_value = api_match.getTeams().get(1).getAccuracyPercentageInFinalThird();
+                break;
+            case "Final_3rd_Entries":
+            	home_value = api_match.getTeams().get(0).getFinalThirdEntry();
+		        away_value = api_match.getTeams().get(1).getFinalThirdEntry();
+                break;
+            case "Touches_In_OppBox":
+            	home_value = api_match.getTeams().get(0).getTouchesInOppBox();
+		        away_value = api_match.getTeams().get(1).getTouchesInOppBox();
+               break;
+            case "Final_Third_Passes":
+            	home_value = api_match.getTeams().get(0).getFinalThirdPass();
+		        away_value = api_match.getTeams().get(1).getFinalThirdPass();
+                break;
+            case "Goals":
+            	home_value = (api_match.getTeams().get(0).getGoals());
+		        away_value = (api_match.getTeams().get(1).getGoals());
+            	break;
+			}
+			dataList.add(home_value + "," + WhichStyle.replace("_", " ") + "," + away_value);
+		}
+
+		return dataList;
+		
+	}
 
 	public static List<String> MatchStatsSingle(ApiMatch api_match,String values) {
 		int home_value=0,away_value=0;
@@ -3279,6 +3402,112 @@ public class FootballFunctions {
 		return dataList;
 		
 	}	
+	public static List<String> MatchStatsPlayer(com.football.model.Football.Team.Player apiPlayerStats,String values) {
+        List<String> dataList = new ArrayList<>();
+        String Stat1="",Stat2="",Stat3="";
+        
+		for (int i = 0; i < values.split(",").length; i++) {
+			switch ( values.split(",")[i]) {
+		    case "touches":
+		        if (i == 0) Stat1 = String.valueOf(apiPlayerStats.getTouches());
+		        else if (i == 1) Stat2 = String.valueOf(apiPlayerStats.getTouches());
+		        else if (i == 2) Stat3 = String.valueOf(apiPlayerStats.getTouches());
+		        break;
+		    case "saves":
+		        if (i == 0) Stat1 = String.valueOf(apiPlayerStats.getSaves());
+		        else if (i == 1) Stat2 = String.valueOf(apiPlayerStats.getSaves());
+		        else if (i == 2) Stat3 = String.valueOf(apiPlayerStats.getSaves());
+		        break;
+		    case "duelWon":
+		        if (i == 0) Stat1 = String.valueOf(apiPlayerStats.getDuelsWon());
+		        else if (i == 1) Stat2 = String.valueOf(apiPlayerStats.getDuelsWon());
+		        else if (i == 2) Stat3 = String.valueOf(apiPlayerStats.getDuelsWon());
+		        break;
+		    case "fouls":
+		        if (i == 0) Stat1 = String.valueOf(apiPlayerStats.getFouls());
+		        else if (i == 1) Stat2 = String.valueOf(apiPlayerStats.getFouls());
+		        else if (i == 2) Stat3 = String.valueOf(apiPlayerStats.getFouls());
+		        break;
+		    case "interceptions":
+		        if (i == 0) Stat1 = String.valueOf(apiPlayerStats.getInterceptions());
+		        else if (i == 1) Stat2 = String.valueOf(apiPlayerStats.getInterceptions());
+		        else if (i == 2) Stat3 = String.valueOf(apiPlayerStats.getInterceptions());
+		        break;
+		    case "totalCross":
+		        if (i == 0) Stat1 = String.valueOf(apiPlayerStats.getCrosses());
+		        else if (i == 1) Stat2 = String.valueOf(apiPlayerStats.getCrosses());
+		        else if (i == 2) Stat3 = String.valueOf(apiPlayerStats.getCrosses());
+		        break;
+		    case "Offside":
+		        if (i == 0) Stat1 = String.valueOf(apiPlayerStats.getOffSide());
+		        else if (i == 1) Stat2 = String.valueOf(apiPlayerStats.getOffSide());
+		        else if (i == 2) Stat3 = String.valueOf(apiPlayerStats.getOffSide());
+		        break;
+		    case "Shots":
+		        if (i == 0) Stat1 = String.valueOf(apiPlayerStats.getShots());
+		        else if (i == 1) Stat2 = String.valueOf(apiPlayerStats.getShots());
+		        else if (i == 2) Stat3 = String.valueOf(apiPlayerStats.getShots());
+		        break;
+		    case "ShotOnTarget":
+		        if (i == 0) Stat1 = String.valueOf(apiPlayerStats.getOnTarget());
+		        else if (i == 1) Stat2 = String.valueOf(apiPlayerStats.getOnTarget());
+		        else if (i == 2) Stat3 = String.valueOf(apiPlayerStats.getOnTarget());
+		        break;
+		    case "goals":
+		        if (i == 0) Stat1 = String.valueOf(apiPlayerStats.getGoals());
+		        else if (i == 1) Stat2 = String.valueOf(apiPlayerStats.getGoals());
+		        else if (i == 2) Stat3 = String.valueOf(apiPlayerStats.getGoals());
+		        break;
+		    case "duelLost":
+		        if (i == 0) Stat1 = String.valueOf(apiPlayerStats.getDuels());
+		        else if (i == 1) Stat2 = String.valueOf(apiPlayerStats.getDuels());
+		        else if (i == 2) Stat3 = String.valueOf(apiPlayerStats.getDuels());
+		        break;
+		    case "totalTackle":
+		        if (i == 0) Stat1 = String.valueOf(apiPlayerStats.getTackles());
+		        else if (i == 1) Stat2 = String.valueOf(apiPlayerStats.getTackles());
+		        else if (i == 2) Stat3 = String.valueOf(apiPlayerStats.getTackles());
+		        break;
+		    case "totalFinalThirdPasses":
+		        if (i == 0) Stat1 = String.valueOf(apiPlayerStats.getFinalThirdPass());
+		        else if (i == 1) Stat2 = String.valueOf(apiPlayerStats.getFinalThirdPass());
+		        else if (i == 2) Stat3 = String.valueOf(apiPlayerStats.getFinalThirdPass());
+		        break;
+		    case "ChanceCreated":
+		        if (i == 0) Stat1 = String.valueOf(apiPlayerStats.getChancesCreated());
+		        else if (i == 1) Stat2 = String.valueOf(apiPlayerStats.getChancesCreated());
+		        else if (i == 2) Stat3 = String.valueOf(apiPlayerStats.getChancesCreated());
+		        break;
+		    case "Assist":
+		        if (i == 0) Stat1 = String.valueOf(apiPlayerStats.getAssist());
+		        else if (i == 1) Stat2 = String.valueOf(apiPlayerStats.getAssist());
+		        else if (i == 2) Stat3 = String.valueOf(apiPlayerStats.getAssist());
+		        break;
+		    case "goalsConceded":
+		        if (i == 0) Stat1 = String.valueOf(apiPlayerStats.getGoalsConceded());
+		        else if (i == 1) Stat2 = String.valueOf(apiPlayerStats.getGoalsConceded());
+		        else if (i == 2) Stat3 = String.valueOf(apiPlayerStats.getGoalsConceded());
+		        break;
+		    case "touchesInOppbox":
+		        if (i == 0) Stat1 = String.valueOf(apiPlayerStats.getTouchesInOppBox());
+		        else if (i == 1) Stat2 = String.valueOf(apiPlayerStats.getTouchesInOppBox());
+		        else if (i == 2) Stat3 = String.valueOf(apiPlayerStats.getTouchesInOppBox());
+		        break;
+		    case "PassingAccuracy":
+	            if (i == 0) Stat1 = String.valueOf(apiPlayerStats.getPassingAccuracyPercentage());
+		        else if (i == 1) Stat2 = String.valueOf(apiPlayerStats.getPassingAccuracyPercentage());
+		        else if (i == 2) Stat3 = String.valueOf(apiPlayerStats.getPassingAccuracyPercentage());
+		    	break;
+			}
+			
+		}
+		dataList.add(values.split(",")[0]+","+Stat1);
+		dataList.add(values.split(",")[1]+","+Stat2);
+		dataList.add(values.split(",")[2]+","+Stat3);
+		
+		return dataList;
+
+	}
 
 	public static List<String> MatchStatsPlayer(ApiPlayerStats apiPlayerStats,String values) {
         List<String> dataList = new ArrayList<>();
