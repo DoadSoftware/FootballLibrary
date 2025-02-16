@@ -48,6 +48,9 @@ public class Player implements Comparable<Player>
   @Column(name = "Nationality")
   private String nationality;
  
+  @Column(name = "Squad", nullable = true) 
+  private String Squad;
+
   @Transient
   private Integer playerPosition;
 
@@ -186,6 +189,14 @@ public String getNationality() {
 
 public void setNationality(String nationality) {
 	this.nationality = nationality;
+}
+
+public String getSquad() {
+	return Squad;
+}
+
+public void setSquad(String squad) {
+	Squad = squad;
 }
 
 @Override
