@@ -2551,8 +2551,8 @@ public class FootballFunctions {
 		        away_value = api_match.getTeams().get(1).getYellowCards();
 		    	break;
             case "Duel_won":
-            	home_value = (int) Math.round((api_match.getTeams().get(0).getDuels() * 100.0) / (api_match.getTeams().get(0).getDuels()));
-		        away_value = (int) Math.round((api_match.getTeams().get(1).getDuels() * 100.0) / (api_match.getTeams().get(1).getDuels()));
+            	home_value = (int) Math.round((api_match.getTeams().get(0).getDuelsWon() * 100.0) / (api_match.getTeams().get(0).getDuels()));
+		        away_value = (int) Math.round((api_match.getTeams().get(1).getDuelsWon() * 100.0) / (api_match.getTeams().get(1).getDuels()));
 		        WhichStyle= "Duel won (%)";
                 break;
             case "Duel":
