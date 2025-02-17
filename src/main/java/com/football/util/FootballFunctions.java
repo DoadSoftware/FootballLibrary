@@ -2474,10 +2474,8 @@ public class FootballFunctions {
 			 WhichStyle = values.split(",")[i];
 			switch (values.split(",")[i]) {
 		    case "Possession":
-		    	String Value = FootballFunctions.RoundValues(api_match.getTeams().get(0).getPossessionPercentage()+","
-		    		+ api_match.getTeams().get(1).getPossessionPercentage());
-				home_value = Integer.valueOf(Value.split(",")[0]);
-		        away_value =Integer.valueOf(Value.split(",")[1]);
+				home_value = (int)api_match.getTeams().get(0).getPossessionPercentage();
+		        away_value =(int)api_match.getTeams().get(1).getPossessionPercentage();
 		        WhichStyle="Possession (%)";
 		        break;
 		    case "Shots":
@@ -2506,7 +2504,7 @@ public class FootballFunctions {
 		        away_value = api_match.getTeams().get(1).getForwardPass();
 		        break;
 		    case "Passing_Accuracy":
-		    	 Value = RoundValues(api_match.getTeams().get(0).getPassingAccuracyPercentage()+","
+		    	String Value = RoundValues(api_match.getTeams().get(0).getPassingAccuracyPercentage()+","
 		    			+api_match.getTeams().get(1).getPassingAccuracyPercentage());
 				home_value = Integer.valueOf(Value.split(",")[0]);
 		        away_value =Integer.valueOf(Value.split(",")[1]);
@@ -2553,8 +2551,8 @@ public class FootballFunctions {
 		        away_value = api_match.getTeams().get(1).getYellowCards();
 		    	break;
             case "Duel_won":
-            	home_value = (int) Math.round((api_match.getTeams().get(0).getDuels() * 100.0) / (api_match.getTeams().get(0).getDuelsWon()));
-		        away_value = (int) Math.round((api_match.getTeams().get(1).getDuels() * 100.0) / (api_match.getTeams().get(1).getDuelsWon()));
+            	home_value = (int) Math.round((api_match.getTeams().get(0).getDuels() * 100.0) / (api_match.getTeams().get(0).getDuels()));
+		        away_value = (int) Math.round((api_match.getTeams().get(1).getDuels() * 100.0) / (api_match.getTeams().get(1).getDuels()));
 		        WhichStyle= "Duel won (%)";
                 break;
             case "Duel":
@@ -2562,8 +2560,10 @@ public class FootballFunctions {
 		        away_value = api_match.getTeams().get(1).getDuels();
                break;
             case "passes_final_3rd_Accuracy":
-            	home_value = api_match.getTeams().get(0).getAccuracyPercentageInFinalThird();
-		        away_value = api_match.getTeams().get(1).getAccuracyPercentageInFinalThird();
+            	Value = RoundValues(api_match.getTeams().get(0).getAccuracyPercentageInFinalThird()+","
+		    			+api_match.getTeams().get(1).getAccuracyPercentageInFinalThird());
+				home_value = Integer.valueOf(Value.split(",")[0]);
+		        away_value =Integer.valueOf(Value.split(",")[1]);
                 break;
             case "Final_3rd_Entries":
             	home_value = api_match.getTeams().get(0).getFinalThirdEntry();

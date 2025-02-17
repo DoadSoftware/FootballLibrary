@@ -288,16 +288,16 @@ public class Football {
 	    private int touches;
 
 	    @JsonProperty("Accuracy_Percentage_in_Final_3rd")
-	    private int accuracyPercentageInFinalThird;
+	    private double accuracyPercentageInFinalThird;
 
 	    @JsonProperty("Possession_Percentage")
-	    private int possessionPercentage;
+	    private double possessionPercentage;
 
 	    @JsonProperty("Passing_Accuracy_Percentage")
-	    private int passingAccuracyPercentage;
+	    private double passingAccuracyPercentage;
 
 	    @JsonProperty("Crossing_Accuracy_Percentage")
-	    private int crossingAccuracyPercentage;
+	    private double crossingAccuracyPercentage;
 
 	    @JsonProperty("Shots_Conceded")
 	    private int shotsConceded;
@@ -574,7 +574,7 @@ public class Football {
 			this.touches = touches;
 		}
 
-		public int getAccuracyPercentageInFinalThird() {
+		public double getAccuracyPercentageInFinalThird() {
 			return accuracyPercentageInFinalThird;
 		}
 
@@ -582,23 +582,23 @@ public class Football {
 			this.accuracyPercentageInFinalThird = accuracyPercentageInFinalThird;
 		}
 
-		public int getPossessionPercentage() {
+		public double getPossessionPercentage() {
 			return possessionPercentage;
 		}
 
-		public void setPossessionPercentage(int possessionPercentage) {
+		public void setPossessionPercentage(double possessionPercentage) {
 			this.possessionPercentage = possessionPercentage;
 		}
 
-		public int getPassingAccuracyPercentage() {
+		public double getPassingAccuracyPercentage() {
 			return passingAccuracyPercentage;
 		}
 
-		public void setPassingAccuracyPercentage(int passingAccuracyPercentage) {
+		public void setPassingAccuracyPercentage(double passingAccuracyPercentage) {
 			this.passingAccuracyPercentage = passingAccuracyPercentage;
 		}
 
-		public int getCrossingAccuracyPercentage() {
+		public double getCrossingAccuracyPercentage() {
 			return crossingAccuracyPercentage;
 		}
 
@@ -840,16 +840,16 @@ public class Football {
 		    private int touches;
 
 		    @JsonProperty("Accuracy_Percentage_in_Final_3rd")
-		    private int accuracyPercentageInFinalThird;
+		    private double accuracyPercentageInFinalThird;
 
 		    @JsonProperty("Possession_Percentage")
-		    private int possessionPercentage;
+		    private double possessionPercentage;
 
 		    @JsonProperty("Passing_Accuracy_Percentage")
-		    private int passingAccuracyPercentage;
+		    private double passingAccuracyPercentage;
 
 		    @JsonProperty("Crossing_Accuracy_Percentage")
-		    private int crossingAccuracyPercentage;
+		    private double crossingAccuracyPercentage;
 
 		    @JsonProperty("Shots_Conceded")
 		    private int shotsConceded;
@@ -1166,35 +1166,35 @@ public class Football {
 				this.touches = touches;
 			}
 
-			public int getAccuracyPercentageInFinalThird() {
+			public double getAccuracyPercentageInFinalThird() {
 				return accuracyPercentageInFinalThird;
 			}
 
-			public void setAccuracyPercentageInFinalThird(int accuracyPercentageInFinalThird) {
+			public void setAccuracyPercentageInFinalThird(double accuracyPercentageInFinalThird) {
 				this.accuracyPercentageInFinalThird = accuracyPercentageInFinalThird;
 			}
 
-			public int getPossessionPercentage() {
+			public double getPossessionPercentage() {
 				return possessionPercentage;
 			}
 
-			public void setPossessionPercentage(int possessionPercentage) {
+			public void setPossessionPercentage(double possessionPercentage) {
 				this.possessionPercentage = possessionPercentage;
 			}
 
-			public int getPassingAccuracyPercentage() {
+			public double getPassingAccuracyPercentage() {
 				return passingAccuracyPercentage;
 			}
 
-			public void setPassingAccuracyPercentage(int passingAccuracyPercentage) {
+			public void setPassingAccuracyPercentage(double passingAccuracyPercentage) {
 				this.passingAccuracyPercentage = passingAccuracyPercentage;
 			}
 
-			public int getCrossingAccuracyPercentage() {
+			public double getCrossingAccuracyPercentage() {
 				return crossingAccuracyPercentage;
 			}
 
-			public void setCrossingAccuracyPercentage(int crossingAccuracyPercentage) {
+			public void setCrossingAccuracyPercentage(double crossingAccuracyPercentage) {
 				this.crossingAccuracyPercentage = crossingAccuracyPercentage;
 			}
 
