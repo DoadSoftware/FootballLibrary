@@ -1,10 +1,16 @@
 package com.football.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Football {
-
+	@JsonProperty("MatchInfo")
+    private List<MatchInfo> matchInfo;
+    
     @JsonProperty("Teams")
     private List<Team> teams;
 
@@ -20,131 +26,308 @@ public class Football {
 	public String toString() {
 		return "Football [teams=" + teams + "]";
 	}
+ // Match Information Class
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+   public static class MatchInfo {
 
+        @JsonProperty("Matchid")
+        private String matchId;
+
+        @JsonProperty("MatchNo")
+        private String matchNo;
+
+        @JsonProperty("TeamAid")
+        private String teamAId;
+
+        @JsonProperty("TeamA")
+        private String teamA;
+
+        @JsonProperty("TeamBid")
+        private String teamBId;
+
+        @JsonProperty("TeamB")
+        private String teamB;
+
+        @JsonProperty("Local_Date")
+        private String localDate;
+
+        @JsonProperty("Venue")
+        private String venue;
+
+        @JsonProperty("Venueid")
+        private int venueId;
+
+        @JsonProperty("CompetitionId")
+        private int competitionId;
+
+        @JsonProperty("CompetitionName")
+        private String competitionName;
+
+        @JsonProperty("MatchResult")
+        private String matchResult;
+
+        @JsonProperty("EndStatus")
+        private String endStatus;
+
+		public String getMatchId() {
+			return matchId;
+		}
+
+		public void setMatchId(String matchId) {
+			this.matchId = matchId;
+		}
+
+		public String getMatchNo() {
+			return matchNo;
+		}
+
+		public void setMatchNo(String matchNo) {
+			this.matchNo = matchNo;
+		}
+
+		public String getTeamAId() {
+			return teamAId;
+		}
+
+		public void setTeamAId(String teamAId) {
+			this.teamAId = teamAId;
+		}
+
+		public String getTeamA() {
+			return teamA;
+		}
+
+		public void setTeamA(String teamA) {
+			this.teamA = teamA;
+		}
+
+		public String getTeamBId() {
+			return teamBId;
+		}
+
+		public void setTeamBId(String teamBId) {
+			this.teamBId = teamBId;
+		}
+
+		public String getTeamB() {
+			return teamB;
+		}
+
+		public void setTeamB(String teamB) {
+			this.teamB = teamB;
+		}
+
+		public String getLocalDate() {
+			return localDate;
+		}
+
+		public void setLocalDate(String localDate) {
+			this.localDate = localDate;
+		}
+
+		public String getVenue() {
+			return venue;
+		}
+
+		public void setVenue(String venue) {
+			this.venue = venue;
+		}
+
+		public int getVenueId() {
+			return venueId;
+		}
+
+		public void setVenueId(int venueId) {
+			this.venueId = venueId;
+		}
+
+		public int getCompetitionId() {
+			return competitionId;
+		}
+
+		public void setCompetitionId(int competitionId) {
+			this.competitionId = competitionId;
+		}
+
+		public String getCompetitionName() {
+			return competitionName;
+		}
+
+		public void setCompetitionName(String competitionName) {
+			this.competitionName = competitionName;
+		}
+
+		public String getMatchResult() {
+			return matchResult;
+		}
+
+		public void setMatchResult(String matchResult) {
+			this.matchResult = matchResult;
+		}
+
+		public String getEndStatus() {
+			return endStatus;
+		}
+
+		public void setEndStatus(String endStatus) {
+			this.endStatus = endStatus;
+		}
+
+		@Override
+		public String toString() {
+			return "MatchInfo [matchId=" + matchId + ", matchNo=" + matchNo + ", teamAId=" + teamAId + ", teamA="
+					+ teamA + ", teamBId=" + teamBId + ", teamB=" + teamB + ", localDate=" + localDate + ", venue="
+					+ venue + ", venueId=" + venueId + ", competitionId=" + competitionId + ", competitionName="
+					+ competitionName + ", matchResult=" + matchResult + ", endStatus=" + endStatus + "]";
+		}
+
+		public MatchInfo() {
+			super();
+			// TODO Auto-generated constructor stub
+		}
+    }
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    @JsonInclude(JsonInclude.Include.NON_NULL)
 	public static class Team {
 		
-        @JsonProperty("TeamID")
-        private int teamID;
+    	@JsonProperty("TeamID")
+	    private int teamID;
 
-        @JsonProperty("TeamName")
-        private String teamName;
+	    @JsonProperty("TeamName")
+	    private String teamName;
 
-        @JsonProperty("Goals")
-        private int goals;
+	    @JsonProperty("Goals")
+	    private int goals;
 
-        @JsonProperty("Shots")
-        private int shots;
+	    @JsonProperty("Shots")
+	    private int shots;
 
-        @JsonProperty("OnTarget")
-        private int onTarget;
+	    @JsonProperty("OnTarget")
+	    private int onTarget;
 
-        @JsonProperty("OffTarget")
-        private int offTarget;
+	    @JsonProperty("OffTarget")
+	    private int offTarget;
 
-        @JsonProperty("Crosses")
-        private int crosses;
+	    @JsonProperty("Crosses")
+	    private int crosses;
 
-        @JsonProperty("Chances_Created")
-        private int chancesCreated;
+	    @JsonProperty("Chances_Created")
+	    private int chancesCreated;
 
-        @JsonProperty("Saves")
-        private int saves;
+	    @JsonProperty("Saves")
+	    private int saves;
 
-        @JsonProperty("Interceptions")
-        private int interceptions;
+	    @JsonProperty("Interceptions")
+	    private int interceptions;
 
-        @JsonProperty("Tackles")
-        private int tackles;
+	    @JsonProperty("Tackles")
+	    private int tackles;
 
-        @JsonProperty("Fouls")
-        private int fouls;
+	    @JsonProperty("Fouls")
+	    private int fouls;
 
-        @JsonProperty("RedCard")
-        private int redCard;
+	    @JsonProperty("RedCard")
+	    private int redCard;
 
-        @JsonProperty("OffSide")
-        private int offSide;
+	    @JsonProperty("YellowCards")
+	    private int yellowCards;
 
-        @JsonProperty("Corners")
-        private int corners;
+	    @JsonProperty("SecondYellowCard")
+	    private int secondYellowCard;
 
-        @JsonProperty("Substitutions")
-        private int substitutions;
+	    @JsonProperty("OffSide")
+	    private int offSide;
 
-        @JsonProperty("Final_Third_Pass")
-        private int finalThirdPass;
+	    @JsonProperty("Corners")
+	    private int corners;
 
-        @JsonProperty("Final_Third_Entry")
-        private int finalThirdEntry;
+	    @JsonProperty("Substitutions")
+	    private int substitutions;
 
-        @JsonProperty("Touches_in_Opp_Box")
-        private int touchesInOppBox;
+	    @JsonProperty("Final_Third_Pass")
+	    private int finalThirdPass;
 
-        @JsonProperty("Shots_Off_Target")
-        private int shotsOffTarget;
+	    @JsonProperty("Final_Third_Entry")
+	    private int finalThirdEntry;
 
-        @JsonProperty("Big_Chance_Created")
-        private int bigChanceCreated;
+	    @JsonProperty("Touches_in_Opp_Box")
+	    private int touchesInOppBox;
 
-        @JsonProperty("Forward_Pass")
-        private int forwardPass;
-        
-        @JsonProperty("Shots_On_Target_Per_Game")
-        private int shotsOnTargetPerGame;
+	    @JsonProperty("Shots_Off_Target")
+	    private int shotsOffTarget;
 
-        @JsonProperty("Shots_Per_Game")
-        private int shotsPerGame;
+	    @JsonProperty("Big_Chance_Created")
+	    private int bigChanceCreated;
 
-        @JsonProperty("Chances_Created_Per_Game")
-        private int chancesCreatedPerGame;
+	    @JsonProperty("Forward_Pass")
+	    private int forwardPass;
 
-        @JsonProperty("Touches_in_Opp_Box_Per_Game")
-        private int touchesInOppBoxPerGame;
+	    @JsonProperty("Shots_On_Target_Per_Game")
+	    private int shotsOnTargetPerGame;
 
-        @JsonProperty("Goal_Contribution")
-        private int goalContribution;
+	    @JsonProperty("Shots_Per_Game")
+	    private int shotsPerGame;
 
-        @JsonProperty("Shot_Conversion_Percentage")
-        private int shotConversionPercentage;
+	    @JsonProperty("Chances_Created_Per_Game")
+	    private int chancesCreatedPerGame;
 
-        @JsonProperty("Most_Shots_Without_Goal")
-        private int mostShotsWithoutGoal;
+	    @JsonProperty("Touches_in_Opp_Box_Per_Game")
+	    private int touchesInOppBoxPerGame;
 
-        @JsonProperty("Touches")
-        private int touches;
-        
-        @JsonProperty("Accuracy_Percentage_in_Final_3rd")
-        private int accuracyPercentageInFinalThird;
-       
-        @JsonProperty("Possession_Percentage")
-        private int possessionPercentage;
-        
-        @JsonProperty("Passing_Accuracy_Percentage")
-        private int passingAccuracyPercentage;
+	    @JsonProperty("Goal_Contribution")
+	    private int goalContribution;
 
-        @JsonProperty("Crossing_Accuracy_Percentage")
-        private int crossingAccuracyPercentage;
+	    @JsonProperty("Shot_Conversion_Percentage")
+	    private int shotConversionPercentage;
 
-        @JsonProperty("Shots_Conceded")
-        private int shotsConceded;
+	    @JsonProperty("Most_Shots_Without_Goal")
+	    private int mostShotsWithoutGoal;
 
-        @JsonProperty("Goals_Conceded")
-        private int goalsConceded;
+	    @JsonProperty("Touches")
+	    private int touches;
 
-        @JsonProperty("Clean_Sheet")
-        private int cleanSheet;
+	    @JsonProperty("Accuracy_Percentage_in_Final_3rd")
+	    private int accuracyPercentageInFinalThird;
 
-        @JsonProperty("Duels")
-        private int duels;
+	    @JsonProperty("Possession_Percentage")
+	    private int possessionPercentage;
 
-        @JsonProperty("Duels_Won")
-        private int duelsWon;
-        
-        @JsonProperty("Player_Distance_Covered")
-        private int playerDistanceCovered;
-        
-        @JsonProperty("Players")
-        private List<Player> players;
+	    @JsonProperty("Passing_Accuracy_Percentage")
+	    private int passingAccuracyPercentage;
+
+	    @JsonProperty("Crossing_Accuracy_Percentage")
+	    private int crossingAccuracyPercentage;
+
+	    @JsonProperty("Shots_Conceded")
+	    private int shotsConceded;
+
+	    @JsonProperty("Goals_Conceded")
+	    private int goalsConceded;
+
+	    @JsonProperty("Clean_Sheet")
+	    private int cleanSheet;
+
+	    @JsonProperty("Duels")
+	    private int duels;
+
+	    @JsonProperty("Duels_Won")
+	    private int duelsWon;
+
+	    @JsonProperty("Player_Distance_Covered")
+	    private int playerDistanceCovered;
+
+	    @JsonProperty("Goalkeeper_Clean_Sheet")
+	    private int goalkeeperCleanSheet;
+
+	    @JsonProperty("Goalkeeper_Goals_Conceded")
+	    private int goalkeeperGoalsConceded;
+
+	    @JsonProperty("Goalkeeper_Shots_Faced")
+	    private int goalkeeperShotsFaced;
+
+	    @JsonProperty("Players")
+	    private List<Player> players;
 
         public Team() {
 			super();
@@ -479,6 +662,46 @@ public class Football {
 			this.players = players;
 		}
 
+		public int getYellowCards() {
+			return yellowCards;
+		}
+
+		public void setYellowCards(int yellowCards) {
+			this.yellowCards = yellowCards;
+		}
+
+		public int getSecondYellowCard() {
+			return secondYellowCard;
+		}
+
+		public void setSecondYellowCard(int secondYellowCard) {
+			this.secondYellowCard = secondYellowCard;
+		}
+
+		public int getGoalkeeperCleanSheet() {
+			return goalkeeperCleanSheet;
+		}
+
+		public void setGoalkeeperCleanSheet(int goalkeeperCleanSheet) {
+			this.goalkeeperCleanSheet = goalkeeperCleanSheet;
+		}
+
+		public int getGoalkeeperGoalsConceded() {
+			return goalkeeperGoalsConceded;
+		}
+
+		public void setGoalkeeperGoalsConceded(int goalkeeperGoalsConceded) {
+			this.goalkeeperGoalsConceded = goalkeeperGoalsConceded;
+		}
+
+		public int getGoalkeeperShotsFaced() {
+			return goalkeeperShotsFaced;
+		}
+
+		public void setGoalkeeperShotsFaced(int goalkeeperShotsFaced) {
+			this.goalkeeperShotsFaced = goalkeeperShotsFaced;
+		}
+
 		@Override
 		public String toString() {
 			return "Team [teamID=" + teamID + ", teamName=" + teamName + ", goals=" + goals + ", shots=" + shots
@@ -499,146 +722,162 @@ public class Football {
 					+ cleanSheet + ", duels=" + duels + ", duelsWon=" + duelsWon + ", playerDistanceCovered="
 					+ playerDistanceCovered + ", players=" + players + "]";
 		}
-
+		 @JsonIgnoreProperties(ignoreUnknown = true)
+		 @JsonInclude(JsonInclude.Include.NON_NULL)
 		public static class Player {
-			@JsonProperty("PlayerID")
-            private int playerID;
+		    @JsonProperty("PlayerID")
+		    private int playerID;
 
-            @JsonProperty("PlayerName")
-            private String playerName;
+		    @JsonProperty("PlayerName")
+		    private String playerName;
 
-            @JsonProperty("TeamID")
-            private int teamID;
+		    @JsonProperty("TeamID")
+		    private int teamID;
 
-            @JsonProperty("TeamName")
-            private String teamName;
+		    @JsonProperty("TeamName")
+		    private String teamName;
 
-            @JsonProperty("IsSub")
-            private int isSub;
+		    @JsonProperty("IsSub")
+		    private int isSub;
 
-            @JsonProperty("IsStarted")
-            private int isStarted;
+		    @JsonProperty("IsStarted")
+		    private int isStarted;
 
-            @JsonProperty("IsCaptain")
-            private int isCaptain;
+		    @JsonProperty("IsCaptain")
+		    private int isCaptain;
 
-            @JsonProperty("jerseyNo")
-            private int jerseyNo;
+		    @JsonProperty("jerseyNo")
+		    private int jerseyNo;
 
-            @JsonProperty("IsPosition")
-            private int isPosition;
+		    @JsonProperty("IsPosition")
+		    private int isPosition;
 
-            @JsonProperty("Goals")
-            private int goals;
+		    @JsonProperty("Goals")
+		    private int goals;
 
-            @JsonProperty("Shots")
-            private int shots;
+		    @JsonProperty("Shots")
+		    private int shots;
 
-            @JsonProperty("OnTarget")
-            private int onTarget;
+		    @JsonProperty("OnTarget")
+		    private int onTarget;
 
-            @JsonProperty("OffTarget")
-            private int offTarget;
+		    @JsonProperty("OffTarget")
+		    private int offTarget;
 
-            @JsonProperty("Crosses")
-            private int crosses;
+		    @JsonProperty("Crosses")
+		    private int crosses;
 
-            @JsonProperty("Chances_Created")
-            private int chancesCreated;
+		    @JsonProperty("Chances_Created")
+		    private int chancesCreated;
 
-            @JsonProperty("Saves")
-            private int saves;
+		    @JsonProperty("Saves")
+		    private int saves;
 
-            @JsonProperty("Interceptions")
-            private int interceptions;
+		    @JsonProperty("Interceptions")
+		    private int interceptions;
 
-            @JsonProperty("Tackles")
-            private int tackles;
+		    @JsonProperty("Tackles")
+		    private int tackles;
 
-            @JsonProperty("Fouls")
-            private int fouls;
+		    @JsonProperty("Fouls")
+		    private int fouls;
 
-            @JsonProperty("RedCard")
-            private int redCard;
+		    @JsonProperty("RedCard")
+		    private int redCard;
 
-            @JsonProperty("OffSide")
-            private int offSide;
+		    @JsonProperty("YellowCards")
+		    private int yellowCards;
 
-            @JsonProperty("Assist")
-            private int assist;
+		    @JsonProperty("SecondYellowCard")
+		    private int secondYellowCard;
 
-            @JsonProperty("Final_Third_Pass")
-            private int finalThirdPass;
+		    @JsonProperty("OffSide")
+		    private int offSide;
 
-            @JsonProperty("Final_Third_Entry")
-            private int finalThirdEntry;
+		    @JsonProperty("Assist")
+		    private int assist;
 
-            @JsonProperty("Touches_in_Opp_Box")
-            private int touchesInOppBox;
+		    @JsonProperty("Final_Third_Pass")
+		    private int finalThirdPass;
 
-            @JsonProperty("Shots_Off_Target")
-            private int shotsOffTarget;
+		    @JsonProperty("Final_Third_Entry")
+		    private int finalThirdEntry;
 
-            @JsonProperty("Big_Chance_Created")
-            private int bigChanceCreated;
+		    @JsonProperty("Touches_in_Opp_Box")
+		    private int touchesInOppBox;
 
-            @JsonProperty("Forward_Pass")
-            private int forwardPass;
+		    @JsonProperty("Shots_Off_Target")
+		    private int shotsOffTarget;
 
-            @JsonProperty("Shots_On_Target_Per_Game")
-            private int shotsOnTargetPerGame;
+		    @JsonProperty("Big_Chance_Created")
+		    private int bigChanceCreated;
 
-            @JsonProperty("Shots_Per_Game")
-            private int shotsPerGame;
+		    @JsonProperty("Forward_Pass")
+		    private int forwardPass;
 
-            @JsonProperty("Chances_Created_Per_Game")
-            private int chancesCreatedPerGame;
+		    @JsonProperty("Shots_On_Target_Per_Game")
+		    private int shotsOnTargetPerGame;
 
-            @JsonProperty("Touches_in_Opp_Box_Per_Game")
-            private int touchesInOppBoxPerGame;
+		    @JsonProperty("Shots_Per_Game")
+		    private int shotsPerGame;
 
-            @JsonProperty("Goal_Contribution")
-            private int goalContribution;
+		    @JsonProperty("Chances_Created_Per_Game")
+		    private int chancesCreatedPerGame;
 
-            @JsonProperty("Shot_Conversion_Percentage")
-            private int shotConversionPercentage;
+		    @JsonProperty("Touches_in_Opp_Box_Per_Game")
+		    private int touchesInOppBoxPerGame;
 
-            @JsonProperty("Most_Shots_Without_Goal")
-            private int mostShotsWithoutGoal;
+		    @JsonProperty("Goal_Contribution")
+		    private int goalContribution;
 
-            @JsonProperty("Touches")
-            private int touches;
+		    @JsonProperty("Shot_Conversion_Percentage")
+		    private int shotConversionPercentage;
 
-            @JsonProperty("Accuracy_Percentage_in_Final_3rd")
-            private int accuracyPercentageInFinalThird;
+		    @JsonProperty("Most_Shots_Without_Goal")
+		    private int mostShotsWithoutGoal;
 
-            @JsonProperty("Possession_Percentage")
-            private int possessionPercentage;
+		    @JsonProperty("Touches")
+		    private int touches;
 
-            @JsonProperty("Passing_Accuracy_Percentage")
-            private int passingAccuracyPercentage;
+		    @JsonProperty("Accuracy_Percentage_in_Final_3rd")
+		    private int accuracyPercentageInFinalThird;
 
-            @JsonProperty("Crossing_Accuracy_Percentage")
-            private int crossingAccuracyPercentage;
+		    @JsonProperty("Possession_Percentage")
+		    private int possessionPercentage;
 
-            @JsonProperty("Shots_Conceded")
-            private int shotsConceded;
+		    @JsonProperty("Passing_Accuracy_Percentage")
+		    private int passingAccuracyPercentage;
 
-            @JsonProperty("Goals_Conceded")
-            private int goalsConceded;
+		    @JsonProperty("Crossing_Accuracy_Percentage")
+		    private int crossingAccuracyPercentage;
 
-            @JsonProperty("Clean_Sheet")
-            private int cleanSheet;
+		    @JsonProperty("Shots_Conceded")
+		    private int shotsConceded;
 
-            @JsonProperty("Duels")
-            private int duels;
+		    @JsonProperty("Goals_Conceded")
+		    private int goalsConceded;
 
-            @JsonProperty("Duels_Won")
-            private int duelsWon;
+		    @JsonProperty("Clean_Sheet")
+		    private int cleanSheet;
 
-            @JsonProperty("Player_Distance_Covered")
-            private int playerDistanceCovered;
+		    @JsonProperty("Duels")
+		    private int duels;
 
+		    @JsonProperty("Duels_Won")
+		    private int duelsWon;
+
+		    @JsonProperty("Player_Distance_Covered")
+		    private int playerDistanceCovered;
+
+		    @JsonProperty("Goalkeeper_Clean_Sheet")
+		    private int goalkeeperCleanSheet;
+
+		    @JsonProperty("Goalkeeper_Goals_Conceded")
+		    private int goalkeeperGoalsConceded;
+
+		    @JsonProperty("Goalkeeper_Shots_Faced")
+		    private int goalkeeperShotsFaced;
+		    
 			public int getPlayerID() {
 				return playerID;
 			}
@@ -1005,6 +1244,46 @@ public class Football {
 
 			public void setPlayerDistanceCovered(int playerDistanceCovered) {
 				this.playerDistanceCovered = playerDistanceCovered;
+			}
+
+			public int getYellowCards() {
+				return yellowCards;
+			}
+
+			public void setYellowCards(int yellowCards) {
+				this.yellowCards = yellowCards;
+			}
+
+			public int getSecondYellowCard() {
+				return secondYellowCard;
+			}
+
+			public void setSecondYellowCard(int secondYellowCard) {
+				this.secondYellowCard = secondYellowCard;
+			}
+
+			public int getGoalkeeperCleanSheet() {
+				return goalkeeperCleanSheet;
+			}
+
+			public void setGoalkeeperCleanSheet(int goalkeeperCleanSheet) {
+				this.goalkeeperCleanSheet = goalkeeperCleanSheet;
+			}
+
+			public int getGoalkeeperGoalsConceded() {
+				return goalkeeperGoalsConceded;
+			}
+
+			public void setGoalkeeperGoalsConceded(int goalkeeperGoalsConceded) {
+				this.goalkeeperGoalsConceded = goalkeeperGoalsConceded;
+			}
+
+			public int getGoalkeeperShotsFaced() {
+				return goalkeeperShotsFaced;
+			}
+
+			public void setGoalkeeperShotsFaced(int goalkeeperShotsFaced) {
+				this.goalkeeperShotsFaced = goalkeeperShotsFaced;
 			}
 
 			public Player() {

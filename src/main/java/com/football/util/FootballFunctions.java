@@ -2549,8 +2549,8 @@ public class FootballFunctions {
 		        away_value = api_match.getTeams().get(1).getRedCard();
 		    	break;
 		    case "Yellow_Cards":
-		    	home_value = api_match.getTeams().get(0).getRedCard();
-		        away_value = api_match.getTeams().get(1).getRedCard();
+		    	home_value = api_match.getTeams().get(0).getYellowCards();
+		        away_value = api_match.getTeams().get(1).getYellowCards();
 		    	break;
             case "Duel_won":
             	home_value = (int) Math.round((api_match.getTeams().get(0).getDuels() * 100.0) / (api_match.getTeams().get(0).getDuelsWon()));
