@@ -2500,8 +2500,8 @@ public class FootballFunctions {
 		        away_value = api_match.getTeams().get(1).getCrosses();
 		        break;
 		    case "Passes":
-		    	home_value = api_match.getTeams().get(0).getForwardPass();
-		        away_value = api_match.getTeams().get(1).getForwardPass();
+		    	home_value = api_match.getTeams().get(0).getPasses();
+		        away_value = api_match.getTeams().get(1).getPasses();
 		        break;
 		    case "Passing_Accuracy":
 		    	String Value = RoundValues(api_match.getTeams().get(0).getPassingAccuracyPercentage()+","

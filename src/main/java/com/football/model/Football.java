@@ -1,5 +1,6 @@
 package com.football.model;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -325,13 +326,23 @@ public class Football {
 
 	    @JsonProperty("Goalkeeper_Shots_Faced")
 	    private int goalkeeperShotsFaced;
-
+	    
+	    @JsonProperty("Passes")
+	    private int passes;
+	    
 	    @JsonProperty("Players")
 	    private List<Player> players;
 
         public Team() {
 			super();
 			// TODO Auto-generated constructor stub
+		}
+        public int getPasses() {
+			return passes;
+		}
+
+		public void setPasses(int passes) {
+			this.passes = passes;
 		}
 
 		public int getTeamID() {
@@ -573,15 +584,15 @@ public class Football {
 		public void setTouches(int touches) {
 			this.touches = touches;
 		}
-
 		public double getAccuracyPercentageInFinalThird() {
 			return accuracyPercentageInFinalThird;
 		}
-
-		public void setAccuracyPercentageInFinalThird(int accuracyPercentageInFinalThird) {
+		public void setAccuracyPercentageInFinalThird(double accuracyPercentageInFinalThird) {
 			this.accuracyPercentageInFinalThird = accuracyPercentageInFinalThird;
 		}
-
+		public void setCrossingAccuracyPercentage(double crossingAccuracyPercentage) {
+			this.crossingAccuracyPercentage = crossingAccuracyPercentage;
+		}
 		public double getPossessionPercentage() {
 			return possessionPercentage;
 		}
@@ -597,15 +608,9 @@ public class Football {
 		public void setPassingAccuracyPercentage(double passingAccuracyPercentage) {
 			this.passingAccuracyPercentage = passingAccuracyPercentage;
 		}
-
 		public double getCrossingAccuracyPercentage() {
 			return crossingAccuracyPercentage;
 		}
-
-		public void setCrossingAccuracyPercentage(int crossingAccuracyPercentage) {
-			this.crossingAccuracyPercentage = crossingAccuracyPercentage;
-		}
-
 		public int getShotsConceded() {
 			return shotsConceded;
 		}
@@ -799,6 +804,9 @@ public class Football {
 
 		    @JsonProperty("Final_Third_Pass")
 		    private int finalThirdPass;
+		    
+		    @JsonProperty("Passes")
+		    private int passes;
 
 		    @JsonProperty("Final_Third_Entry")
 		    private int finalThirdEntry;
@@ -988,6 +996,14 @@ public class Football {
 
 			public void setCrosses(int crosses) {
 				this.crosses = crosses;
+			}
+
+			public int getPasses() {
+				return passes;
+			}
+
+			public void setPasses(int passes) {
+				this.passes = passes;
 			}
 
 			public int getChancesCreated() {
