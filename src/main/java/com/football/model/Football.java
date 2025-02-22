@@ -331,10 +331,10 @@ public class Football {
 	    private int passes;
 	    
 	    @JsonProperty("Successful_Passes")
-	    private int SuccessfulPasses;
+	    private int successfulPasses;
 	    
 	    @JsonProperty("Unsuccessful_Passes")
-	    private int UnsuccessfulPasses;
+	    private int unsuccessfulPasses;
 	    
 	    @JsonProperty("Players")
 	    private List<Player> players;
@@ -352,16 +352,16 @@ public class Football {
 		}
 
 		public int getSuccessfulPasses() {
-			return SuccessfulPasses;
+			return successfulPasses;
 		}
 		public void setSuccessfulPasses(int successfulPasses) {
-			SuccessfulPasses = successfulPasses;
+			this.successfulPasses = successfulPasses;
 		}
 		public int getUnsuccessfulPasses() {
-			return UnsuccessfulPasses;
+			return unsuccessfulPasses;
 		}
 		public void setUnsuccessfulPasses(int unsuccessfulPasses) {
-			UnsuccessfulPasses = unsuccessfulPasses;
+			this.unsuccessfulPasses = unsuccessfulPasses;
 		}
 		public int getTeamID() {
 			return teamID;
