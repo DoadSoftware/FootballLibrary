@@ -327,8 +327,14 @@ public class Football {
 	    @JsonProperty("Goalkeeper_Shots_Faced")
 	    private int goalkeeperShotsFaced;
 	    
-	    @JsonProperty("Passes")
+	    @JsonProperty("Total_Passes")
 	    private int passes;
+	    
+	    @JsonProperty("Successful_Passes")
+	    private int SuccessfulPasses;
+	    
+	    @JsonProperty("Unsuccessful_Passes")
+	    private int UnsuccessfulPasses;
 	    
 	    @JsonProperty("Players")
 	    private List<Player> players;
@@ -345,6 +351,18 @@ public class Football {
 			this.passes = passes;
 		}
 
+		public int getSuccessfulPasses() {
+			return SuccessfulPasses;
+		}
+		public void setSuccessfulPasses(int successfulPasses) {
+			SuccessfulPasses = successfulPasses;
+		}
+		public int getUnsuccessfulPasses() {
+			return UnsuccessfulPasses;
+		}
+		public void setUnsuccessfulPasses(int unsuccessfulPasses) {
+			UnsuccessfulPasses = unsuccessfulPasses;
+		}
 		public int getTeamID() {
 			return teamID;
 		}
