@@ -336,6 +336,9 @@ public class Football {
 	    @JsonProperty("Unsuccessful_Passes")
 	    private int unsuccessfulPasses;
 	    
+	    @JsonProperty("Passing_Accuracy")
+	    private int passingAccuracy;
+	    
 	    @JsonProperty("Players")
 	    private List<Player> players;
 
@@ -343,6 +346,13 @@ public class Football {
 			super();
 			// TODO Auto-generated constructor stub
 		}
+        public int getPassingAccuracy() {
+			return passingAccuracy;
+		}
+		public void setPassingAccuracy(int passingAccuracy) {
+			this.passingAccuracy = passingAccuracy;
+		}
+		
         public int getPasses() {
 			return passes;
 		}

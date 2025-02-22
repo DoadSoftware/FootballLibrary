@@ -2504,8 +2504,8 @@ public class FootballFunctions {
 		        away_value = api_match.getTeams().get(1).getPasses();
 		        break;
 		    case "Passing_Accuracy":
-		    	String Value = RoundValues(api_match.getTeams().get(0).getPassingAccuracyPercentage()+","
-		    			+api_match.getTeams().get(1).getPassingAccuracyPercentage());
+		    	String Value = RoundValues(api_match.getTeams().get(0).getPassingAccuracy()+","
+		    			+api_match.getTeams().get(1).getPassingAccuracy());
 				home_value = Integer.valueOf(Value.split(",")[0]);
 		        away_value =Integer.valueOf(Value.split(",")[1]);
 		        WhichStyle = "Passing Accuracy(%)";
