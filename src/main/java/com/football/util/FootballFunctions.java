@@ -11,6 +11,8 @@ import java.net.HttpURLConnection;
 import java.net.Socket;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
@@ -57,6 +59,7 @@ import com.football.EuroLeague.PassMatrix;
 import com.football.EuroLeague.PlayerData;
 import com.football.EuroLeague.Players;
 import com.football.EuroLeague.PointsTable;
+import com.football.EuroLeague.Qualifier;
 import com.football.EuroLeague.MatchPreview;
 import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
@@ -5269,4 +5272,45 @@ public class FootballFunctions {
 	    cardCounts.put("red", redCardCount);
 	    return cardCounts;
 	}
+	public static List<String> getShotMap(String TeamApiId) throws Exception {
+	    List<String> live_data = new ArrayList<>();
+	    String filePath = "C:\\Sports\\Football\\Statistic\\Match_Data\\MatchEvent.json";
+
+	    if (new File(filePath).exists()) {
+	        LiveMatch liveMatch = new ObjectMapper().readValue(new File(filePath), LiveMatch.class);
+
+	        for (Events event : liveMatch.getLiveData().getEvent()) {
+	        	if(event.getContestantId().equalsIgnoreCase(TeamApiId)) {
+	        		int eventType = event.getTypeId();
+
+		            if (eventType == 13 || eventType == 14 || eventType == 16) {
+		                event.getQualifier().stream()
+		                        .filter(q -> q.getQualifierId() == 102)
+		                        .findFirst()
+		                        .ifPresent(q -> live_data.add("100-" + q.getValue()));
+
+		            } else if (eventType == 15) {
+		                Double x = event.getQualifier().stream()
+		                        .filter(q -> q.getQualifierId() == 146)
+		                        .map(q -> Double.valueOf(q.getValue()))
+		                        .findFirst()
+		                        .orElse(null);
+
+		                Double y = event.getQualifier().stream()
+		                        .filter(q -> q.getQualifierId() == 147)
+		                        .map(q -> Double.valueOf(q.getValue()))
+		                        .findFirst()
+		                        .orElse(null);
+
+		                if (x != null && y != null) {
+		                    live_data.add(x + "-" + y);
+		                }
+		            }	
+	        	} 
+	        }
+	    }
+
+	    return live_data;
+	}
+
 }
