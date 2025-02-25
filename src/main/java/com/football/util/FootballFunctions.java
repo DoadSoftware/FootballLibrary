@@ -5284,26 +5284,18 @@ public class FootballFunctions {
 	        		int eventType = event.getTypeId();
 
 		            if (eventType == 13 || eventType == 14 || eventType == 16) {
-		                event.getQualifier().stream()
-		                        .filter(q -> q.getQualifierId() == 102)
-		                        .findFirst()
-		                        .ifPresent(q -> live_data.add("100-" + q.getValue()));
+		                event.getQualifier().stream().filter(q -> q.getQualifierId() == 102).findFirst().ifPresent(q -> 
+		                	live_data.add(event.getX() + "-" + event.getY() + "-100-" + q.getValue() + "-" + event.getPlayerId()));
 
 		            } else if (eventType == 15) {
-		                Double x = event.getQualifier().stream()
-		                        .filter(q -> q.getQualifierId() == 146)
-		                        .map(q -> Double.valueOf(q.getValue()))
-		                        .findFirst()
-		                        .orElse(null);
+		            	Double x = event.getQualifier().stream().filter(q -> q.getQualifierId() == 146)
+		                        .map(q -> Double.valueOf(q.getValue())).findFirst().orElse(null);
 
-		                Double y = event.getQualifier().stream()
-		                        .filter(q -> q.getQualifierId() == 147)
-		                        .map(q -> Double.valueOf(q.getValue()))
-		                        .findFirst()
-		                        .orElse(null);
+		                Double y = event.getQualifier().stream().filter(q -> q.getQualifierId() == 147)
+		                        .map(q -> Double.valueOf(q.getValue())).findFirst().orElse(null);
 
 		                if (x != null && y != null) {
-		                    live_data.add(x + "-" + y);
+		                    live_data.add(event.getX() + "-" + event.getY() + "-" + x + "-" + y + "-" + event.getPlayerId());
 		                }
 		            }	
 	        	} 
