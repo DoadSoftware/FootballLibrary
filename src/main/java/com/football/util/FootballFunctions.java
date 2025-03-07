@@ -1394,6 +1394,22 @@ public class FootballFunctions {
 		return fixtures;
 	}
 	
+	public static List<Fixture> processAggregateScores(List<Fixture> fixtures, Match match) {
+	    if (fixtures == null || match == null || match.getHomeTeam() == null || match.getAwayTeam() == null) {
+	        return Collections.emptyList(); // Return an empty list if inputs are invalid
+	    }
+
+	    return fixtures.stream()
+	        .filter(fix -> fix.getMargin() != null && fix.getHome_Team() != null && fix.getAway_Team() != null)
+	        .filter(fix -> 
+	            (fix.getHome_Team().getTeamId() == match.getHomeTeam().getTeamId() &&
+	             fix.getAway_Team().getTeamId() == match.getAwayTeam().getTeamId()) ||
+	            (fix.getAway_Team().getTeamId() == match.getHomeTeam().getTeamId() &&
+	             fix.getHome_Team().getTeamId() == match.getAwayTeam().getTeamId())
+	        )
+	        .collect(Collectors.toList());
+	}
+	
 	public static List<PlayerStat> processAllPlayerStats(FootballService footballService) {
 		
 		List<PlayerStat> playerstats = footballService.getPlayerStats();
