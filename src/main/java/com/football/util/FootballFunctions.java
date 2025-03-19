@@ -1400,7 +1400,7 @@ public class FootballFunctions {
 	    }
 
 	    return fixtures.stream()
-	        .filter(fix -> fix.getMargin() != null && fix.getHome_Team() != null && fix.getAway_Team() != null)
+	        .filter(fix -> fix.getAggregateScores() != null && fix.getHome_Team() != null && fix.getAway_Team() != null)
 	        .filter(fix -> 
 	            (fix.getHome_Team().getTeamId() == match.getHomeTeam().getTeamId() &&
 	             fix.getAway_Team().getTeamId() == match.getAwayTeam().getTeamId()) ||

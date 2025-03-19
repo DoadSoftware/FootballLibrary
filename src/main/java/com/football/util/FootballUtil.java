@@ -3,6 +3,8 @@ package com.football.util;
 public class FootballUtil {
 
 	public final static String DOAD = "DOAD";
+	public final static String DOAD_TRIO = "DOAD_TRIO";
+	public final static String TRIO_XML = "TRIO.XML";
 	
 	public final static String FOOTBALL_STATISTICS_DIRECTORY = "C:/Sports/Football/Statistic/Match_Data/";
 	public final static String FOOTBALL_DIRECTORY = "C:/Sports/Football/";

@@ -10,6 +10,11 @@
     <failOnMissingWebXml>false</failOnMissingWebXml>
   </properties>
 <dependencies>
+<dependency>
+    <groupId>com.mashape.unirest</groupId>
+    <artifactId>unirest-java</artifactId>
+    <version>1.4.9</version> <!-- or the latest version -->
+</dependency>
 
 <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-xml -->
 <dependency>

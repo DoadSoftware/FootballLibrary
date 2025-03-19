@@ -50,6 +50,10 @@ public class Fixture {
   @Column(name = "AwayScorer")
   private String awayScorer;
   
+  @Column(name = "AggregateScores", nullable = true)
+  private String aggregateScores;
+  
+ 
   @Column(name = "HashTag")
   private String hashTag;
   
@@ -195,6 +199,15 @@ public String getHashTag() {
 public void setHashTag(String hashTag) {
 	this.hashTag = hashTag;
 }
+
+public String getAggregateScores() {
+	return aggregateScores;
+}
+
+public void setAggregateScores(String aggregateScores) {
+	this.aggregateScores = aggregateScores;
+}
+
 
 @Override
 public String toString() {
