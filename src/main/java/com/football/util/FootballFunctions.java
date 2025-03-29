@@ -5289,7 +5289,7 @@ public class FootballFunctions {
 	    cardCounts.put("red", redCardCount);
 	    return cardCounts;
 	}
-	public static List<String> getShotMap(String TeamApiId) throws Exception {
+	public static List<String> getTeamShotMap(String TeamApiId) throws Exception {
 	    List<String> live_data = new ArrayList<>();
 	    String filePath = "C:\\Sports\\Football\\Statistic\\Match_Data\\MatchEvent.json";
 	    String shot_type = "";
@@ -5299,6 +5299,50 @@ public class FootballFunctions {
 
 	        for (Events event : liveMatch.getLiveData().getEvent()) {
 	        	if(event.getContestantId().equalsIgnoreCase(TeamApiId)) {
+	        		int eventType = event.getTypeId();
+
+		            if (eventType == 13 || eventType == 14 || eventType == 16) {
+		            	if (eventType == 13) {
+		            		shot_type = "MISS";
+		            	}else if(eventType == 14) {
+		            		shot_type = "POST";
+		            	}else if(eventType == 16) {
+		            		shot_type = "GOALS";
+		            	}
+		            	Optional<Qualifier> qualifier = event.getQualifier().stream().filter(q -> q.getQualifierId() == 102).findFirst();
+		            	if (qualifier.isPresent()) {
+		                    live_data.add(event.getX() + "-" + event.getY() + "-100-" + qualifier.get().getValue() 
+		                    		+ "-" + event.getPlayerId() + "-" + shot_type);
+		                }
+
+		            } else if (eventType == 15) {
+		            	boolean isBlocked = event.getQualifier().stream().anyMatch(q -> q.getQualifierId() == 82);
+		                shot_type = isBlocked ? "BLOCK" : "SAVED";
+		            	
+		            	Double x = event.getQualifier().stream().filter(q -> q.getQualifierId() == 146)
+		                        .map(q -> Double.valueOf(q.getValue())).findFirst().orElse(null);
+		                Double y = event.getQualifier().stream().filter(q -> q.getQualifierId() == 147)
+		                        .map(q -> Double.valueOf(q.getValue())).findFirst().orElse(null);
+
+		                if (x != null && y != null) {
+		                    live_data.add(event.getX() + "-" + event.getY() + "-" + x + "-" + y + "-" + event.getPlayerId() + "-" + shot_type);
+		                }
+		            }	
+	        	} 
+	        }
+	    }
+	    return live_data;
+	}
+	public static List<String> getPlayerShotMap(String TeamApiId, String PlayerApiId) throws Exception {
+	    List<String> live_data = new ArrayList<>();
+	    String filePath = "C:\\Sports\\Football\\Statistic\\Match_Data\\MatchEvent.json";
+	    String shot_type = "";
+
+	    if (new File(filePath).exists()) {
+	        LiveMatch liveMatch = new ObjectMapper().readValue(new File(filePath), LiveMatch.class);
+
+	        for (Events event : liveMatch.getLiveData().getEvent()) {
+	        	if(event.getContestantId().equalsIgnoreCase(TeamApiId) && event.getPlayerId() != null && event.getPlayerId().equalsIgnoreCase(PlayerApiId)) {
 	        		int eventType = event.getTypeId();
 
 		            if (eventType == 13 || eventType == 14 || eventType == 16) {
