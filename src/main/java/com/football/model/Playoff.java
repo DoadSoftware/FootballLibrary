@@ -27,6 +27,9 @@ public class Playoff {
   
   @Column(name = "Margin")
   private String margin;
+  
+  @Column(name = "Date")
+  private String date;
 
 public int getPlayoffId() {
 	return playoffId;
@@ -74,6 +77,14 @@ public String getMargin() {
 
 public void setMargin(String margin) {
 	this.margin = margin;
+}
+
+public String getDate() {
+	return date;
+}
+
+public void setDate(String date) {
+	this.date = date;
 }
 
 @Override
