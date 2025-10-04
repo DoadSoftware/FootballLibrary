@@ -30,6 +30,9 @@ public class Playoff {
   
   @Column(name = "Date")
   private String date;
+  
+  @Column(name = "Time")
+  private String time;
 
 public int getPlayoffId() {
 	return playoffId;
@@ -85,6 +88,14 @@ public String getDate() {
 
 public void setDate(String date) {
 	this.date = date;
+}
+
+public String getTime() {
+	return time;
+}
+
+public void setTime(String time) {
+	this.time = time;
 }
 
 @Override
